@@ -1,0 +1,7 @@
+{
+  "name": "store",
+  "version": "0.1.0",
+  "description": "Persistent key-value store for Skullface apps",
+  "hooks": ["onInit", "onBuildBackend"],
+  "runtime": true
+}
