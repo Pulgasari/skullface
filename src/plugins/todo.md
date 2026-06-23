@@ -1,5 +1,12 @@
 # plugins/todo
 
+## external
+
+- maybe rename it ?
+- openWith()
+- chooseApp()
+- file dialogs
+
 ## sqlite
 
 - prepare() + statement caching
