@@ -19,11 +19,15 @@ export default {
     addRoute (route) {
       globalThis.__skullface_router.addRoute(route);
     },
-
+  
     navigate (path) {
       return globalThis.__skullface_router.navigate(path);
     },
-
+  
+    navigateByName (name, params) {
+      return globalThis.__skullface_router.navigateByName(name, params);
+    },
+  
     currentPath () {
       return globalThis.__skullface_router.currentPath();
     }
