@@ -1,3 +1,5 @@
+// cli/commands/build.ts
+
 import { createContext } from "../core/context.ts";
 import { prepare }       from "../build/prepare.ts";
 import { buildFrontend } from "../build/frontend.ts";
