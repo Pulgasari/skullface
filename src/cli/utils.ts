@@ -1,18 +1,11 @@
 // cli/utils.js
 
-// Templates Registry
+import { templates } from './registry.js';
 
-export const TEMPLATE_REGISTRY = {
-  datastar : "templates/datastar",
-  htmx     : "templates/htmx",
-  preact   : "templates/preact",
-  react    : "templates/react",
-  svelte   : "templates/svelte",
-  vanilla  : "templates/vanilla",
-};
+// Templates
 
 export async function copyTemplate (name: string, targetDir: string) {
-  const sourceDir = TEMPLATE_REGISTRY[name];
+  const sourceDir = templates[name];
   await Deno.mkdir(targetDir, { recursive: true });
 
   for await (const entry of Deno.readDir(sourceDir)) {
