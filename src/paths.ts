@@ -1,4 +1,4 @@
-// src/core/paths.ts
+// paths.ts
 
 export function getPaths (appName = "Skullface") {
   const home = Deno.env.get("HOME") 
