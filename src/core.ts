@@ -1,6 +1,5 @@
 // core.ts
 
-import { loadConfig } from "./loadConfig.ts";
 import { loadPlugins } from "./plugins.ts";
 
 export async function createContext () {
@@ -18,4 +17,9 @@ export async function createContext () {
   };
 
   return ctx;
+}
+
+export async function loadConfig () {
+  const mod = await import(`${Deno.cwd()}/skullface.config.ts`);
+  return mod.default;
 }
