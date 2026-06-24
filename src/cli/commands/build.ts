@@ -1,24 +1,34 @@
 import { createContext } from "../core/context.ts";
-import { prepare } from "../build/prepare.ts";
+import { prepare }       from "../build/prepare.ts";
 import { buildFrontend } from "../build/frontend.ts";
-import { buildBackend } from "../build/backend.ts";
-import { compile } from "../build/compile.ts";
-import { log } from "../core/logger.ts";
+import { buildBackend }  from "../build/backend.ts";
+import { compile }       from "../build/compile.ts";
+import { log }           from "../core/logger.ts";
 
-export default async function build() {
-  const ctx = await createContext();
+export default async function build () {
 
-  log.info("Preparing build...");
-  await prepare(ctx);
+  // AppImage
+  if (args.includes("--target") && args.includes("appimage")) {
+    await buildAppImage();
+    Deno.exit(0);
+  }
 
-  log.info("Building frontend...");
-  await buildFrontend(ctx);
-
-  log.info("Building backend...");
-  await buildBackend(ctx);
-
-  log.info("Compiling binaries...");
-  await compile(ctx);
-
-  log.info("✅ Build finished.");
+  //
+  else {
+    const ctx = await createContext();
+  
+    log.info("Preparing build...");
+    await prepare(ctx);
+  
+    log.info("Building frontend...");
+    await buildFrontend(ctx);
+  
+    log.info("Building backend...");
+    await buildBackend(ctx);
+  
+    log.info("Compiling binaries...");
+    await compile(ctx);
+  
+    log.info("Build finished.");
+  }
 }
