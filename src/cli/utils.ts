@@ -11,19 +11,17 @@ export const TEMPLATE_REGISTRY = {
   vanilla  : "templates/vanilla",
 };
 
-export async function copyTemplate (name: string, target: string) {
-  const src = TEMPLATE_REGISTRY[name];
-  await Deno.mkdir(target, { recursive: true });
+export async function copyTemplate (name: string, targetDir: string) {
+  const sourceDir = TEMPLATE_REGISTRY[name];
+  await Deno.mkdir(targetDir, { recursive: true });
 
-  for await (const entry of Deno.readDir(src)) {
-    const from =    `${src}/${entry.name}`;
-    const to   = `${target}/${entry.name}`;
+  for await (const entry of Deno.readDir(sourceDir)) {
+    const from = `${sourceDir}/${entry.name}`;
+    const to   = `${targetDir}/${entry.name}`;
 
-    if (entry.isDirectory) {
-      await copyTemplate(`${name}/${entry.name}`, to);
-    } else {
-      await Deno.copyFile(from, to);
-    }
+    entry.isDirectory
+    ? await copyTemplate(`${name}/${entry.name}`, to)
+    : await Deno.copyFile(from, to);
   }
 }
 
