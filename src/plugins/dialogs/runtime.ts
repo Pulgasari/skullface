@@ -161,7 +161,35 @@ const RUNTIME_CODE = `
     return run("zenity", ["--error", "--text", body]);
   }
 
+  // plugins/dialogs/runtime.ts
+
+  function buildWindowsFilter(filters) {
+    if (!filters) return "";
+    return filters
+      .map(f => {
+        const extList = f.extensions.map(e => "*." + e).join(";");
+        return `${f.name} (${extList})|${extList}`;
+      })
+      .join("|");
+  }
+  
+  function buildMacFilter(filters) {
+    if (!filters) return "";
+    return filters.flatMap(f => f.extensions);
+  }
+  
+  function buildLinuxFilter(filters) {
+    if (!filters) return [];
+    return filters.map(f => {
+      const extList = f.extensions.map(e => "*." + e).join(" ");
+      return `--file-filter=${f.name} | ${extList}`;
+    });
+  }
+
   globalThis.__skullface_dialogs = {
+    buildLinuxFilter,
+    buildMacFilter
+    buildWindowsFilter,
     pickFile,
     pickFiles,
     pickFolder,
