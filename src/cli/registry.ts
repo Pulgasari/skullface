@@ -7,7 +7,7 @@ import doctor   from "./commands/doctor.ts";
 import plugin   from "./commands/plugin.ts";
 import template from "./commands/template.ts";
 
-export const commandRegistry = {
+export const commands = {
   build,
   create,
   dev,
@@ -15,3 +15,14 @@ export const commandRegistry = {
   plugin,
   template,
 };
+
+export const templates = {
+  datastar : "templates/datastar",
+  htmx     : "templates/htmx",
+  preact   : "templates/preact",
+  react    : "templates/react",
+  svelte   : "templates/svelte",
+  vanilla  : "templates/vanilla",
+};
+
+export default { commands, templates };
