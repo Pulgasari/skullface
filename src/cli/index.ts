@@ -17,3 +17,12 @@ if (!cmd) {
   console.log("  build    -> ...")
   console.log("  create   -> Create a new Skullface project");
 }
+
+/*
+import { parseArgs } from "@std/cli";
+import { runCommand } from "./core/runner.ts";
+
+const { _: raw, ...flags } = parseArgs(Deno.args);
+const [command, ...args] = raw;
+await runCommand(command, args, flags);
+*/
