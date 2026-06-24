@@ -16,6 +16,18 @@ export const commands = {
   template,
 };
 
+export const plugins = {
+    "dialogs",
+    "fs",
+    "hotkeys",
+    "launch",
+    "logger",
+    "notifications",
+    "router",
+    "sqlite",
+    "store",
+};
+
 export const templates = {
   datastar : "templates/datastar",
   htmx     : "templates/htmx",
@@ -25,4 +37,4 @@ export const templates = {
   vanilla  : "templates/vanilla",
 };
 
-export default { commands, templates };
+export default { commands, plugins, templates };
