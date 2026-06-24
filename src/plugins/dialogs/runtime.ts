@@ -19,45 +19,77 @@ const RUNTIME_CODE = `
   // FILE PICKERS
   // -------------------------
 
-  async function pickFile() {
+  async function pickFile(options = {}) {
+    const filters = options.filters || [];
+  
     if (os === "windows") {
+      const filterString = buildWindowsFilter(filters);
+  
       return run("powershell", [
         "-Command",
         "Add-Type -AssemblyName System.Windows.Forms; " +
         "$f = New-Object System.Windows.Forms.OpenFileDialog; " +
+        (filterString ? `$f.Filter = '${filterString}'; ` : "") +
         "$f.ShowDialog() | Out-Null; $f.FileName"
       ]);
     }
-
+  
     if (os === "darwin") {
+      const macTypes = buildMacFilter(filters);
+  
+      if (macTypes.length > 0) {
+        return run("osascript", [
+          "-e",
+          `POSIX path of (choose file of type {${macTypes.map(t => `"${t}"`).join(",")}})`
+        ]);
+      }
+  
       return run("osascript", [
         "-e",
         'POSIX path of (choose file)'
       ]);
     }
-
-    return run("zenity", ["--file-selection"]);
+  
+    // Linux
+    const linuxFilters = buildLinuxFilter(filters);
+    return run("zenity", ["--file-selection", ...linuxFilters]);
   }
 
-  async function pickFiles() {
+  async function pickFiles(options = {}) {
+    const filters = options.filters || [];
+  
     if (os === "windows") {
+      const filterString = buildWindowsFilter(filters);
+  
       return run("powershell", [
         "-Command",
         "Add-Type -AssemblyName System.Windows.Forms; " +
         "$f = New-Object System.Windows.Forms.OpenFileDialog; " +
         "$f.Multiselect = $true; " +
+        (filterString ? `$f.Filter = '${filterString}'; ` : "") +
         "$f.ShowDialog() | Out-Null; $f.FileNames"
       ]);
     }
-
+  
     if (os === "darwin") {
+      const macTypes = buildMacFilter(filters);
+  
+      if (macTypes.length > 0) {
+        return run("osascript", [
+          "-e",
+          `choose file of type {${macTypes.map(t => `"${t}"`).join(",")}} with multiple selections allowed`
+        ]);
+      }
+  
       return run("osascript", [
         "-e",
         'choose file with multiple selections allowed'
       ]);
     }
-
-    return run("zenity", ["--file-selection", "--multiple"]);
+  
+    // Linux
+    const linuxFilters = buildLinuxFilter(filters);
+    return run("zenity", ["--file-selection", "--multiple", ...linuxFilters]);
   }
 
   async function pickFolder() {
@@ -80,24 +112,40 @@ const RUNTIME_CODE = `
     return run("zenity", ["--file-selection", "--directory"]);
   }
 
-  async function pickSaveLocation() {
+  async function pickSaveLocation(options = {}) {
+    const filters = options.filters || [];
+  
     if (os === "windows") {
+      const filterString = buildWindowsFilter(filters);
+  
       return run("powershell", [
         "-Command",
         "Add-Type -AssemblyName System.Windows.Forms; " +
         "$f = New-Object System.Windows.Forms.SaveFileDialog; " +
+        (filterString ? `$f.Filter = '${filterString}'; ` : "") +
         "$f.ShowDialog() | Out-Null; $f.FileName"
       ]);
     }
-
+  
     if (os === "darwin") {
+      const macTypes = buildMacFilter(filters);
+  
+      if (macTypes.length > 0) {
+        return run("osascript", [
+          "-e",
+          `POSIX path of (choose file name of type {${macTypes.map(t => `"${t}"`).join(",")}})`
+        ]);
+      }
+  
       return run("osascript", [
         "-e",
         'POSIX path of (choose file name)'
       ]);
     }
-
-    return run("zenity", ["--file-selection", "--save"]);
+  
+    // Linux
+    const linuxFilters = buildLinuxFilter(filters);
+    return run("zenity", ["--file-selection", "--save", ...linuxFilters]);
   }
 
   // -------------------------
