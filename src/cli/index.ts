@@ -1,13 +1,18 @@
 #!/usr/bin/env -S deno run -A
 
-import { createCommand } from "./commands/create.ts";
+import  buildCommand from "./commands/build.ts";
+import createCommand from "./commands/create.ts";
 
 const args = Deno.args;
+const cmd  = args[0];
 
-if (args[0] === "create") {
-  await createCommand();
-} else {
+if (!cmd) {
   console.log("Skullface CLI");
   console.log("Commands:");
-  console.log("  create   Create a new Skullface project");
+  console.log("  create   -> Create a new Skullface project");
+}
+
+else {
+  if (cmd === 'build')  await buildCommand();
+  if (cmd === 'create') await createCommand();
 }
