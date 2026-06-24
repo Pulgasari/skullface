@@ -32,7 +32,11 @@ export function getPaths (appName = "Skullface") {
       config : "",
       data   : "",
       logs   : ""
-    }
+    },
+
+    // Utils
+    join (...parts: string[]) { return joinPaths(parts); },
+    async ensureExists (path: string) { await ensurePathExists(path); }
   };
 
   // -------------------------
@@ -118,4 +122,22 @@ export function getPaths (appName = "Skullface") {
   }
 
   return paths;
+}
+
+function joinPaths (parts: string[]) {
+  const platform = Deno.build.os;
+
+  if (platform === "windows") {
+    return parts.join("\\").replace(/\\\\+/g, "\\");
+  }
+
+  return parts.join("/").replace(/\/+/g, "/");
+}
+
+async function ensurePathExists (path: string) {
+  try {
+    await Deno.stat(path);
+  } catch {
+    await Deno.mkdir(path, { recursive: true });
+  }
 }
