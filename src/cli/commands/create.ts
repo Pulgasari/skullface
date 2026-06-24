@@ -1,24 +1,14 @@
 // cli/commands/create.ts
 
+import { plugins, templates } from './../registry.js';
 import {
   ask, multiselect, select,
-  TEMPLATE_REGISTRY, copyTemplate,
+  copyTemplate,
   applyVariables, enablePlugins
 } from './../utils.js';
 
-//let pluginKeys = Object.keys(PLUGIN_REGISTRY);
-let templateKeys = Object.keys(TEMPLATE_REGISTRY);
-let pluginKeys = [
-    "dialogs",
-    "fs",
-    "hotkeys",
-    "launch",
-    "logger",
-    "notifications",
-    "router",
-    "sqlite",
-    "store",
-];
+let   pluginKeys = Object.keys(plugins);
+let templateKeys = Object.keys(templates);
 
 export default async function createCommand () {
   console.log("Skullface Create Wizard\n");
