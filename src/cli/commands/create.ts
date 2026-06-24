@@ -6,7 +6,7 @@ import {
   applyVariables, enablePlugins
 } from './../utils.js';
 
-export async function createCommand () {
+export default async function createCommand () {
   console.log("Skullface Create Wizard\n");
 
   const slug = await ask("App ID / Slug:");
