@@ -3,6 +3,7 @@ import { prepare }       from "../build/prepare.ts";
 import { buildFrontend } from "../build/frontend.ts";
 import { buildBackend }  from "../build/backend.ts";
 import { compile }       from "../build/compile.ts";
+import { buildAppImage } from "../build/appimage.ts";
 import { log }           from "../core/logger.ts";
 
 export default async function build () {
