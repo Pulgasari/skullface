@@ -7,6 +7,14 @@
 - chooseApp()
 - file dialogs
 
+## notifications
+
+- Persistent Notifications
+- Notification Channels (AndroidStyle)
+- Sound Support
+- Badge Counter
+- Integration with Store‑Plugin (f.e. „don’t show again“)
+
 ## sqlite
 
 - prepare() + statement caching
