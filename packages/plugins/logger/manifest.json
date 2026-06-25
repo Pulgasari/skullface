@@ -1,0 +1,7 @@
+{
+  "name": "logger",
+  "version": "0.1.0",
+  "description": "Colorful structured logger with groups for Skullface apps",
+  "hooks": ["onInit", "onBuildBackend"],
+  "runtime": true
+}

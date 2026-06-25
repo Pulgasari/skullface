@@ -1,0 +1,7 @@
+{
+  "name": "hotkeys",
+  "version": "0.1.0",
+  "description": "Global and scoped keyboard shortcuts for Skullface apps",
+  "hooks": ["onInit", "onBuildBackend"],
+  "runtime": true
+}

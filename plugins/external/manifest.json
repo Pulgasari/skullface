@@ -1,0 +1,7 @@
+{
+  "name": "external",
+  "version": "0.1.0",
+  "description": "Open files, URLs and reveal paths in the system file explorer",
+  "hooks": ["onInit", "onBuildBackend"],
+  "runtime": true
+}
