@@ -1,0 +1,22 @@
+# Docs
+
+## The Bridge (RPC)
+
+```javascript
+window.__skullface__
+//
+skullface
+```
+
+```javascript
+const saveBtn = document.getElementById("save-btn");
+
+saveBtn?.addEventListener("click", async () => {
+  const response = await skullface.rpc("writeFile", {
+    path: "./hallo.txt",
+    content: "Created with Skullface!"
+  });
+  
+  console.log("Answer from Backend:", response);
+});
+```
