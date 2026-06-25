@@ -1,4 +1,5 @@
 // skullface.config.ts
+// Docs: {{docs}}/config.md
 
 export default {
   
@@ -10,11 +11,21 @@ export default {
     version : "0.1.0"
   },
 
+  // Dev Configurations
+  dev: {
+    hmr  : true,
+    port : 5173,
+  },
+
   // Build Configurations
   build: {
+    entry  : "src/main.ts",
+    outDir : "dist",
+    
     // Defaults (apply to every target except overwritten)
     cef     : false,
-    runtime : "deno",
+    runtime : "deno", // blue | deno
+    
     // Targets
     targets: [
       {
@@ -28,32 +39,8 @@ export default {
       },
       { 
         platform: "windows", // x86_64-pc-windows-msvc
-      }
+      },
     ],
   },
-
-  // deprecated ???
-  
-  runtime  : "deno", // blue | deno
-  template : "preact",
-
-  entry: "src/main.ts",
-
-  frontend: {
-    outDir: "dist/frontend",
-    devPort: 5173,
-  },
-
-  backend: {
-    outDir: "dist/backend",
-  },
-  
-  plugins: [
-    "clipboard",
-    "hotkeys",
-    "logger",
-    "notifications",
-    "router",
-  ],
   
 };
