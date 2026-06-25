@@ -1,6 +1,16 @@
 # packages/cli
 
-##
+## Install
+
+```sh
+deno install jsr:@skullface/cli
+```
+
+```sh
+npm install -g jsr:@skullface/cli
+```
+
+## Structure
 
 ```c
 packages/cli/
