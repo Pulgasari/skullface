@@ -1,5 +1,13 @@
 // packages/cli/wizard.ts
 
+// :::::: PRINTING
+
+export functiom print (...args) {
+  console.log(...args);
+}
+
+// :::::: PROMPTS
+
 export async function ask (question: string): Promise<string> {
   await Deno.stdout.write(new TextEncoder().encode(question + " "));
   const buf = new Uint8Array(1024);
