@@ -1,0 +1,34 @@
+// packages/cli/wizard.ts
+
+export async function ask (question: string): Promise<string> {
+  await Deno.stdout.write(new TextEncoder().encode(question + " "));
+  const buf = new Uint8Array(1024);
+  const n   = <number>await Deno.stdin.read(buf);
+  return new TextDecoder().decode(buf.subarray(0, n)).trim();
+}
+
+export async function select (question: string, options: string[]) {
+  console.log("\n" + question);
+  options.forEach((o, i) => console.log(`  ${i + 1}) ${o}`));
+
+  while (true) {
+    const answer = await ask("Choose number:");
+    const index  = Number(answer) - 1;
+    if (options[index]) return options[index];
+  }
+}
+
+export async function multiselect (question: string, options: string[]) {
+  console.log("\n" + question);
+  options.forEach((o, i) => console.log(`  ${i + 1}) ${o}`));
+  console.log("Enter numbers separated by comma (e.g. 1,3,5)");
+
+  const answer  = await ask("Your selection:");
+  const indices = answer.split(",").map(n => Number(n.trim()) - 1);
+
+  return indices
+    .filter (i => options[i])
+    .map    (i => options[i]);
+}
+
+export default { ask, multiselect, select };
