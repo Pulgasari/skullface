@@ -32,6 +32,16 @@ The backend is provided by the Deno runtime or Blue.
 
 ### Installation
 
+You need to install the CLI-Tool to create and manage Skullfaceprojects.
+
+```sh
+deno install jsr:@skullface/cli
+```
+
+```sh
+npm install -g jsr:@skullface/cli
+```
+
 ### Create Project
 
 Navigate into the directory of your projects and use the `create` command to start the wizard.
