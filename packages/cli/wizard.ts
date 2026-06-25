@@ -2,7 +2,7 @@
 
 // :::::: PRINTING
 
-export functiom print (...args) {
+export function print (...args) {
   console.log(...args);
 }
 
