@@ -43,6 +43,7 @@ skullface create
 ## Notes
 
 ```
+Deno.writeTextFileSync()
 https://raw.githubusercontent.com/pulgasari/skullface/main/templates/preact/
 ```
 
