@@ -40,3 +40,9 @@ Navigate into the directory of your projects and use the `create` command to sta
 skullface create
 ```
 
+## Notes
+
+```
+https://raw.githubusercontent.com/pulgasari/skullface/main/templates/preact/
+```
+
