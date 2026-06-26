@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "@skullface/core": "jsr:@skullface/core@^1"
+  },
+}
