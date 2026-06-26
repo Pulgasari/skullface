@@ -2,4 +2,10 @@
   "imports": {
     "@skullface/core": "jsr:@skullface/core@^1"
   },
+  "permissions": {
+    "read-and-write": {
+      "read": true,
+      "write": true
+    }
+  }
 }
