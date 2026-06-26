@@ -18,7 +18,7 @@ export default async function createCommand () {
 
   wizard.print("Creating project:", targetDir);
 
-  await copyTemplate(framework, targetDir);
+  await copyTemplate({ name: framework, dir: targetDir });
   await applyVariables({ slug, name }, targetDir);
   await enablePlugins(plugins, targetDir);
 
