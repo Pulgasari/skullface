@@ -4,8 +4,7 @@
 import { join } from "https://deno.land/std@0.224.0/path/mod.ts";
 
 // Import: jsr:@skullface/core
-import { createContext } from "@skullface/core/context.ts";
-import { log }           from "@skullface/core/logger.ts";
+import { createContext, loadConfig, log } from "@skullface/core";
 
 // Import: jsr:@skullface/cli (self)
 import { prepare }       from "./../build/prepare.ts";
@@ -18,15 +17,16 @@ import { buildAppImage } from "./../build/appimage.ts";
 export default async function build () {
 
   const projectPath  = Deno.cwd(); 
-  const configPath   = join(projectPath, "skullface.config.js");
+  //const configPath   = join(projectPath, "skullface.config.js");
   const backendPath  = join(projectPath, "src-backend");
   const frontendPath = join(projectPath, "src-frontend");
 
-  try       { await Deno.stat(configPath); }
-  catch (e) { wizard.print('SkullfaceConfig missing.'); }
+  //try       { await Deno.stat(configPath); }
+  //catch (e) { wizard.print('SkullfaceConfig missing.'); }
 
   // dynamic import
-  const { default: config } = await import(`file://${configPath}`);
+  //const { default: config } = await import(`file://${configPath}`);
+  const config      = await loadConfig();
   const appName     = config.app?.name     || "SkullfaceApp";
   const windowWidth = config.window?.width || 800;
 
