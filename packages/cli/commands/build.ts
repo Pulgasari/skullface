@@ -26,7 +26,7 @@ export default async function build () {
   catch (e) { wizard.print('SkullfaceConfig missing.'); }
 
   // dynamic import
-  const config      = await import(`file://${configPath}`);
+  const { default: config } = await import(`file://${configPath}`);
   const appName     = config.app?.name     || "SkullfaceApp";
   const windowWidth = config.window?.width || 800;
 
