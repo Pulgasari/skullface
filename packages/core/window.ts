@@ -2,7 +2,7 @@
 
 import { Webview } from "https://deno.land/x/webview@0.7.6/mod.ts"; // Beispiel-Binding
 
-export function createSkullfaceWindow (frontendUrl: string) {
+export function createWindow (frontendUrl: string) {
   // 1. Create Instance of Native WebView
   const webview = new Webview();
   webview.title = "Skullface App";
