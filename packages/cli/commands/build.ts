@@ -4,8 +4,8 @@
 import { join } from "https://deno.land/std@0.224.0/path/mod.ts";
 
 // Import: jsr:@skullface/core
-import { createContext } from "./../core/context.ts";
-import { log }           from "./../core/logger.ts";
+import { createContext } from "@skullface/core/context.ts";
+import { log }           from "@skullface/core/logger.ts";
 
 // Import: jsr:@skullface/cli (self)
 import { prepare }       from "./../build/prepare.ts";
