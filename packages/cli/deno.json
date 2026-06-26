@@ -1,11 +1,12 @@
 {
   "imports": {
-    "@skullface/core": "jsr:@skullface/core@^1"
+    "@std/path"       : "https://deno.land/std@0.224.0/path/mod.ts",
+    "@skullface/core" : "jsr:@skullface/core@^1"
   },
   "permissions": {
     "read-and-write": {
-      "read": true,
-      "write": true
+      "read"  : true,
+      "write" : true
     }
   }
 }
