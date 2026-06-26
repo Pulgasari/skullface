@@ -39,6 +39,10 @@ deno install jsr:@skullface/cli
 ```
 
 ```sh
+deno install --allow-run --allow-read --allow-write -g -n skullface jsr:@skullface/cli
+```
+
+```sh
 npm install -g jsr:@skullface/cli
 ```
 
