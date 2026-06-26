@@ -17,8 +17,9 @@ export async function createContext () {
   return ctx;
 }
 
-export async function loadConfig () {
-  const mod = await import(`${Deno.cwd()}/skullface.config.ts`);
+export async function loadConfig (dir: string) {
+  dir ??= Deno.cwd();
+  const mod = await import(`${dir}/skullface.config.ts`);
   return mod.default;
 }
 
