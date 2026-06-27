@@ -2,13 +2,15 @@
 
 // :::::: PRINTING
 
-export function print (...args) { console.log   (...args); }
-export function error (...args) { console.error (...args); }
-export function warn  (...args) { console.warn  (...args); }
-// TODO:
-// export function success (grüne schrift
-// export function list
+export function print   (...args: any[]) { console.log   (...args); }
+export function error   (...args: any[]) { console.error (...args); }
+export function warn    (...args: any[]) { console.warn  (...args); }
+export function success (...args: any[]) { console.log('\x1b[32m' + args.join(' ') + '\x1b[0m'); }
 
+export function list (items: string[], title?: string) {
+  if (title) console.log('\n' + title);
+  items.forEach(item => console.log(`  - ${item}`));
+}
 
 export function separator ({ color ?: string = null }) {
   console.log(`\n────────────────────────────────────────`);
