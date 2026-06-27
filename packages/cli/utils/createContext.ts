@@ -13,7 +13,7 @@ export async function createContext () {
       frontend : "dist/frontend",
       backend  : "dist/backend",
     },
-    plugins: await loadPlugins(config.plugins),
+    //plugins: await loadPlugins(config.plugins),
   };
 
   return ctx;
