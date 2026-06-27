@@ -1,6 +1,6 @@
-// packages/core/window.ts
+// @skullface/core/window.ts
 
-import { Webview } from "https://deno.land/x/webview@0.7.6/mod.ts"; // Beispiel-Binding
+import { Webview } from '@x/webview';
 
 export function createWindow (frontendUrl: string) {
   // 1. Create Instance of Native WebView
