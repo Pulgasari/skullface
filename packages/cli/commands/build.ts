@@ -8,12 +8,14 @@ interface BuildCommandOptions {
   target?: string; // z.B. wenn der Nutzer --target linux eintippt
 }
 
+const DEFAULT_APP_NAME = 'SkullfaceApp';
+const DEFAULT_APP_SLUG = 'skullfaceapp';
 const DEFAULT_BUILD_TARGETS = ['linux'];
 
 export async function buildCommand (options: BuildCommandOptions) {
   const config  = await loadConfig();
-  const appName = config.app?.name || "SkullfaceApp";
-  const appSlug = config.app?.slug || "skullfaceapp";
+  const appName = config.app?.name || DEFAULT_APP_NAME;
+  const appSlug = config.app?.slug || DEFAULT_APP_SLUG;
 
   // 3. Targets bestimmen (Normalisierung)
   let normalizedTargets: { platform: string; [key: string]: any }[] = [];
