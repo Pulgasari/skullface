@@ -1,10 +1,14 @@
-// packages/cli/wizard.ts
+// @skullface/cli/wizard.ts
 
 // :::::: PRINTING
 
-export function print (...args) {
-  console.log(...args);
-}
+export function print (...args) { console.log   (...args); }
+export function error (...args) { console.error (...args); }
+export function warn  (...args) { console.warn  (...args); }
+// TODO:
+// export function success (grüne schrift
+// export function list
+
 
 export function separator ({ color ?: string = null }) {
   console.log(`\n────────────────────────────────────────`);
