@@ -1,7 +1,9 @@
 // @skullface/cli/utils/copyTemplate.ts
 
+import { JSZip }        from 'https://deno.land/x/jszip@0.11.0/mod.ts';
+import { join }         from '@std/path';
 import { REPO_ZIP_URL } from '@/utils';
-import wizard from '@/wizard'
+import wizard           from '@/wizard'
 
 export async function copyTemplate ({
   dir  : string,
