@@ -5,6 +5,7 @@ import { parseArgs } from "@std/cli/parse-args";
 import { buildCommand } from "./commands/build.ts";
 import createCommand from "./commands/create.ts";
 import   helpCommand from "./commands/help.ts";
+import { commands } from '@/types';
 
 // Flags parsen (z. B. --target linux oder -t linux)
 const flags = parseArgs(Deno.args, {
