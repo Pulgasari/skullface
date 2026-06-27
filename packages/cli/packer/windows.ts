@@ -4,10 +4,11 @@ import wizard from '@/wizard';
 import { Packer } from "./mod.ts";
 
 export class WindowsPacker implements Packer {
-  async pack (binaryPath: string, projectRoot: string): Promise<void> {
+  async pack (binaryPath: string, projectRoot: string, appMeta: { name: string; slug: string; options: any }): Promise<void> {
     console.log("[Packer:Windows] Bereite Windows Release-Ordner vor...");
 
-    const appName   = "SkullfaceApp";
+    const appName   = appMeta.name;
+    const appSlug   = appMeta.slug;
     const outputDir = `${projectRoot}/dist-native/windows`;
 
     // 1. Ausgabe-Ordner erstellen
