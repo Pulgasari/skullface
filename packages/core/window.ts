@@ -1,66 +1,108 @@
 // @skullface/core/window.ts
 
-import { skullface } from "./ipc.ts";
-import * as     fsPlugin from "../plugins/fs/runtime.ts";
-import * as sqlitePlugin from "../plugins/sqlite/runtime.ts";
+import { Webview } from "https://deno.land/x/webview/mod.ts";
 
-// 1. Plugins registrieren
-skullface.registerPlugin(    "fs",     fsPlugin);
-skullface.registerPlugin("sqlite", sqlitePlugin);
-
-// Jetzt kannst du im BACKEND schreiben:
-// await skullface.fs.readFile("./test.txt");
-
-// 2. Webview erstellen & IPC verknüpfen
-const webview = new MyWebviewLibrary({
-  title : "Skullface App",
-  url   : "http://localhost:3000",
-  preloadScript : "./packages/preload/skullface.js" // Injiziert den Proxy
-});
-
-// 3. Auf Nachrichten von der Webview lauschen
-webview.onMessage((rawJson) => {
-  skullface.handleIncomingIPC(rawJson, (responsePayload) => {
-    // Diese Funktion triggert das CustomEvent 'skullface-ipc-response' in der Webview
-    webview.eval(`window.dispatchEvent(new CustomEvent('skullface-ipc-response', { detail: ${JSON.stringify(responsePayload)} }));`);
-  });
-});
-
-/*
-import { Webview } from '@x/webview';
-
-export function createWindow (frontendUrl: string) {
-  // 1. Create Instance of Native WebView
-  const webview = new Webview();
-  webview.title = "Skullface App";
-  webview.setSize(800, 600);
-
-  // 2. Read Preload-Script
-  // (In production that string gonna be compiled into the binary directly.)
-  const preloadCode = Deno.readTextFileSync("./packages/preload/skullface.js");
-
-  // 3. Inject Preload-Script
-  // (Runs before every Seitenaufruf.)
-  webview.init(preloadCode);
-
-  // 4. Create IPC-Receiver for Deno-Backend
-  // (Receives message sent by frontend via 'window.ipc.postMessage'.)
-  webview.bind("_skullface_backend_ipc", (message: string) => {
-    const { command, data } = JSON.parse(message);
-    console.log(`[Skullface Backend] Command received: ${command}`, data);
-    
-    // Run the commands
-    if (command === "writeFile") {
-        Deno.writeTextFileSync(data.path, data.content);
-        return { success: true };
-    }
-    return { error: "Unknown command." };
-  });
-
-  // 5. Load the App
-  webview.navigate(frontendUrl);
-
-  // Keep Window open
-  webview.run();
+interface SkullfaceWindowConfig {
+  title   : string;
+  url     : string;
+  width?  : number;
+  height? : number;
 }
-*/
+
+export class SkullfaceWindow {
+  private webview: Webview;
+  private pluginRegistry = new Map<string, any>();
+
+  constructor (config: SkullfaceWindowConfig) {
+    // 1. Webview Instanz erzeugen
+    this.webview = new Webview(true); // true = Debug-Modus / DevTools erlauben
+    this.webview.title = config.title;
+    this.webview.size(config.width || 1024, config.height || 768);
+
+    // 2. Preload-Skript laden und injizieren
+    this.injectPreloadScript();
+
+    // 3. IPC-Brücke aktivieren
+    this.setupIPC();
+
+    // 4. URL ansteuern
+    this.webview.navigate(config.url);
+  }
+
+  /**
+   * Registriert ein Backend-Plugin im Core
+   */
+  public registerPlugin (pluginName: string, pluginApi: any) {
+    this.pluginRegistry.set(pluginName, pluginApi);
+    console.log(`[Core] Plugin '${pluginName}' erfolgreich registriert.`);
+  }
+
+  /**
+   * Liest das Preload-Skript (den Magic Proxy) und injiziert es vor dem Seitenstart
+   */
+  private injectPreloadScript () {
+    try {
+      // Pfad zu deinem packages/preload/skullface.js
+      const preloadCode = Deno.readTextFileSync("./packages/preload/skullface.js");
+      
+      // Die meisten Webview-Bibliotheken bieten eine 'init'-Methode,
+      // die JS-Code garantiert vor dem Laden des HTML-Doks ausführt.
+      this.webview.init(preloadCode);
+    } catch (err) {
+      console.error("[Core] Fehler beim Laden des Preload-Skripts:", err);
+    }
+  }
+
+  /**
+   * Wartet auf Nachrichten aus dem Frontend und routet sie an die Plugins
+   */
+  private setupIPC () {
+    // Wir binden eine globale Funktion in der Webview, die das Frontend aufrufen kann.
+    // In deno:webview heißt das meistens 'bind'
+    this.webview.bind("_skullface_ipc_transmit", async (messageStr: string) => {
+      try {
+        const { id, plugin, method, args } = JSON.parse(messageStr);
+        
+        // Suchen des passenden Plugins
+        const targetPlugin = this.pluginRegistry.get(plugin);
+        if (!targetPlugin) {
+          throw new Error(`Plugin '${plugin}' ist nicht im Core registriert.`);
+        }
+
+        if (typeof targetPlugin[method] !== "function") {
+          throw new Error(`Methode '${method}' existiert nicht im Plugin '${plugin}'.`);
+        }
+
+        // Führe die echte Deno-Funktion im Backend aus
+        const result = await targetPlugin[method](...args);
+
+        // Erfolg zurück an die Webview senden
+        this.sendToFrontend({ id, success: true, data: result });
+
+      } catch (error: any) {
+        // Fehler zurück an die Webview senden
+        this.sendToFrontend({ id, success: false, error: error.message });
+      }
+    });
+  }
+
+  /**
+   * Schießt die Antwort als CustomEvent zurück in den Browser-Kontext
+   */
+  private sendToFrontend (payload: any) {
+    const json = JSON.stringify(payload);
+    // Wir feuern das Event ab, auf das unser 'skullface.js'-Preload wartet
+    this.webview.eval(`
+      window.dispatchEvent(new CustomEvent('skullface-ipc-response', { 
+        detail: ${json} 
+      }));
+    `);
+  }
+
+  /**
+   * Startet die native Ereignisschleife (blockiert, bis das Fenster geschlossen wird)
+   */
+  public run() {
+    this.webview.run();
+  }
+}
