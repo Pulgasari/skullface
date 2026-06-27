@@ -2,11 +2,6 @@
 
 import * as api from "./api.ts";
 
-export interface SQLiteAPI {
-  execute (statement: string, values?: any[]): Promise<void>;
-  query   (statement: string, values?: any[]): Promise<any[]>;
-}
-
 export default {
   api,
   name  : 'sqlite',
@@ -16,3 +11,23 @@ export default {
     }
   },
 };
+
+// :::::: Declare and Register Interface
+
+export interface SQLiteAPI {
+  execute (statement: string, values?: any[]): Promise<void>;
+  query   (statement: string, values?: any[]): Promise<any[]>;
+}
+
+declare global {
+  interface Window {
+    skullface: {
+      sqlite: SQLiteAPI;
+    };
+  }
+}
+
+// optional
+// export const sqlite: SQLiteAPI = (window as any).skullface?.sqlite;
+
+
