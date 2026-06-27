@@ -47,6 +47,28 @@
 })();
 
 /*
+const createPluginProxy = (pluginName) => {
+  // Wenn das Plugin bereits vordefinierte Frontend-Logik hat (wie store.createStore),
+  // nehmen wir dieses Objekt als Basis, anstatt ein leeres Objekt {}
+  const baseObject = window.skullface?.[pluginName] || {};
+
+  return new Proxy(baseObject, {
+    get(target, methodName) {
+      // Falls die Methode (z.B. createStore) explizit im Frontend definiert wurde, nutze sie!
+      if (methodName in target) {
+        return target[methodName];
+      }
+
+      // Andernfalls: Generiere den automatischen IPC-Call ans Backend
+      return (...args) => {
+        return sendIpcMessage(pluginName, methodName, args);
+      };
+    }
+  });
+};
+*/
+
+/*
 
 import paths from './paths.ts';
 
