@@ -1,6 +1,10 @@
 {
   "imports": {
     "@/"              : "./",
+    "@/bundler"       : "./bundler/mod.ts",
+    "@/core"          : "jsr:@skullface/core@^1",
+    "@/packer"        : "./packer/mod.ts",
+    "@/types"         : "jsr:@skullface/core@^1/types.ts",
     "@/utils"         : "./utils/mod.ts",
     "@/wizard"        : "./wizard.ts",
     "@skullface/core" : "jsr:@skullface/core@^1",
