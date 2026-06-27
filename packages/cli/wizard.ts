@@ -49,4 +49,8 @@ export async function multiselect (question: string, options: string[]) {
     .map    (i => options[i]);
 }
 
-export default { ask, multiselect, select };
+export default {
+  ask, multiselect, select,
+  error, print, success, warn,
+  list, separator
+};
