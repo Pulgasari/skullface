@@ -4,10 +4,11 @@ import wizard from '@/wizard';
 import { Packer } from "./mod.ts";
 
 export class LinuxPacker implements Packer {
-  async pack (binaryPath: string, projectRoot: string): Promise<void> {
+  async pack (binaryPath: string, projectRoot: string, appMeta: { name: string; slug: string; options: any }): Promise<void> {
     console.log("[Packer:Linux] Erstelle Linux AppDir-Struktur...");
-
-    const appName = "SkullfaceApp";
+    
+    const appName = appMeta.name;
+    const appSlug = appMeta.slug;
     const appDir  = `${projectRoot}/dist-native/linux/AppDir`;
     const binDir  = `${appDir}/usr/bin`;
 
