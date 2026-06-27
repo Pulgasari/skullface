@@ -6,6 +6,10 @@ export function print (...args) {
   console.log(...args);
 }
 
+export function separator ({ color ?: string = null }) {
+  console.log(`\n────────────────────────────────────────`);
+}
+
 // :::::: PROMPTS
 
 export async function ask (question: string): Promise<string> {
