@@ -1,11 +1,12 @@
 // @skullface/cli/bundler/mod.ts
 
-import { buildFrontend } from "./frontend.ts";
-import { compileBackend } from "./backend.ts";
-import { getPacker } from "./../packer/mod.ts";
+import { compileBackend } from './backend.ts';
+import { buildFrontend }  from './frontend.ts';
+import { getPacker }      from '@/packer';
+import { Platform }       from '@/types';
 
 interface BundlerConfig {
-  platform      : "mac" | "windows" | "linux";
+  platform      : Platform;
   appName       : string;
   appSlug       : string;
   projectRoot   : string;
