@@ -55,13 +55,10 @@ export class MacPacker implements Packer {
     await Deno.writeTextFile(`${contentsPath}/Info.plist`, plistContent);
 
     // 5. (optional:) Copy Default-Icon
+    // Wenn das Icon existiert, müsste man es noch in der Info.plist eintragen
     const defaultIconSrc = `${projectRoot}/assets/icon.icns`;
-    try {
-      await Deno.copyFile(defaultIconSrc, `${resourcesPath}/icon.icns`);
-      // Wenn das Icon existiert, müsste man es noch in der Info.plist eintragen
-    } catch {
-      console.log("[Packer:Mac] Kein Icon unter assets/icon.icns gefunden. Überspringe.");
-    }
+    try   { await Deno.copyFile(defaultIconSrc, `${resourcesPath}/icon.icns`); } 
+    catch { console.log("[Packer:Mac] Kein Icon unter assets/icon.icns gefunden. Überspringe."); }
 
     console.log(`[Packer:Mac] .app Bundle erfolgreich erstellt unter: ${appBundlePath}`);
   }
