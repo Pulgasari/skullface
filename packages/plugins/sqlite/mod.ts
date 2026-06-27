@@ -1,27 +1,13 @@
-// plugins/sqlite/mod.ts
+// @skullface/plugins/sqlite/mod.ts
 
-import { injectRuntime } from "./runtime.ts";
+import * as api from "./api.ts";
 
 export default {
-  name: "sqlite",
-
-  hooks: {
+  api,
+  name  : 'sqlite',
+  hooks : {
     onInit () {
-      console.log("[sqlite] initialized");
-    },
-
-    onBuildBackend (ctx) {
-      injectRuntime(ctx);
+      console.log("[sqlite] Plugin successfully loaded.");
     }
   },
-
-  api: {
-    execute (statement, values = []) {
-      return globalThis.__skullface_sqlite.execute(statement, values);
-    },
-
-    query (statement, values = []) {
-      return globalThis.__skullface_sqlite.query(statement, values);
-    }
-  }
 };
