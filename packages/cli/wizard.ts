@@ -13,6 +13,18 @@ const COLORS = {
   gray    : '\x1b[90m',
 };
 
+export type ColorName = keyof typeof COLORS;
+
+export const color = {
+  red     : (str: string) => `${COLORS.red}${str}${COLORS.reset}`,
+  green   : (str: string) => `${COLORS.green}${str}${COLORS.reset}`,
+  yellow  : (str: string) => `${COLORS.yellow}${str}${COLORS.reset}`,
+  blue    : (str: string) => `${COLORS.blue}${str}${COLORS.reset}`,
+  magenta : (str: string) => `${COLORS.magenta}${str}${COLORS.reset}`,
+  cyan    : (str: string) => `${COLORS.cyan}${str}${COLORS.reset}`,
+  gray    : (str: string) => `${COLORS.gray}${str}${COLORS.reset}`
+};
+
 // :::::: PRINTING
 
 export function print   (...args: any[]) { console.log   (...args); }
