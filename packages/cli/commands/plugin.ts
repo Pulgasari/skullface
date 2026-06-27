@@ -4,8 +4,8 @@ import { PLUGINS }    from '@/types';
 import { loadConfig } from '@/utils';
 import wizard         from '@/wizard';
 
-const ERROR_MISSING_CONFIGFILE = 'Error: No skullface.config.js found in this directory.';
-
+const ERROR_MISSING_CONFIGFILE  = 'Error: No skullface.config.js found in this directory.';
+const ERROR_MISSING_PLUGIN_NAME = 'Error: Please specify a plugin name.';
 /**
  * Lists all globally available core plugins in the framework registry
  */
@@ -50,7 +50,7 @@ export async function pluginCommand (args: string[]) {
   // ==========================================
   if (action === 'add') {
     if (!name) {
-      console.error('❌ Error: Please specify a plugin name to add.');
+      console.error(ERROR_MISSING_PLUGIN_NAME);
       return;
     }
 
@@ -73,7 +73,7 @@ export async function pluginCommand (args: string[]) {
   // ==========================================
   else if (action === 'remove') {
     if (!name) {
-      console.error('Error: Please specify a plugin name to remove.');
+      console.error(ERROR_MISSING_PLUGIN_NAME);
       return;
     }
 
