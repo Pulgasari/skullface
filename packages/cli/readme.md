@@ -29,8 +29,8 @@ packages/cli/
 │   ├── mac.ts
 │   ├── mod.ts
 │   └── windows.ts
+├── utils/
 ├── index.ts   # main entry point
-├── utils.ts   # helpers
 └── wizard.ts  # cli wizard
 ```
 
