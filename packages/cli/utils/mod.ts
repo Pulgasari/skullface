@@ -10,3 +10,5 @@ export const TEMPLATE_PATH_PART = `skullface-main/templates/vanilla/`;
 // Methods
 export { default as applyTemplateVars } from './applyTemplateVars.ts';
 export { default as copyTemplate      } from './copyTemplate.ts';
+export { default as createContext     } from './createContext.ts';
+export { default as loadConfig        } from './loadConfig.ts';
