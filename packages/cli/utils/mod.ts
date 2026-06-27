@@ -2,7 +2,9 @@
 
 // Constants
 export const DEFAULT_TEMPLATE   = 'vanilla';
+export const REPO_URL           = 'https://github.com/pulgasari/skullface/';
 export const REPO_ZIP_URL       = `https://github.com/pulgasari/skullface/archive/refs/heads/main.zip`;
+export const DOCS_URL           = 'https://github.com/pulgasari/skullface/docs';
 export const TEMPLATE_PATH_PART = `skullface-main/templates/vanilla/`;
 
 // Methods
