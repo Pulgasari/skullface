@@ -1,4 +1,10 @@
-// @skullface/core/interfaces.ts
+// @skullface/core/types.ts
+
+// :::::: TYPES
+
+export type Platform = 'linux' | 'mac' | 'windows';
+
+// :::::: INTERFACES
 
 export interface SkullfaceConfig {
   plugins? : string[];
