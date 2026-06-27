@@ -3,7 +3,7 @@
 
 export default {
   
-  // App Info
+  // App-Metadaten
   app: {
     name    : "ExampleApp",
     slug    : "example-app",
@@ -11,35 +11,32 @@ export default {
     version : "0.1.0"
   },
 
-  // Dev Configurations
+  // Aktivierte Framework-Plugins (wichtig für das dynamische Laden im Core!)
+  plugins: [
+    // Werden beim Projektdesign oder manuell eingetragen, z.B.:
+    // "fs", 
+    // "sqlite"
+  ],
+
+  // Entwicklungskonfiguration
   dev: {
     hmr  : true,
     port : 5173,
   },
 
-  // Build Configurations
+  // Build-Einstellungen
   build: {
     entry  : "src/main.ts",
     outDir : "dist",
     
-    // Defaults (apply to every target except overwritten)
     cef     : false,
-    runtime : "deno", // blue | deno
+    runtime : "deno",
     
-    // Targets
+    // Zielplattformen für den Kompiliervorgang
     targets: [
-      {
-        platform: "android",
-      {
-        platform: "linux", // x86_64-unknown-linux-gnu
-        cef: true,
-      },
-      {
-        platform: "mac", // aarch64-apple-darwin
-      },
-      { 
-        platform: "windows", // x86_64-pc-windows-msvc
-      },
+      { platform: "linux", cef: true },
+      { platform: "mac" },
+      { platform: "windows" }
     ],
   },
   
