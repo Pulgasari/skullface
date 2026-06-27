@@ -1,23 +1,13 @@
-// plugins/store/mod.ts
+// @skullface/plugins/store/mod.ts
 
-import { injectRuntime } from "./runtime.ts";
+import * as api from "./api.ts";
 
 export default {
-  name: "store",
-
-  hooks: {
-    onInit () {
-      console.log("[store] initialized");
-    },
-
-    onBuildBackend (ctx) {
-      injectRuntime(ctx);
+  api,
+  name  : "store",
+  hooks : {
+    onInit() {
+      console.log("[store] Plugin erfolgreich geladen.");
     }
   },
-
-  api: {
-    createStore (name) {
-      return globalThis.__skullface_store.createStore(name);
-    }
-  }
 };
