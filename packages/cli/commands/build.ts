@@ -1,15 +1,16 @@
 // @skullface/cli/commands/build.ts
 
-import { loadConfig } from '@/utils';
-import { SkullfaceBundler } from "./../bundler/mod.ts";
+import { SkullfaceBundler } from '@/bundler';
+import { loadConfig }       from '@/utils';
+import wizard               from '@/wizard';
 
-interface CliOptions {
+interface BuildCommandOptions {
   target?: string; // z.B. wenn der Nutzer --target linux eintippt
 }
 
 const DEFAULT_BUILD_TARGETS = ['linux'];
 
-export async function buildCommand (options: CliOptions) {
+export async function buildCommand (options: BuildCommandOptions) {
   const config  = await loadConfig();
   const appName = config.app?.name || "SkullfaceApp";
   const appSlug = config.app?.slug || "skullfaceapp";
