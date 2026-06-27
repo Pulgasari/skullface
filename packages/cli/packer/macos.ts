@@ -4,10 +4,11 @@ import wizard from '@/wizard';
 import { Packer } from "./mod.ts";
 
 export class MacPacker implements Packer {
-  async pack (binaryPath: string, projectRoot: string): Promise<void> {
+  async pack (binaryPath: string, projectRoot: string, appMeta: { name: string; slug: string; options: any }): Promise<void> {
     console.log("[Packer:Mac] Erstelle macOS App-Bundle...");
 
-    const appName       = "SkullfaceApp";
+    const appName       = appMeta.name;
+    const appSlug       = appMeta.slug;
     const outputDir     = `${projectRoot}/dist-native/mac`;
     const appBundlePath = `${outputDir}/${appName}.app`;
     const contentsPath  = `${appBundlePath}/Contents`;
@@ -15,7 +16,7 @@ export class MacPacker implements Packer {
     const resourcesPath = `${contentsPath}/Resources`;
 
     // 1. Ordnerstruktur anlegen
-    await Deno.mkdir(macosPath, { recursive: true });
+    await Deno.mkdir(    macosPath, { recursive: true });
     await Deno.mkdir(resourcesPath, { recursive: true });
 
     // 2. Move Binary-File into MacOS-Directory
