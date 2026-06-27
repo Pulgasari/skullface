@@ -37,8 +37,10 @@ export function list (items: string[], title?: string) {
   items.forEach(item => console.log(`  - ${item}`));
 }
 
-export function separator ({ color ?: string = null }) {
-  console.log(`\n────────────────────────────────────────`);
+export function separator (options: { color?: ColorName } = {}) {
+  const line = '────────────────────────────────────────';
+  if (options.color) console.log(`\n${COLORS[options.color]}${line}${COLORS.reset}`);
+  else               console.log(`\n${line}`);
 }
 
 // :::::: PROMPTS
