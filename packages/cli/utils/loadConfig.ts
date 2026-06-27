@@ -1,13 +1,25 @@
 // @skullface/cli/utils/loadConfig.ts
 
-export async function loadConfig (dir: string) {
-  dir ??= Deno.cwd();
-  const configPath = `${dir}/skullface.config.js`;
+export interface SkullfaceConfig {
+  app?: {
+    name?: string;
+    slug?: string;
+  };
+  build?: {
+    targets?: (string | { platform: string; [key: string]: any })[];
+  };
+}
+
+export async function loadConfig (dir?: string): Promise<SkullfaceConfig> {
+  const targetDir = dir ?? Deno.cwd();
+  const configPath = `${targetDir}/skullface.config.js`;
   
-  try       { await Deno.stat(configPath); }
-  catch (e) { console.error('SkullfaceConfig missing.'); }
-  
-  const mod = await import(configPath);
-  //const mod = await import(`file://${configPath}`)
-  return mod.default;
+  try {
+    await Deno.stat(configPath); // does config-file exist?
+    const mod = await import(`file://${configPath}`);
+    return mod.default || {};
+  } catch (_e) {
+    console.warn("Keine 'skullface.config.js' gefunden. Nutze Standardwerte.");
+    return {};
+  }
 }
