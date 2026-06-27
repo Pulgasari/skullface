@@ -1,43 +1,34 @@
-// skullface.config.ts
+// skullface.config.js
 // Docs: {{docs}}/config.md
 
 export default {
-  
-  // App-Metadaten
+  // App Metadata
   app: {
-    name    : "ExampleApp",
-    slug    : "example-app",
-    id      : "dev.skullface.example",
-    version : "0.1.0"
+    name: '{{name}}',
+    slug: '{{slug}}',
+    id: 'com.skullface.{{slug}}',
+    version: '0.1.0'
   },
 
-  // Aktivierte Framework-Plugins (wichtig für das dynamische Laden im Core!)
-  plugins: [
-    // Werden beim Projektdesign oder manuell eingetragen, z.B.:
-    // "fs", 
-    // "sqlite"
-  ],
+  // Active Runtime Plugins
+  plugins: {{plugins}},
 
-  // Entwicklungskonfiguration
+  // Development Configurations
   dev: {
-    hmr  : true,
-    port : 5173,
+    hmr: true,
+    port: 5173,
   },
 
-  // Build-Einstellungen
+  // Build Configurations
   build: {
-    entry  : "src/main.ts",
-    outDir : "dist",
-    
-    cef     : false,
-    runtime : "deno",
-    
-    // Zielplattformen für den Kompiliervorgang
+    entry: 'src/main.ts',
+    outDir: 'dist',
+    cef: false,
+    runtime: 'deno',
     targets: [
-      { platform: "linux", cef: true },
-      { platform: "mac" },
-      { platform: "windows" }
+      { platform: 'linux', cef: true },
+      { platform: 'mac' },
+      { platform: 'windows' }
     ],
   },
-  
 };
