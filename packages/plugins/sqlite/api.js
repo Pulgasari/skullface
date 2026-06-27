@@ -1,4 +1,4 @@
-// @skullface/plugins/sqlite/runtime.ts
+// @skullface/plugins/sqlite/api.ts
 
 import { DB } from "https://deno.land/x/sqlite/mod.ts"; // "deno:sqlite"
 
