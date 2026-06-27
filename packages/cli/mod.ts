@@ -2,10 +2,11 @@
 // @skullface/cli/mod.ts
 
 import { parseArgs } from "@std/cli/parse-args";
-import { buildCommand } from "./commands/build.ts";
+import  buildCommand from "./commands/build.ts";
 import createCommand from "./commands/create.ts";
 import   helpCommand from "./commands/help.ts";
-import { commands } from '@/types';
+import pluginCommand from './commands/plugin.ts';
+import { COMMANDS } from '@/types';
 
 // Flags parsen (z. B. --target linux oder -t linux)
 const flags = parseArgs(Deno.args, {
@@ -13,8 +14,11 @@ const flags = parseArgs(Deno.args, {
   alias  : { target: "t" },
 });
 
-const cmd = flags._[0];
+const cmd     = flags._[0];
+const subArgs = flags._.slice(1).map(String); // captures everything after 'plugin'
+
 
      if (cmd === 'build')  await  buildCommand({ target: flags.target });
 else if (cmd === 'create') await createCommand();
+else if (cmd === 'plugin') await pluginCommand(subArgs);
 else                       await   helpCommand();
