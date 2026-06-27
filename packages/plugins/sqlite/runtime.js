@@ -1,37 +1,28 @@
-// plugins/sqlite/runtime.ts
+// @skullface/plugins/sqlite/runtime.ts
 
-export function injectRuntime (ctx) {
-  const target = `${ctx.paths.backend}/sqlite.runtime.js`;
-  Deno.writeTextFileSync(target, RUNTIME_CODE);
+import { DB } from "https://deno.land/x/sqlite/mod.ts"; // "deno:sqlite"
+
+const dbPath = "./data.sqlite";
+const db = new DB(dbPath);
+
+export async function execute (
+  statement : string, 
+  values    : any[] = []
+): Promise<void> {
+  const query = db.prepare(statement);
+  query.run(...values);
+  query.finalize();
 }
 
-const RUNTIME_CODE = `
-import { DB } from "deno:sqlite";
-
-(function() {
-  // Default DB path
-  const dbPath = "./data.sqlite";
-
-  const db = new DB(dbPath);
-
-  const api = {
-    execute(statement, values = []) {
-      const query = db.prepare(statement);
-      query.run(...values);
-      query.finalize();
-    },
-
-    query(statement, values = []) {
-      const query = db.prepare(statement);
-      const rows = [];
-      for (const row of query.iter(...values)) {
-        rows.push(row);
-      }
-      query.finalize();
-      return rows;
-    }
-  };
-
-  globalThis.__skullface_sqlite = api;
-})();
-`;
+export async function query (
+  statement : string, 
+  values    : any[] = []
+): Promise<any[]> {
+  const query = db.prepare(statement);
+  const rows = [];
+  for (const row of query.iter(...values)) {
+    rows.push(row);
+  }
+  query.finalize();
+  return rows;
+}
