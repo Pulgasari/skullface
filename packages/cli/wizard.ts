@@ -79,5 +79,6 @@ export async function multiselect (question: string, options: string[]) {
 export default {
   ask, multiselect, select,
   error, print, success, warn,
-  list, separator
+  list, separator,
+  color
 };
