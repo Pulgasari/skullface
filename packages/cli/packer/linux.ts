@@ -41,12 +41,8 @@ Terminal=false
     await Deno.writeTextFile(`${appDir}/${appName.toLowerCase()}.desktop`, desktopContent);
 
     // 5. Copy Plaeholder-Icon (Required for AppImage !!!)
-    try {
-      await Deno.copyFile(`${projectRoot}/assets/icon.png`, `${appDir}/app.png`);
-    } catch {
-      // Create Empty Dummy-File if no Icon exists (to prevent crashing of appimagetool)
-      await Deno.writeTextFile(`${appDir}/app.png`, "");
-    }
+    try   { await Deno.copyFile(`${projectRoot}/assets/icon.png`, `${appDir}/app.png`); }
+    catch { await Deno.writeTextFile(`${appDir}/app.png`, ""); } // Create Empty Dummy-File if no Icon exists (to prevent crashing of appimagetool)
 
     // 6. Try to build the AppImage via 'appimagetool'
     console.log("[Packer:Linux] Versuche AppImage zu kompilieren...");
