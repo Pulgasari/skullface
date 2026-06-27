@@ -14,12 +14,21 @@ npm install -g jsr:@skullface/cli
 
 ```c
 packages/cli/
+├── bundler/
+│   ├── backend.ts
+│   ├── frontend.ts
+│   └── mod.ts
 ├── commands/
-│   ├── build.ts  # ...
-│   ├── create.ts # ...
-│   ├── dev.ts    # ...
-│   ├── doctor.ts # ...
-│   ├── plugin.ts # handle skullface plugins
+│   ├── build.ts
+│   ├── create.ts
+│   ├── dev.ts
+│   ├── doctor.ts
+│   └── plugin.ts # handle skullface plugins
+├── packer/
+│   ├── linux.ts
+│   ├── mac.ts
+│   ├── mod.ts
+│   └── windows.ts
 ├── index.ts   # main entry point
 ├── utils.ts   # helpers
 └── wizard.ts  # cli wizard
