@@ -1,0 +1,57 @@
+// @skullface/cli/bundler/backend.ts
+
+//import { Platform } from '@/interfaces';
+type Platform = "mac" | "windows" | "linux";
+
+/**
+ * Ermittelt das exakte Target-Triple für 'deno compile'
+ */
+function getTargetTriple (platform: Platform): string {
+  switch (platform) {
+    case "windows" : return "x86_64-pc-windows-msvc";
+    case "linux"   : return "x86_64-unknown-linux-gnu";
+    // Auf dem Mac ermitteln wir dynamisch, ob Intel (x86_64) oder Apple Silicon (aarch64) vorliegt
+    case "mac"     : return Deno.build.arch === "aarch64" ? "aarch64-apple-darwin" : "x86_64-apple-darwin";
+    default        : throw new Error(`Unbekannte Plattform: ${platform}`);
+  }
+}
+
+/**
+ * Führt 'deno compile' aus und erzeugt die nackte ausführbare Binärdatei.
+ * Gibt den absoluten Pfad zur erzeugten Binärdatei zurück.
+ */
+export async function compileBackend (platform: Platform, projectRoot: string): Promise<string> {
+  console.log(`[Bundler:Backend] Starte 'deno compile' für Target: ${platform}...`);
+
+  const targetTriple = getTargetTriple(platform);
+  const tempBuildDir = `${projectRoot}/.skullface-tmp`;
+  await Deno.mkdir(tempBuildDir, { recursive: true });
+  const binaryExtension  = platform === "windows" ? ".exe" : "";
+  const outputBinaryPath = `${tempBuildDir}/binary_raw${binaryExtension}`;
+
+  // Pfad zum Core-Einstiegspunkt deines Frameworks
+  // Wenn deine CLI global läuft, sollte dies idealerweise auf das installierte JSR/Module-File zeigen.
+  // Für die lokale Entwicklung nutzen wir den Pfad in deinem Workspace:
+  const coreEntry = `${projectRoot}/packages/core/mod.ts`;
+
+  const command = new Deno.Command("deno", {
+    args: [
+      "compile",
+      "--allow-all", // Deine Runtime benötigt volle Rechte
+      `--target=${targetTriple}`,
+      `--output=${outputBinaryPath}`,
+      coreEntry
+    ],
+    // HIER setzen wir die Umgebungsvariable für die Produktion!
+    env: {
+      "SKULLFACE_ENV": "production"
+    },
+    stdout: "inherit",
+    stderr: "inherit"
+  });
+
+  const { success, code } = await command.output();
+  if (!success) throw new Error(`Deno Compile für ${platform} fehlgeschlagen mit Exit-Code ${code}.`);
+  console.log(`[Bundler:Backend] Native Binärdatei erfolgreich kompiliert.`);
+  return outputBinaryPath;
+}
