@@ -1,0 +1,13 @@
+{
+  "imports": {
+    "@/"                 : "./",
+    "@skullface/plugins" : "jsr:@skullface/plugins@^1",
+    "@std/path"          : "https://deno.land/std@0.224.0/path/mod.ts"
+  },
+  "permissions": {
+    "read-and-write": {
+      "read"  : true,
+      "write" : true
+    }
+  }
+}
