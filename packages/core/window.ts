@@ -1,5 +1,32 @@
 // @skullface/core/window.ts
 
+import { skullface } from "./ipc.ts";
+import * as     fsPlugin from "../plugins/fs/runtime.ts";
+import * as sqlitePlugin from "../plugins/sqlite/runtime.ts";
+
+// 1. Plugins registrieren
+skullface.registerPlugin(    "fs",     fsPlugin);
+skullface.registerPlugin("sqlite", sqlitePlugin);
+
+// Jetzt kannst du im BACKEND schreiben:
+// await skullface.fs.readFile("./test.txt");
+
+// 2. Webview erstellen & IPC verknüpfen
+const webview = new MyWebviewLibrary({
+  title : "Skullface App",
+  url   : "http://localhost:3000",
+  preloadScript : "./packages/preload/skullface.js" // Injiziert den Proxy
+});
+
+// 3. Auf Nachrichten von der Webview lauschen
+webview.onMessage((rawJson) => {
+  skullface.handleIncomingIPC(rawJson, (responsePayload) => {
+    // Diese Funktion triggert das CustomEvent 'skullface-ipc-response' in der Webview
+    webview.eval(`window.dispatchEvent(new CustomEvent('skullface-ipc-response', { detail: ${JSON.stringify(responsePayload)} }));`);
+  });
+});
+
+/*
 import { Webview } from '@x/webview';
 
 export function createWindow (frontendUrl: string) {
@@ -36,3 +63,4 @@ export function createWindow (frontendUrl: string) {
   // Keep Window open
   webview.run();
 }
+*/
