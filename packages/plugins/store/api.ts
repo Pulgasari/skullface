@@ -51,11 +51,13 @@ export async function get (store: string, key: string): Promise<any> {
 export async function set (store: string, key: string, value: any): Promise<void> {
   ensureCache(store);
   cache.get(store)![key] = value;
+  notify(store, key, value);
 }
 
 export async function remove (store: string, key: string): Promise<void> {
   ensureCache(store);
   delete cache.get(store)![key];
+  notify(store, key, undefined);
 }
 
 export async function clear (store: string): Promise<void> {
@@ -90,4 +92,34 @@ export async function has (store: string, key: string): Promise<boolean> {
 export async function size (store: string): Promise<number> {
   ensureCache(store);
   return Object.keys(cache.get(store)!).length;
+}
+
+export async function update (store: string, data: Record<string, any>): Promise<void> {
+  ensureCache(store);
+  const obj = cache.get(store)!;
+
+  for (const [key, value] of Object.entries(data)) {
+    if (value === undefined) {
+      delete obj[key];
+      notify(store, key, undefined);
+    } else {
+      obj[key] = value;
+      notify(store, key, value);
+    }
+  }
+}
+
+// :::::: WATCH
+
+const watchers = new Map<string, Set<(key: string, value: any) => void>>();
+
+function notify (store: string, key: string, value: any) {
+  const set = watchers.get(store);
+  if (set) for (const fn of set) fn(key, value);
+}
+
+export function watch (store: string, fn: (key: string, value: any) => void) {
+  if (!watchers.has(store)) watchers.set(store, new Set());
+  watchers.get(store)!.add(fn);
+  return () => watchers.get(store)!.delete(fn); // optional: unsubscribe function
 }
