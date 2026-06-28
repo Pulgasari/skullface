@@ -3,7 +3,7 @@
 import wizard from '@/wizard';
 import { Packer } from "./mod.ts";
 
-export class MacPacker implements Packer {
+export default class implements Packer {
   async pack (binaryPath: string, projectRoot: string, appMeta: { name: string; slug: string; options: any }): Promise<void> {
     console.log("[Packer:Mac] Erstelle macOS App-Bundle...");
 
