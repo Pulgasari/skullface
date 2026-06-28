@@ -103,6 +103,18 @@ declare global {
 }
 ```
 
+Usage in frontend:
+
+```javascript
+// src-frontend/app.js
+
+const greeting = await window.skullface.bridge.sayHello('Alex');
+console.log(greeting); // Output: Hello from Deno backend, Alex!
+
+const secureHash = await window.skullface.bridge.calculateHash('secret_password');
+console.log('SHA-256:', secureHash);
+```
+
 ## Notes
 
 ```
