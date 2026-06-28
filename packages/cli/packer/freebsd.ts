@@ -3,7 +3,7 @@
 import { Packer } from '@/packer';
 import wizard     from '@/wizard';
 
-export class FreeBSDPacker implements Packer {
+export default class implements Packer {
   async pack (binaryPath: string, projectRoot: string, appMeta: { name: string; slug: string; options: any }): Promise<void> {
     console.log('[Packer:FreeBSD] Preparing FreeBSD release package...');
 
