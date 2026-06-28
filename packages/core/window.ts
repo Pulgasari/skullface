@@ -3,24 +3,21 @@
 import { Webview } from "https://deno.land/x/webview/mod.ts";
 import { SkullfaceWindowConfig } from '@/types';
 
+const DEFAULT_WINDOW_HEIGHT =  768;
+const DEFAULT_WINDOW_WIDTH  = 1024;
+
 export class SkullfaceWindow {
   private webview: Webview;
   private pluginRegistry = new Map<string, any>();
 
   constructor (config: SkullfaceWindowConfig) {
-    // 1. Webview Instanz erzeugen
     this.webview = new Webview(true); // true = Debug-Modus / DevTools erlauben
     this.webview.title = config.title;
-    this.webview.size(config.width || 1024, config.height || 768);
+    this.webview.size(config.width || DEFAULT_WINDOW_WIDTH, config.height || DEFAULT_WINDOW_HEIGHT);
 
-    // 2. Preload-Skript laden und injizieren
-    this.injectPreloadScript();
-
-    // 3. IPC-Brücke aktivieren
-    this.setupIPC();
-
-    // 4. URL ansteuern
-    this.webview.navigate(config.url);
+    this.injectPreloadScript(); // Preload-Skript laden und injizieren
+    this.setupIPC(); // IPC-Brücke aktivieren
+    this.webview.navigate(config.url); // URL ansteuern
   }
 
   /**
@@ -30,26 +27,16 @@ export class SkullfaceWindow {
     this.pluginRegistry.set(pluginName, pluginApi);
     console.log(`[Core] Plugin '${pluginName}' erfolgreich registriert.`);
   }
-
-  /**
-   * Liest das Preload-Skript (den Magic Proxy) und injiziert es vor dem Seitenstart
-   */
+  
   private injectPreloadScript () {
     try {
-      // Pfad zu deinem packages/preload/skullface.js
       const preloadCode = Deno.readTextFileSync("./packages/preload/skullface.js");
-      
-      // Die meisten Webview-Bibliotheken bieten eine 'init'-Methode,
-      // die JS-Code garantiert vor dem Laden des HTML-Doks ausführt.
       this.webview.init(preloadCode);
     } catch (err) {
       console.error("[Core] Fehler beim Laden des Preload-Skripts:", err);
     }
   }
 
-  /**
-   * Wartet auf Nachrichten aus dem Frontend und routet sie an die Plugins
-   */
   private setupIPC () {
     // Wir binden eine globale Funktion in der Webview, die das Frontend aufrufen kann.
     // In deno:webview heißt das meistens 'bind'
@@ -79,23 +66,13 @@ export class SkullfaceWindow {
       }
     });
   }
-
-  /**
-   * Schießt die Antwort als CustomEvent zurück in den Browser-Kontext
-   */
+  
   private sendToFrontend (payload: any) {
     const json = JSON.stringify(payload);
-    // Wir feuern das Event ab, auf das unser 'skullface.js'-Preload wartet
-    this.webview.eval(`
-      window.dispatchEvent(new CustomEvent('skullface-ipc-response', { 
-        detail: ${json} 
-      }));
-    `);
+    const code = `window.dispatchEvent(new CustomEvent('skullface-ipc-response', { detail: ${json} }));`;
+    this.webview.eval(code); // Wir feuern das Event ab, auf das unser 'skullface.js'-Preload wartet
   }
-
-  /**
-   * Startet die native Ereignisschleife (blockiert, bis das Fenster geschlossen wird)
-   */
+  
   public run() {
     this.webview.run();
   }
