@@ -8,7 +8,7 @@ const DEFAULT_WINDOW_WIDTH  = 1024;
 
 export class SkullfaceWindow {
   private webview: Webview;
-  private pluginRegistry = new Map<string, any>();
+  private registry = new Map<string, any>();
 
   constructor (config: SkullfaceWindowConfig) {
     this.webview = new Webview(true); // true = Debug-Modus / DevTools erlauben
@@ -19,12 +19,9 @@ export class SkullfaceWindow {
     this.setupIPC(); // IPC-Brücke aktivieren
     this.webview.navigate(config.url); // URL ansteuern
   }
-
-  /**
-   * Registriert ein Backend-Plugin im Core
-   */
+  
   public registerPlugin (pluginName: string, pluginApi: any) {
-    this.pluginRegistry.set(pluginName, pluginApi);
+    this.registry.set(pluginName, pluginApi);
     console.log(`[Core] Plugin '${pluginName}' erfolgreich registriert.`);
   }
   
@@ -43,25 +40,16 @@ export class SkullfaceWindow {
     this.webview.bind("_skullface_ipc_transmit", async (messageStr: string) => {
       try {
         const { id, plugin, method, args } = JSON.parse(messageStr);
-        
-        // Suchen des passenden Plugins
-        const targetPlugin = this.pluginRegistry.get(plugin);
-        if (!targetPlugin) {
-          throw new Error(`Plugin '${plugin}' ist nicht im Core registriert.`);
-        }
-
+        const targetPlugin = this.registry.get(plugin);
+        if (!targetPlugin) throw new Error(`Plugin '${plugin}' ist nicht im Core registriert.`);
         if (typeof targetPlugin[method] !== "function") {
           throw new Error(`Methode '${method}' existiert nicht im Plugin '${plugin}'.`);
         }
 
         // Führe die echte Deno-Funktion im Backend aus
         const result = await targetPlugin[method](...args);
-
-        // Erfolg zurück an die Webview senden
         this.sendToFrontend({ id, success: true, data: result });
-
       } catch (error: any) {
-        // Fehler zurück an die Webview senden
         this.sendToFrontend({ id, success: false, error: error.message });
       }
     });
