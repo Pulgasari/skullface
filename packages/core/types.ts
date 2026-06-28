@@ -1,6 +1,8 @@
 // @skullface/core/types.ts
 
-export const commands = {
+export const REPO_URL = 'https://github.com/pulgasari/skullface';
+
+export const COMMANDS = {
   'build',
   'create',
   'dev',
@@ -9,7 +11,7 @@ export const commands = {
   'template',
 } as const;
 
-export const plugins = [
+export const PLUGINS = [
   "clipboard",
   "dialogs",
   "external",
@@ -22,7 +24,7 @@ export const plugins = [
   "store",
 ] as const;
 
-export const templates = [
+export const TEMPLATES = [
   'datastar',
   'htmx',
   'preact',
@@ -34,10 +36,10 @@ export const templates = [
 
 // :::::: TYPES
 
-export type Command  = typeof commands[number];
+export type Command  = typeof COMMANDS[number];
 export type Platform = 'linux' | 'mac' | 'windows';
-export type Plugin   = typeof plugins[number];
-export type Template = typeof templates[number];
+export type Plugin   = typeof PLUGINS[number];
+export type Template = typeof TEMPLATES[number];
 
 // :::::: INTERFACES
 
