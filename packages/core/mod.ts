@@ -39,10 +39,11 @@ export async function bootApp () {
 
   // Dynamically load extensions array listed inside config configuration file
   if (config.plugins && Array.isArray(config.plugins)) {
-    for (const pluginName of config.plugins) {
+    for (const pluginSlug of config.plugins) {
       try {
-        const pluginModule = await import(`jsr:@skullface/plugins/${pluginName}`);
-        const plugin       = pluginModule.default;
+        const pluginSpecifier = `jsr:@skullface/plugins/${pluginSlug}/deno.ts`;
+        const pluginModule    = await import(pluginSpecifier);
+        const plugin          = pluginModule.default;
 
         if (plugin && plugin.name && plugin.api) {
           skullface.registerPlugin(plugin.name, plugin.api);
@@ -51,7 +52,7 @@ export async function bootApp () {
           }
         }
       } catch (err: any) {
-        console.error(`[Core] Failed to dynamically load core plugin '${pluginName}':`, err.message);
+        console.error(`[Core] Failed to dynamically load core plugin '${pluginSlug}':`, err.message);
       }
     }
   }
