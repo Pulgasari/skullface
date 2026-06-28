@@ -5,7 +5,6 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import dev.skullface.plugins.store.StorePlugin
-import org.json.JSONArray
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         webView.settings.javaScriptEnabled = true
         webView.settings.domStorageEnabled = true
         
-        // 1. Register our test store plugin natively into the app container runtime
+        // Register the unified StorePlugin into the local device runtime ecosystem
         mobilePlugins["store"] = StorePlugin(this)
         
         webView.addJavascriptInterface(WebAppInterface(), "_skullface_android_transmit")
@@ -31,35 +30,32 @@ class MainActivity : AppCompatActivity() {
         @JavascriptInterface
         fun postMessage(messageStr: String) {
             try {
-                // Parse the generic incoming skullface standard IPC message packet
                 val json = JSONObject(messageStr)
                 val id = json.getInt("id")
                 val pluginName = json.getString("plugin")
                 val method = json.getString("method")
                 
-                // Convert JSON arguments array to native Kotlin list array
+                // Unpack variable-length array payload arguments safely
                 val jsonArgs = json.getJSONArray("args")
                 val args = mutableListOf<Any>()
                 for (i in 0 until jsonArgs.length()) {
                     args.add(jsonArgs.get(i))
                 }
 
-                // 2. Locate the registered plugin instance
                 val plugin = mobilePlugins[pluginName]
                 if (plugin == null) {
                     sendErrorToFrontend(id, "Native mobile plugin '$pluginName' not found.")
                     return
                 }
 
-                // 3. Execute method dynamically using reflection or dedicated interface mapping
-                // For this test, we execute our StorePlugin directly:
-                if (plugin is StorePlugin) {
+                // Handle routing execution target loops
+                if (plugin is StorePlugin && pluginName == "store") {
                     val result = plugin.execute(method, args)
                     sendSuccessToFrontend(id, result)
                 }
 
             } catch (e: Exception) {
-                println("IPC Processing Error: ${e.message}")
+                println("IPC Execution Fault: ${e.message}")
             }
         }
     }
