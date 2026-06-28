@@ -52,3 +52,10 @@ export interface SkullfaceConfig {
     height? : number;
   };
 }
+
+interface SkullfaceWindowConfig {
+  title   : string;
+  url     : string;
+  width?  : number;
+  height? : number;
+}
