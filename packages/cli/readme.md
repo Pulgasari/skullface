@@ -41,3 +41,9 @@ packages/cli/
 - enhance methods
 - rename methods ?
 - use inquirer.js ?
+
+### packer
+
+- add support for Android
+- add support for FreeBSD
+- add support for iOS
