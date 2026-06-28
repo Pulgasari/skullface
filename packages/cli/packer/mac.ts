@@ -1,7 +1,7 @@
-// @skullface/cli/packer/macos.ts
+// @skullface/cli/packer/mac.ts
 
-import wizard from '@/wizard';
-import { Packer } from "./mod.ts";
+import { Packer } from '@/packer';
+import wizard     from '@/wizard';
 
 export default class implements Packer {
   async pack (binaryPath: string, projectRoot: string, appMeta: { name: string; slug: string; options: any }): Promise<void> {
