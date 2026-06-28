@@ -25,6 +25,8 @@ packages/cli/
 │   ├── doctor.ts
 │   └── plugin.ts # handle skullface plugins
 ├── packer/
+│   ├── android.ts
+│   ├── freebsd.ts
 │   ├── linux.ts
 │   ├── mac.ts
 │   ├── mod.ts
