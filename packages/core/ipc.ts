@@ -1,11 +1,15 @@
 // @skullface/core/ipc.ts
 
-// registry for skullface-plugins
-const pluginRegistry = new Map<string, any>();
+const bridgeApi: Record<string, Function> = {};
+const pluginRegistry = new Map<string, any>(); // registry for skullface-plugins
 
 export const skullface = {
 
   paths: {} as ReturnType<typeof import('./paths.ts').getPaths>,
+
+  registerBridge (commands: Record<string, Function>) {
+    Object.assign(bridgeApi, commands);
+  },
   
   registerPlugin (name: string, pluginModule: any) {
     pluginRegistry.set(name, pluginModule);
@@ -14,15 +18,12 @@ export const skullface = {
   
   async handleIncomingIPC (messageStr: string, sendResponseToFrontend: (response: any) => void) {
     try {
-      const { id, plugin, method, args } = JSON.parse(messageStr);
-      const targetPlugin = pluginRegistry.get(plugin);
-      if (!targetPlugin) throw new Error(`Plugin '${plugin}' ist nicht installiert.`);
-      if (typeof targetPlugin[method] !== "function") {
-        throw new Error(`Method '${method}' doesn't exist in Plugin '${plugin}'.`);
-      }
-
+      const { args, id, method, plugin: slug } = JSON.parse(messageStr);
+      const plugin = pluginRegistry.get(slug);
+      if (!plugin) throw new Error(`Plugin '${slug}' is not installed.`);
+      if (typeof plugin[method] !== "function") throw new Error(`Method '${method}' doesn't exist in Plugin '${slug}'.`);
       // Führe die echte Deno-Funktion aus
-      const result = await targetPlugin[method](...args);
+      const result = await plugin[method](...args);
       // Schicke Erfolg zurück
       sendResponseToFrontend({ id, success: true, data: result });
     } catch (err: any) {
@@ -30,6 +31,10 @@ export const skullface = {
     }
   }
 };
+export default skullface;
+
+// bridge for custom commands
+skullface.registerPlugin('bridge', bridgeApi);
 
 // enable skullface globally in the backend
 (globalThis as any).skullface = skullface;
