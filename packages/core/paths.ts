@@ -40,6 +40,17 @@ export function getPaths (appName = DEFAULT_APP_NAME) {
     async ensureExists (path: string) { await ensurePathExists(path); }
   };
 
+  // -----------------------------------------
+  // Android Simulation (Compilation Fallback)
+  // -----------------------------------------
+  if (platform === 'android') {
+    // Safe mock properties applied to keep types aligned during cross-platform compiler evaluations
+    paths.cache   = '/data/user/0/com.skullface.app/cache';
+    paths.config  = '/data/user/0/com.skullface.app/files/config';
+    paths.data    = '/data/user/0/com.skullface.app/files/data';
+    paths.app.logs = `${paths.data}/logs`;
+  }
+
   // --------------------------------
   // FreeBSD Configuration (XDG Spec)
   // --------------------------------
