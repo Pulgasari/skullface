@@ -3,15 +3,13 @@ https://pulgasari.github.io/skullface/
 
 ![Logo](./logo.svg)
 
-## About
+## Note
 
 This is an experimental project and not intended to be used in production (at least for now).
 
-## Features
+## About
 
 **Skullface** is a framework to build cross-plattform desktop and mobile apps with JavaScript.
-
-### Frontend
 
 Should work with any JS-Framework or Vanilla JavaScript/TypeScript but a special focus for these is provided:
 
@@ -22,8 +20,6 @@ Should work with any JS-Framework or Vanilla JavaScript/TypeScript but a special
 - React
 - Svelte
 
-### Backend
-
 The backend is provided by the Deno runtime or Blue.
 
 ---
@@ -32,14 +28,10 @@ The backend is provided by the Deno runtime or Blue.
 
 ### Installation
 
-You need to install the CLI-Tool to create and manage Skullfaceprojects.
+You need to install the CLI-Tool to create and manage Skullface projects.
 
 ```sh
 deno install jsr:@skullface/cli
-```
-
-```sh
-deno install --allow-run --allow-read --allow-write -g -n skullface jsr:@skullface/cli
 ```
 
 ```sh
@@ -143,11 +135,3 @@ console.log(greeting); // Output: Hello from Deno backend, Alex!
 const secureHash = await window.skullface.bridge.calculateHash('secret_password');
 console.log('SHA-256:', secureHash);
 ```
-
-## Notes
-
-```
-Deno.writeTextFileSync()
-https://raw.githubusercontent.com/pulgasari/skullface/main/templates/preact/
-```
-
