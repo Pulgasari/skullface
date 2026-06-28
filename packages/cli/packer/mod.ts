@@ -4,7 +4,7 @@ import  { Platform } from '@/types';
 import AndroidPacker from './android.ts';
 import FreeBSDPacker from './freebsd.ts';
 import   LinuxPacker from   './linux.ts';
-import     MacPacker from   './macos.ts';
+import     MacPacker from     './mac.ts';
 import WindowsPacker from './windows.ts';
 
 export interface Packer {
