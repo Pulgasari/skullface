@@ -1,4 +1,4 @@
-// @skullface/plugins/store/api.ts
+// @skullface/plugins/store/deno.ts
 
 // :::::: CACHE
 
