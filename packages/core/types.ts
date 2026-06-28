@@ -11,6 +11,13 @@ export const COMMANDS = {
   'template',
 } as const;
 
+export const PLATFORMS = {
+  'freebsd',
+  'linux',
+  'mac',
+  'windows',
+} as const;
+
 export const PLUGINS = [
   "clipboard",
   "dialogs",
@@ -37,7 +44,7 @@ export const TEMPLATES = [
 // :::::: TYPES
 
 export type Command  = typeof COMMANDS[number];
-export type Platform = 'linux' | 'mac' | 'windows';
+export type Platform = typeof PLATFORMS[number];
 export type Plugin   = typeof PLUGINS[number];
 export type Template = typeof TEMPLATES[number];
 
