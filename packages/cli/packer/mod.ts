@@ -1,9 +1,10 @@
 // @skullface/cli/src/packer/mod.ts
 
 import { Platform } from '@/types';
-import     { MacPacker } from   "./macos.ts";
-import { WindowsPacker } from "./windows.ts";
-import   { LinuxPacker } from   "./linux.ts";
+import { FreeBSDPacker } from './freebsd.ts';
+import   { LinuxPacker } from   './linux.ts';
+import     { MacPacker } from   './macos.ts';
+import { WindowsPacker } from './windows.ts';
 
 export interface Packer {
   pack (binaryPath: string, projectRoot: string) : Promise<void>;
@@ -11,6 +12,7 @@ export interface Packer {
 
 export function getPacker (target: Platform): Packer {
   switch (target) {
+    case 'freebsd' : return new FreeBSDPacker();
     case 'linux'   : return new   LinuxPacker();
     case 'mac'     : return new     MacPacker();
     case 'windows' : return new WindowsPacker();
