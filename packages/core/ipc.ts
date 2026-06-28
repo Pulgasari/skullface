@@ -4,6 +4,8 @@
 const pluginRegistry = new Map<string, any>();
 
 export const skullface = {
+
+  paths: {} as ReturnType<typeof import('./paths.ts').getPaths>,
   
   registerPlugin (name: string, pluginModule: any) {
     pluginRegistry.set(name, pluginModule);
