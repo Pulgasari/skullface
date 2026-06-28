@@ -7,6 +7,7 @@ import { Platform } from '@/types';
  */
 function getTargetTriple (platform: Platform): string {
   switch (platform) {
+    case 'freebsd' : return 'x86_64-unknown-freebsd';
     case 'linux'   : return 'x86_64-unknown-linux-gnu';
     // Auf dem Mac ermitteln wir dynamisch, ob Intel (x86_64) oder Apple Silicon (aarch64) vorliegt
     case 'mac'     : return Deno.build.arch === 'aarch64' ? 'aarch64-apple-darwin' : 'x86_64-apple-darwin';
