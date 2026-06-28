@@ -67,7 +67,7 @@ export async function all (store: string): Promise<Record<string, any>> {
   return { ...cache.get(store) };
 }
 
-export async function getKeys (store: string): Promise<string[]> {
+export async function keys (store: string): Promise<string[]> {
   ensureCache(store);
   return Object.keys(cache.get(store)!);
 }
