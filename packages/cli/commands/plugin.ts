@@ -4,13 +4,14 @@ import { PLUGINS }    from '@/types';
 import { loadConfig } from '@/utils';
 import wizard         from '@/wizard';
 
-const ERROR_MISSING_CONFIGFILE  = 'Error: No skullface.config.js found in this directory.';
-const ERROR_MISSING_PLUGIN_NAME = 'Error: Please specify a plugin name.';
+const ERROR_MISSING_CONFIGFILE  = 'No skullface.config.js found in this directory.';
+const ERROR_MISSING_PLUGIN_NAME = 'Please specify a plugin name.';
+
 /**
  * Lists all globally available core plugins in the framework registry
  */
 async function listPlugins() {
-  console.log('\n💀 Available Skullface Plugins:');
+  console.log('💀 Available Skullface Plugins:');
   
   // Try to load local config to check which plugins are currently active
   const config        = await loadConfig().catch(() => ({}));
@@ -39,7 +40,7 @@ export async function pluginCommand (args: string[]) {
 
   // Verify that the command is executed inside an actual project directory
   try        { await Deno.stat(configPath); } 
-  catch (_e) { console.error(ERROR_MISSING_CONFIGFILE); return; }
+  catch (_e) { wizard.error(ERROR_MISSING_CONFIGFILE); return; }
 
   // Load the current programmatic state of the config file
   const config = await loadConfig();
@@ -49,10 +50,7 @@ export async function pluginCommand (args: string[]) {
   // ACTION: ADD PLUGIN
   // ==========================================
   if (action === 'add') {
-    if (!name) {
-      console.error(ERROR_MISSING_PLUGIN_NAME);
-      return;
-    }
+    if (!name) wizard.error(ERROR_MISSING_PLUGIN_NAME, { exit: true });
 
     if (!PLUGINS.includes(name)) {
       console.error(`Error: Unknown plugin '${name}'.`);
@@ -72,10 +70,8 @@ export async function pluginCommand (args: string[]) {
   // ACTION: REMOVE PLUGIN
   // ==========================================
   else if (action === 'remove') {
-    if (!name) {
-      console.error(ERROR_MISSING_PLUGIN_NAME);
-      return;
-    }
+    if (!name) wizard.error(ERROR_MISSING_PLUGIN_NAME, { exit: true });
+    if (!isInstalled(name)) wizard.warn(`Plugin '${name}' is not currently active in this project.`, {exit: true });
 
     if (!activePlugins.includes(name)) {
       console.warn(`Plugin '${name}' is not currently active in this project.`);
