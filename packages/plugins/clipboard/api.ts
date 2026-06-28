@@ -1,8 +1,6 @@
 // @skullface/plugins/clipboard/api.ts
 
 export async function copy (text: string): Promise<void> {
-  // Hinweis: In Deno läuft das über deine Webview/Mutter-Umgebung oder Shims, 
-  // wir behalten deine bewährte Logik bei, verpacken sie aber sauber.
   await navigator.clipboard.writeText(text);
 }
 
