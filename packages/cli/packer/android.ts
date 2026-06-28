@@ -1,6 +1,9 @@
-// @skullface/cli/src/packer/android.ts
+// @skullface/cli/packer/android.ts
 
-export class AndroidPacker implements Packer {
+import { Packer } from '@/packer';
+import wizard     from '@/wizard';
+
+export default class implements Packer {
   
   async packPlugin (projectRoot: string, pluginName: string) {
     // Target path inside the native Android boilerplate template
