@@ -17,6 +17,7 @@ export default {
 export interface StoreAPI {
   all    ()                        : Promise<Record<string, any>>;
   load   ()                        : Promise<Record<string, any>>;
+  keys   ()                        : Promise<string[]>;
   clear  ()                        : Promise<void>;
   save   ()                        : Promise<void>;
   delete (key: string)             : Promise<void>;
