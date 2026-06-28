@@ -27,7 +27,7 @@ export class SkullfaceWindow {
   
   private injectPreloadScript () {
     try {
-      const code = Deno.readTextFileSync("./packages/preload/skullface.js");
+      const code = Deno.readTextFileSync('./preload.js');
       this.webview.init(code);
     } catch (err) {
       console.error("[Core] Fehler beim Laden des Preload-Skripts:", err);
