@@ -1,6 +1,6 @@
 // @skullface/core/mod.ts
 
-import { SkullfaceConfig } from './interfaces.ts';
+import { SkullfaceConfig } from '@/types';
 import { SkullfaceWindow } from "./window.ts";
 
 export async function bootApp() {
