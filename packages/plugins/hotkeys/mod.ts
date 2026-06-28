@@ -28,15 +28,15 @@ let activeScope: HotkeyScope | null = null;
 const bindings = new Map<string, { callback: (e: KeyboardEvent) => void; options: HotkeyOptions }>();
 
 // Der tatsächliche Event-Listener im Browser
-window.addEventListener("keydown", (e) => {
+window.addEventListener('keydown', event => {
   const parts: string[] = [];
-  if (e.ctrlKey) parts.push("ctrl");
-  if (e.altKey) parts.push("alt");
-  if (e.shiftKey) parts.push("shift");
-  if (e.metaKey) parts.push("meta");
-  parts.push(e.key.toLowerCase());
+  if (event.ctrlKey)  parts.push('ctrl');
+  if (event.altKey)   parts.push('alt');
+  if (event.shiftKey) parts.push('shift');
+  if (event.metaKey)  parts.push('meta');
+  parts.push(event.key.toLowerCase());
 
-  const combo = normalize(parts.join("+"));
+  const combo   = normalize(parts.join('+'));
   const binding = bindings.get(combo);
   if (!binding) return;
 
@@ -56,16 +56,16 @@ window.addEventListener("keydown", (e) => {
 });
 
 export const hotkeys: HotkeysAPI = {
-  register(combo, callback, options = {}) {
+  register (combo, callback, options = {}) {
     const key = normalize(combo);
     bindings.set(key, { callback, options });
   },
 
-  unregister(combo) {
+  unregister (combo) {
     bindings.delete(normalize(combo));
   },
 
-  createScope(name) {
+  createScope (name) {
     const scope: HotkeyScope = {
       name,
       enabled: false,
@@ -106,5 +106,6 @@ declare global {
     };
   }
 }
+
 if (!window.skullface) window.skullface = {} as any;
 window.skullface.hotkeys = hotkeys;
