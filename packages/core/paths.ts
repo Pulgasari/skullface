@@ -5,7 +5,8 @@ const platform = Deno.build.os;
 export function getPaths (appName = "Skullface") {
   const home = Deno.env.get("HOME") 
             || Deno.env.get("USERPROFILE")
-            || Deno.env.get("HOMEPATH");
+            || Deno.env.get("HOMEPATH")
+            || '';
 
   // -------------------------
   // Base paths
@@ -14,24 +15,24 @@ export function getPaths (appName = "Skullface") {
   const paths = {
     home,
     temp    : Deno.makeTempDirSync(),
-    cache   : "",
-    config  : "",
-    data    : "",
-    state   : "",
-    runtime : "",
+    cache   : '',
+    config  : '',
+    data    : '',
+    state   : '',
+    runtime : '',
 
-    desktop   : "",
-    documents : "",
-    downloads : "",
-    pictures  : "",
-    music     : "",
-    videos    : "",
+    desktop   : '',
+    documents : '',
+    downloads : '',
+    pictures  : '',
+    music     : '',
+    videos    : '',
 
     app: {
-      cache  : "",
-      config : "",
-      data   : "",
-      logs   : ""
+      cache  : '',
+      config : '',
+      data   : '',
+      logs   : '',
     },
 
     // Utils
