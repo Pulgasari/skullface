@@ -28,7 +28,7 @@ export const color = {
 // :::::: PRINTING
 
 export function print   (...args: any[]) { console.log   (...args); }
-export function error   (...args: any[]) { console.error (...args); }
+//export function error   (...args: any[]) { console.error (...args); }
 export function warn    (...args: any[]) { console.warn  (...args); }
 export function success (...args: any[]) { console.log('\x1b[32m' + args.join(' ') + '\x1b[0m'); }
 
@@ -41,6 +41,13 @@ export function separator (options: { color?: ColorName } = {}) {
   const line = '────────────────────────────────────────';
   if (options.color) console.log(`\n${COLORS[options.color]}${line}${COLORS.reset}`);
   else               console.log(`\n${line}`);
+}
+
+export function error (message: string, options: {}) {
+  const prefix = color.red("[ERROR]");
+  console.error(`${prefix} ${message}`);
+  if (options.exit) Deno.exit(1);
+  return undefined;
 }
 
 // :::::: PROMPTS
