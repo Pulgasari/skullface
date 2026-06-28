@@ -45,7 +45,8 @@ export async function pluginCommand (args: string[]) {
   // Load the current programmatic state of the config file
   const config = await loadConfig();
   const activePlugins: string[] = config.plugins || [];
-
+  const isInstalled = slug => activePlugins.includes(slug);
+  const isValid     = slug =>       PLUGINS.includes(slug);
   // ==========================================
   // ACTION: ADD PLUGIN
   // ==========================================
@@ -53,17 +54,14 @@ export async function pluginCommand (args: string[]) {
     if (!name) wizard.error(ERROR_MISSING_PLUGIN_NAME, { exit: true });
 
     if (!PLUGINS.includes(name)) {
-      console.error(`Error: Unknown plugin '${name}'.`);
+      wizard.error(`Unknown plugin '${name}'.`);
       await listPlugins();
       return;
     }
 
-    if (activePlugins.includes(name)) {
-      console.warn(`Plugin '${name}' is already installed in this project.`);
-      return;
-    }
+    if (isInstalled(name)) wizard.warn(`Plugin '${name}' is already installed in this project.`, { exit: true });
 
-    console.log(`Installing plugin: '${name}'...`);
+    wizard.print(`Installing plugin: '${name}'...`);
     activePlugins.push(name);
   } 
   // ==========================================
@@ -73,18 +71,13 @@ export async function pluginCommand (args: string[]) {
     if (!name) wizard.error(ERROR_MISSING_PLUGIN_NAME, { exit: true });
     if (!isInstalled(name)) wizard.warn(`Plugin '${name}' is not currently active in this project.`, {exit: true });
 
-    if (!activePlugins.includes(name)) {
-      console.warn(`Plugin '${name}' is not currently active in this project.`);
-      return;
-    }
-
     console.log(`Removing plugin: '${name}'...`);
     const index = activePlugins.indexOf(name);
     activePlugins.splice(index, 1);
   } 
   // Handle illegal command actions safely
   else {
-    console.error(`Error: Invalid action '${action}'.`);
+    wizard.error(`Invalid action '${action}'.`);
     await listPlugins();
     return;
   }
@@ -99,12 +92,12 @@ export async function pluginCommand (args: string[]) {
     const updatedPluginsText = JSON.stringify(activePlugins, null, 2).replaceAll('"', "'");
     
     // Target and swap out only the plugins property block array matching pattern
-    const regexPattern = /plugins:\s*\[[\s\S]*?\]/;
+    const regexPattern        = /plugins:\s*\[[\s\S]*?\]/;
     const rewrittenConfigText = rawConfigText.replace(regexPattern, `plugins: ${updatedPluginsText}`);
 
     await Deno.writeTextFile(configPath, rewrittenConfigText);
-    console.log(`Successfully updated skullface.config.js plugins inventory.`);
+    wizard.success(`Successfully updated skullface.config.js plugins inventory.`);
   } catch (error: any) {
-    console.error('❌ Failed to update configuration file:', error.message);
+    console.error('Failed to update configuration file:', error.message);
   }
 }
