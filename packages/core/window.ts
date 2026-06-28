@@ -1,13 +1,7 @@
 // @skullface/core/window.ts
 
 import { Webview } from "https://deno.land/x/webview/mod.ts";
-
-interface SkullfaceWindowConfig {
-  title   : string;
-  url     : string;
-  width?  : number;
-  height? : number;
-}
+import { SkullfaceWindowConfig } from '@/types';
 
 export class SkullfaceWindow {
   private webview: Webview;
