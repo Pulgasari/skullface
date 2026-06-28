@@ -26,10 +26,16 @@
             
             const ipcMessage = { args, id, method, plugin };
             
-            // Fixed connection bridge alignment mapping directly to webview bind target
-            if (typeof window._skullface_ipc_transmit === 'function') {
-              window._skullface_ipc_transmit(JSON.stringify(ipcMessage));
-            } else {
+            // --- HYBRID IPC BRIDGE ROUTING WIRE ---
+            // CASE A: Running inside the native Android App context wrapper
+            if (window._skullface_android_transmit) {
+              window._skullface_android_transmit.postMessage(jsonPayload);
+            } 
+            // CASE B: Running inside DesktopWindow context (Windows, Mac, Linux, FreeBSD)
+            else if (typeof window._skullface_ipc_transmit === 'function') {
+              window._skullface_ipc_transmit(jsonPayload);
+            }
+            else {
               reject(new Error('Skullface IPC bridge layer is missing or uninitialized.'));
             }
           });
@@ -41,11 +47,9 @@
   // 3. Establish the global skullface API gateway mapping
   window.skullface = new Proxy({}, {
     get (target, plugin) {
-      // Synchronous layout bridge intercept for system paths
-      if (plugin === 'paths') {
-        return window.__skullface_paths__ || {};
-      }
-      return createPluginProxy(plugin);
+      return (plugin === 'paths')
+        ? (window.__skullface_paths__ || {}) // Synchronous local layer access interception for system paths schema metadata
+        : createPluginProxy(plugin);
     }
   });
   
