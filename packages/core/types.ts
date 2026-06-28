@@ -12,6 +12,7 @@ export const COMMANDS = {
 } as const;
 
 export const PLATFORMS = {
+  'android',
   'freebsd',
   'linux',
   'mac',
