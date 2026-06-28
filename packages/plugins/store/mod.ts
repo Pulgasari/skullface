@@ -42,6 +42,7 @@ export function createStore (name: string): StoreAPI {
   return {
     all    : async () => await ipc.all   (name),
     clear  : async () => await ipc.clear (name),
+    keys   : async () => await ipc.keys  (name),
     load   : async () => await ipc.load  (name),
     save   : async () => await ipc.save  (name),
     delete : async (key: string)             => await ipc.remove (name, key),
