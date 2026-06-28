@@ -28,7 +28,8 @@ export interface StoreAPI {
   get     (key: string)             : Promise<any>;
   has     (key: string)             : Promise<boolean>;
   
-  set     (key: string, value: any) : Promise<void>;
+  set    (key: string, value: any)   : Promise<void>;
+  update (data: Record<string, any>) : Promise<void>;
 }
 
 declare global {
@@ -56,10 +57,11 @@ export function createStore (name: string): StoreAPI {
     size    : async () => await ipc.size    (name),
     values  : async () => await ipc.values  (name),
     
-    delete  : async (key: string)             => await ipc.remove (name, key),
-    get     : async (key: string)             => await ipc.get    (name, key),
-    has     : async (key: string)             => await ipc.has    (name, key),
+    delete  : async (key: string) => await ipc.remove (name, key),
+    get     : async (key: string) => await ipc.get    (name, key),
+    has     : async (key: string) => await ipc.has    (name, key),
     
-    set     : async (key: string, value: any) => await ipc.set    (name, key, value),
+    set     : async (key: string, value: any)   => await ipc.set    (name, key, value),
+    update  : async (data: Record<string, any>) => await ipc.update (name, data),
   };
 }
