@@ -1,11 +1,11 @@
 // @skullface/core/paths.ts
 
+const platform = Deno.build.os;
+
 export function getPaths (appName = "Skullface") {
   const home = Deno.env.get("HOME") 
             || Deno.env.get("USERPROFILE")
             || Deno.env.get("HOMEPATH");
-
-  const platform = Deno.build.os;
 
   // -------------------------
   // Base paths
@@ -125,7 +125,7 @@ export function getPaths (appName = "Skullface") {
 }
 
 function joinPaths (parts: string[]) {
-  return Deno.build.os === 'windows'
+  return platform === 'windows'
     ? parts.join('\\').replace(/\\\\+/g, '\\')
     : parts.join('/').replace(/\/+/g, '/');
 }
