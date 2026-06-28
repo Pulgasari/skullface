@@ -54,6 +54,35 @@ Navigate into the directory of your projects and use the `create` command to sta
 skullface create
 ```
 
+## Plugins (official)
+
+**Skullface** provides a bunch of plugins out of the box:
+
+```
+clipboard
+dialogs
+external
+fs
+hotkeys
+logger
+notifications
+router
+sqlite
+store
+```
+
+To install a skullface-plugin run for example:
+
+```sh
+skullface plugin add clipboard
+```
+
+And to remove it:
+
+```sh
+skullface plugin remove clipboard
+```
+
 ## Create Custom Commands
 
 You can define commands in the backend to be called from the frontend by the `skullface.createBridge` interface.
