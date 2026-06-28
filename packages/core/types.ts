@@ -1,6 +1,15 @@
 // @skullface/core/types.ts
 
-export const REPO_URL = 'https://github.com/pulgasari/skullface';
+// :::::: CONSTANTS
+
+export const DEFAULT_APP_NAME   = 'SkullfaceApp';
+export const DEFAULT_TEMPLATE   = 'vanilla';
+export const REPO_URL           = 'https://github.com/pulgasari/skullface/';
+export const REPO_ZIP_URL       = `https://github.com/pulgasari/skullface/archive/refs/heads/main.zip`;
+export const DOCS_URL           = 'https://github.com/pulgasari/skullface/docs';
+export const TEMPLATE_PATH_PART = 'skullface-main/templates/vanilla/'; // stupid
+
+// :::::: LISTS
 
 export const COMMANDS = {
   'build',
