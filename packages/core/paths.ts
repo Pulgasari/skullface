@@ -1,4 +1,4 @@
-// paths.ts
+// @skullface/core/paths.ts
 
 export function getPaths (appName = "Skullface") {
   const home = Deno.env.get("HOME") 
@@ -125,19 +125,12 @@ export function getPaths (appName = "Skullface") {
 }
 
 function joinPaths (parts: string[]) {
-  const platform = Deno.build.os;
-
-  if (platform === "windows") {
-    return parts.join("\\").replace(/\\\\+/g, "\\");
-  }
-
-  return parts.join("/").replace(/\/+/g, "/");
+  return Deno.build.os === 'windows'
+    ? parts.join('\\').replace(/\\\\+/g, '\\')
+    : parts.join('/').replace(/\/+/g, '/');
 }
 
 async function ensurePathExists (path: string) {
-  try {
-    await Deno.stat(path);
-  } catch {
-    await Deno.mkdir(path, { recursive: true });
-  }
+  try   { await Deno.stat(path); } 
+  catch { await Deno.mkdir(path, { recursive: true }); }
 }
