@@ -7,7 +7,7 @@ export const skullface = {
 
   paths: {} as ReturnType<typeof import('./paths.ts').getPaths>,
 
-  createCommand (commands: Record<string, Function>) {
+  createBridge (commands: Record<string, Function>) {
     Object.assign(bridgeApi, commands);
   },
   
