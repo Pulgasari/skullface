@@ -67,7 +67,27 @@ export async function all (store: string): Promise<Record<string, any>> {
   return { ...cache.get(store) };
 }
 
+export async function entries (store: string): Promise<[string, any][]> {
+  ensureCache(store);
+  return Object.entries(cache.get(store)!);
+}
+
 export async function keys (store: string): Promise<string[]> {
   ensureCache(store);
   return Object.keys(cache.get(store)!);
+}
+
+export async function values (store: string): Promise<any[]> {
+  ensureCache(store);
+  return Object.values(cache.get(store)!);
+}
+
+export async function has (store: string, key: string): Promise<boolean> {
+  ensureCache(store);
+  return Object.prototype.hasOwnProperty.call(cache.get(store)!, key);
+}
+
+export async function size (store: string): Promise<number> {
+  ensureCache(store);
+  return Object.keys(cache.get(store)!).length;
 }
