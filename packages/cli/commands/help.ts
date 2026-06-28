@@ -8,7 +8,7 @@ const buildCommandOptions : string[] = [
 ];
 
 export default function helpCommand () {
-  wizard.print("💀 Skullface CLI");
+  wizard.print("💀 Skullface CLI 💀");
   wizard.list(COMMANDS, { title: 'Commands:' });
   wizard.list(buildCommandOptions, { title: "Options for 'build':" });
 }
