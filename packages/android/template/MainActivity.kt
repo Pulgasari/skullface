@@ -1,67 +1,88 @@
-package com.skullface.app
+package dev.skullface.app
 
 import android.os.Bundle
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import dev.skullface.plugins.store.StorePlugin
+import org.json.JSONArray
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
-  private lateinit var webView: WebView
+    private lateinit var webView: WebView
+    private val mobilePlugins = mutableMapOf<String, Any>()
 
-  override fun onCreate (savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         
-    webView = WebView(this)
-    webView.settings.javaScriptEnabled = true
-    webView.settings.domStorageEnabled = true
+        webView = WebView(this)
+        webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
         
-    // Bind the native communication handler wire under the exact bridge target identifier
-    webView.addJavascriptInterface(WebAppInterface(), "_skullface_android_transmit")
+        // 1. Register our test store plugin natively into the app container runtime
+        mobilePlugins["store"] = StorePlugin(this)
         
-    webView.webViewClient = object : WebViewClient() {
-      override fun onPageFinished(view: WebView?, url: String?) {
-        super.onPageFinished(view, url)
-        // Synchronously seed device system paths directly into the browser context memory
-        injectPaths()
-      }
-    }
-        
-    // Load the compiled frontend bundle index file located inside the native asset package
-    webView.loadUrl("file:///android_asset/www/index.html")
-    setContentView(webView)
-  }
-
-    private fun injectPaths () {
-        val cacheDir = cacheDir.absolutePath
-        val filesDir = filesDir.absolutePath
-        
-        // Replicate the exact desktop skullface.paths JSON mapping structure
-        val pathsJson = """
-            window.__skullface_paths__ = {
-                home  : '$filesDir',
-                cache : '$cacheDir',
-                temp  : '$cacheDir/tmp',
-                app   : {
-                    cache  : '$cacheDir',
-                    config : '$filesDir/config',
-                    data   : '$filesDir/data',
-                    logs   : '$filesDir/logs'
-                }
-            };
-        """.trimIndent()
-        
-        webView.evaluateJavascript(pathsJson, null)
+        webView.addJavascriptInterface(WebAppInterface(), "_skullface_android_transmit")
+        webView.loadUrl("file:///android_asset/www/index.html")
+        setContentView(webView)
     }
 
     inner class WebAppInterface {
         @JavascriptInterface
         fun postMessage(messageStr: String) {
-            // This function replaces Deno's ipc.ts logic entirely on the native mobile layer
-            // Triggered whenever the frontend proxy fires an invoke command request
-            println("Received IPC command payload from Skullface Frontend: $messageStr")
-            
-            // Inside a complete module setup, this string maps out to Kotlin execution routines
+            try {
+                // Parse the generic incoming skullface standard IPC message packet
+                val json = JSONObject(messageStr)
+                val id = json.getInt("id")
+                val pluginName = json.getString("plugin")
+                val method = json.getString("method")
+                
+                // Convert JSON arguments array to native Kotlin list array
+                val jsonArgs = json.getJSONArray("args")
+                val args = mutableListOf<Any>()
+                for (i in 0 until jsonArgs.length()) {
+                    args.add(jsonArgs.get(i))
+                }
+
+                // 2. Locate the registered plugin instance
+                val plugin = mobilePlugins[pluginName]
+                if (plugin == null) {
+                    sendErrorToFrontend(id, "Native mobile plugin '$pluginName' not found.")
+                    return
+                }
+
+                // 3. Execute method dynamically using reflection or dedicated interface mapping
+                // For this test, we execute our StorePlugin directly:
+                if (plugin is StorePlugin) {
+                    val result = plugin.execute(method, args)
+                    sendSuccessToFrontend(id, result)
+                }
+
+            } catch (e: Exception) {
+                println("IPC Processing Error: ${e.message}")
+            }
+        }
+    }
+
+    private fun sendSuccessToFrontend(id: Int, data: Any?) {
+        val response = JSONObject()
+        response.put("id", id)
+        response.put("success", true)
+        response.put("data", data)
+        
+        runOnUiThread {
+            webView.evaluateJavascript("window.dispatchEvent(new CustomEvent('skullface-ipc-response', { detail: $response }));", null)
+        }
+    }
+
+    private fun sendErrorToFrontend(id: Int, errorMsg: String) {
+        val response = JSONObject()
+        response.put("id", id)
+        response.put("success", false)
+        response.put("error", errorMsg)
+        
+        runOnUiThread {
+            webView.evaluateJavascript("window.dispatchEvent(new CustomEvent('skullface-ipc-response', { detail: $response }));", null)
         }
     }
 }
