@@ -12,7 +12,7 @@ class ClipboardPlugin (private val context: Context) : SkullfacePlugin {
     /**
      * Entry pipeline router mapping out incoming JavaScript string invokes
      */
-    fun execute (method: String, args: List<Any>): Any? {
+    override fun execute (method: String, args: List<Any>): Any? {
         return when (method) {
             "copy"     -> { copyText(args[0] as String); null }
             "paste"    -> pasteText()
