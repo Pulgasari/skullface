@@ -22,6 +22,14 @@ Should work with any JS-Framework or Vanilla JavaScript/TypeScript but a special
 
 The backend is provided by the Deno runtime or Blue.
 
+## Documentation
+
+Read the fucking [docs](docs)! >.<
+
+- Plugins
+  - [hotkeys](docs/plugins/hotkeys)
+  - [router](docs/plugins/router)
+
 ---
 
 ## Get started
