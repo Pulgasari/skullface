@@ -5,6 +5,7 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import dev.skullface.plugins.clipboard.ClipboardPlugin
+import com.skullface.plugins.dialogs.DialogsPlugin
 import dev.skullface.plugins.external.ExternalPlugin
 import dev.skullface.plugins.fs.FileSystemPlugin
 import dev.skullface.plugins.notifications.NotificationsPlugin
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         
     // Register the unified StorePlugin into the local device runtime ecosystem
     mobilePlugins["clipboard"]     =     ClipboardPlugin(this)
+    mobilePlugins["dialogs"]       =       DialogsPlugin(this)
     mobilePlugins["external"]      =      ExternalPlugin(this)
     mobilePlugins["notifications"] = NotificationsPlugin(this)
     mobilePlugins["fs"]            =    FileSystemPlugin(this)
