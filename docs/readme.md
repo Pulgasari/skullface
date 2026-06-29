@@ -20,3 +20,8 @@ saveBtn?.addEventListener("click", async () => {
   console.log("Answer from Backend:", response);
 });
 ```
+
+## Plugins
+
+- [hotkeys](plugins/hotkeys.md)
+- [router](plugins/router.md)
