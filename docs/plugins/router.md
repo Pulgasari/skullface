@@ -36,10 +36,8 @@ export interface Route {
 ### Dynamic Routing and Parameter Parsing
 
 ```typescript
-import { router } from '@skullface/plugins/router/frontend.ts';
-
 // Add structural mapping targets matching param variable segment properties
-router.addRoute({
+skullface.router.addRoute({
   name: 'user-profile',
   path: '/user/:id/profile',
   component: (params) => {
@@ -49,23 +47,21 @@ router.addRoute({
 });
 
 // Programmatic named navigation with implicit string variable injection
-await router.navigateByName('user-profile', { id: '404' });
+await skullface.router.navigateByName('user-profile', { id: '404' });
 // Browser URL location updates to: /user/404/profile
 ```
 
 ### Guard Interception Pipelines
 
 ```typescript
-import { router } from '@skullface/plugins/router/frontend.ts';
-
-router.addRoute({
+skullface.router.addRoute({
   path: '/dashboard',
   component: () => renderDashboardView(),
   // Halts evaluation or handles alternate routing steps before calling component pipelines
   beforeEnter: async () => {
     const sessionActive = await checkActiveSessionState();
     if (!sessionActive) {
-      await router.navigate('/login');
+      await skullface.router.navigate('/login');
       return false; // Rejects entry target execution loop
     }
     return true; // Authorizes navigation pipeline resolution
