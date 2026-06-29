@@ -11,9 +11,21 @@ import dev.skullface.plugins.sqlite.SQLitePlugin
 import dev.skullface.plugins.store.StorePlugin
 import org.json.JSONObject
 
+interface SkullfacePlugin {
+  fun execute (method: String, args: List<Any>): Any?
+}
+/*
+// Example adjustment inside plugin files
+class StorePlugin (private val context: Context) : SkullfacePlugin {
+  override fun execute (method: String, args: List<Any>): Any? {
+    // ...
+  }
+}
+*/
+
 class MainActivity : AppCompatActivity() {
   private lateinit var webView: WebView
-  private val mobilePlugins = mutableMapOf<String, Any>()
+  private val mobilePlugins = mutableMapOf<String, SkullfacePlugin>()
 
   override fun onCreate (savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -51,33 +63,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         val plugin = mobilePlugins[pluginName]
-        if (plugin == null) {
+        if (plugin != null) {
+          try {
+            val result = plugin.execute(method, args)
+            sendSuccessToFrontend(id, result)
+          } catch (e: Exception) {
+            sendErrorToFrontend(id, "Plugin execution error: ${e.message}")
+          }
+        } else {
           sendErrorToFrontend(id, "Native mobile plugin '$pluginName' not found.")
-          return
         }
-
-        // Handle routing execution target loops
-        if (pluginName == "clipboard" && plugin is ClipboardPlugin) {
-          val result = plugin.execute(method, args)
-          sendSuccessToFrontend(id, result)
-        }
-        if (pluginName == "external" && plugin is ExternalPlugin) {
-          val result = plugin.execute(method, args)
-          sendSuccessToFrontend(id, result)
-        }
-        if (pluginName == "fs" && plugin is FileSystemPlugin) {
-          val result = plugin.execute(method, args)
-          sendSuccessToFrontend(id, result)
-        }
-        if (pluginName == "sqlite" && plugin is SQLitePlugin) {
-          val result = plugin.execute(method, args)
-          sendSuccessToFrontend(id, result)
-        }
-        if (plugin is StorePlugin && pluginName == "store") {
-          val result = plugin.execute(method, args)
-          sendSuccessToFrontend(id, result)
-        }
-        
       } catch (e: Exception) {
         println("IPC Execution Fault: ${e.message}")
       }
