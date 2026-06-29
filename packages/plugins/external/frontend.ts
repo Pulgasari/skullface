@@ -1,5 +1,18 @@
-// plugins/external/frontend.ts
+// @skullface/plugins/external/frontend.ts
 
-export const openFile = (p) => window.__skullface_external.openFile(p);
-export const openURL  = (u) => window.__skullface_external.openURL(u);
-export const reveal   = (p) => window.__skullface_external.reveal(p);
+export interface ExternalAPI {
+  file   (path: string) : Promise<void>;
+  url     (url: string) : Promise<void>;
+  reveal (path: string) : Promise<void>;
+}
+
+declare global {
+  interface Window {
+    skullface: {
+      external: ExternalAPI;
+    };
+  }
+}
+
+// Global Shortcut Export
+export const external: ExternalAPI = (window as any).skullface?.external;
