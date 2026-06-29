@@ -3,18 +3,19 @@ package dev.skullface.plugins.sqlite
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import dev.skullface.app.SkullfacePlugin
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 
-class SQLitePlugin (private val context: Context) {
+class SQLitePlugin (private val context: Context) : SkullfacePlugin {
   // In-memory collection keeping track of separate native database connection allocations
   private val connections = mutableMapOf<String, SQLiteDatabase>()
 
   /**
    * Primary module gateway multiplexer forwarding JavaScript dynamic multi-argument calls
    */
-  fun execute (method: String, args: List<Any>): Any? {
+  override fun execute (method: String, args: List<Any>): Any? {
     val dbName      = args[0] as String
     val statement   = args[1] as String
     val valuesArray = args[2] as JSONArray
