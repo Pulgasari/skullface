@@ -1,18 +1,19 @@
 package dev.skullface.plugins.store
 
 import android.content.Context
+import dev.skullface.app.SkullfacePlugin
+import java.io.File
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
 
-class StorePlugin (private val context: Context) {
+class StorePlugin (private val context: Context) : SkullfacePlugin {
     // Memory cache mirroring the Map<String, Record<String, Any>> state structure
     private val cache = mutableMapOf<String, JSONObject>()
 
     /**
      * Core orchestrator routing every incoming IPC command payload
      */
-    fun execute (method: String, args: List<Any>): Any? {
+    override fun execute (method: String, args: List<Any>): Any? {
         val storeName = args[0] as String
         ensureCache(storeName)
 
