@@ -38,10 +38,8 @@ export interface HotkeyScope {
 ### Global Shortcut Registration
 
 ```typescript
-import { hotkeys } from '@skullface/plugins/hotkeys/frontend.ts';
-
 // Automatically normalizes spacing and modifier sorting combinations
-hotkeys.register('Ctrl + S', (event) => {
+skullface.hotkeys.register('Ctrl + S', (event) => {
   console.log('Save command triggered');
 });
 ```
@@ -49,13 +47,12 @@ hotkeys.register('Ctrl + S', (event) => {
 ### Contextual Scope Isolation
 
 ```typescript
-import { hotkeys } from '@skullface/plugins/hotkeys/frontend.ts';
 
 // Define a scoped boundary layer for modal window frames
-const modalScope = hotkeys.createScope('settings-modal');
+const modalScope = skullface.hotkeys.createScope('settings-modal');
 
 // This hotkey only fires if the settings-modal scope is enabled and the condition passes
-hotkeys.register('Escape', () => {
+skullface.hotkeys.register('Escape', () => {
   closeSettingsModal();
   modalScope.disable();
 });
