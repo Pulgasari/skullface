@@ -3,9 +3,10 @@ package dev.skullface.plugins.clipboard
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import dev.skullface.app.SkullfacePlugin
 import org.json.JSONObject
 
-class ClipboardPlugin (private val context: Context) {
+class ClipboardPlugin (private val context: Context) : SkullfacePlugin {
     private val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
     /**
