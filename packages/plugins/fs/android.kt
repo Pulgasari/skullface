@@ -1,16 +1,17 @@
 package dev.skullface.plugins.fs
 
 import android.content.Context
+import dev.skullface.app.SkullfacePlugin
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 
-class FileSystemPlugin (private val context: Context) {
+class FileSystemPlugin (private val context: Context) : SkullfacePlugin {
 
   /**
    * Main router filtering incoming JavaScript framework action calls
    */
-  fun execute (method: String, args: List<Any>): Any? {
+  override fun execute (method: String, args: List<Any>): Any? {
     return when (method) {
       "readText"  -> readText(args[0] as String)
       "writeText" -> { writeText(args[0] as String, args[1] as String); null }
