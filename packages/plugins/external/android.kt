@@ -3,14 +3,15 @@ package dev.skullface.plugins.external
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import dev.skullface.app.SkullfacePlugin
 import java.io.File
 
-class ExternalPlugin (private val context: Context) {
+class ExternalPlugin (private val context: Context) : SkullfacePlugin {
 
   /**
    * Primary module gateway multiplexer routing incoming JavaScript shell requests
    */
-  fun execute (method: String, args: List<Any>): Any? {
+  override fun execute (method: String, args: List<Any>): Any? {
     return when (method) {
       "file"   -> { openFile(args[0] as String); null }
       "url"    -> { openURL(args[0] as String); null }
