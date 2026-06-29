@@ -9,6 +9,7 @@ import dev.skullface.plugins.dialogs.DialogsPlugin
 import dev.skullface.plugins.external.ExternalPlugin
 import dev.skullface.plugins.fs.FileSystemPlugin
 import dev.skullface.plugins.notifications.NotificationsPlugin
+import dev.skullface.plugins.router.RouterPlugin
 import dev.skullface.plugins.sqlite.SQLitePlugin
 import dev.skullface.plugins.store.StorePlugin
 import org.json.JSONObject
@@ -32,8 +33,9 @@ class MainActivity : AppCompatActivity() {
     mobilePlugins["clipboard"]     =     ClipboardPlugin(this)
     mobilePlugins["dialogs"]       =       DialogsPlugin(this)
     mobilePlugins["external"]      =      ExternalPlugin(this)
-    mobilePlugins["notifications"] = NotificationsPlugin(this)
     mobilePlugins["fs"]            =    FileSystemPlugin(this)
+    mobilePlugins["notifications"] = NotificationsPlugin(this)
+    mobilePlugins["router"]        =        RouterPlugin()
     mobilePlugins["sqlite"]        =        SQLitePlugin(this)
     mobilePlugins["store"]         =         StorePlugin(this)
         
