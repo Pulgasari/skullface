@@ -1,24 +1,10 @@
-// @skullface/plugins/fs/mod.ts
-
-import * as api from './api.ts';
-
-export default {
-  api,
-  name  : 'fs',
-  hooks : {
-    onInit() {
-      console.log("[fs] Plugin erfolgreich initialisiert.");
-    }
-  },
-};
-
-// :::::: Interface
+// @skullface/plugins/fs/frontend.ts
 
 export interface FileSystemAPI {
-  readText  (path: string)                : Promise<string>;
-  writeText (path: string, text: string)  : Promise<void>;
   readJSON  (path: string)                : Promise<any>;
+  readText  (path: string)                : Promise<string>;
   writeJSON (path: string, obj: any)      : Promise<void>;
+  writeText (path: string, text: string)  : Promise<void>;
   exists    (path: string)                : Promise<boolean>;
   copy      (src: string, dest: string)   : Promise<void>;
   remove    (path: string)                : Promise<void>;
@@ -34,5 +20,20 @@ declare global {
   }
 }
 
-// to be used like: import { fs } from 'plugins/fs'
-// export const fs: FilesystemAPI = (window as any).skullface?.fs;
+// Global Shortcut Export
+export const fs: FileSystemAPI = (window as any).skullface?.fs;
+
+/* TODO:
+
+--- create methods
+ensureDir
+hash
+isDir
+isFile
+
+--- create aliases:
+createDir
+makeDir
+move
+
+*/
