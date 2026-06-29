@@ -27,8 +27,8 @@ The backend is provided by the Deno runtime or Blue.
 Read the fucking [docs](docs)! >.<
 
 - Plugins
-  - [hotkeys](docs/plugins/hotkeys)
-  - [router](docs/plugins/router)
+  - [hotkeys](docs/plugins/hotkeys.md)
+  - [router](docs/plugins/router.md)
 
 ---
 
