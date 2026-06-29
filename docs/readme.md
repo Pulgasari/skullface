@@ -28,5 +28,5 @@ saveBtn?.addEventListener("click", async () => {
 
 | ...     | Android | FreeabBSD | Linux | Mac | Windows |
 |---------|---------|---–-------|-------|-----|--------|
-| hotkeys |         |           |       |     | |
-| router  |         |           |       |     | |
+| hotkeys |         |           |       |     |x |
+| router  |         |           |       |     |x |
