@@ -16,14 +16,6 @@ import org.json.JSONObject
 interface SkullfacePlugin {
   fun execute (method: String, args: List<Any>): Any?
 }
-/*
-// Example adjustment inside plugin files
-class StorePlugin (private val context: Context) : SkullfacePlugin {
-  override fun execute (method: String, args: List<Any>): Any? {
-    // ...
-  }
-}
-*/
 
 class MainActivity : AppCompatActivity() {
   private lateinit var webView: WebView
