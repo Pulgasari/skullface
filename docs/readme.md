@@ -25,3 +25,8 @@ saveBtn?.addEventListener("click", async () => {
 
 - [hotkeys](plugins/hotkeys.md)
 - [router](plugins/router.md)
+
+...     | Android | FreeabBSD | Linux | Mac | Windows
+--------|---------|---–-------|-------|-----|--------
+hotkeys |         |           |       |     |
+router  |         |           |       |     |
