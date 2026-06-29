@@ -5,6 +5,7 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import dev.skullface.plugins.clipboard.ClipboardPlugin
+import dev.skullface.plugins.external.ExternalPlugin
 import dev.skullface.plugins.fs.FileSystemPlugin
 import dev.skullface.plugins.sqlite.SQLitePlugin
 import dev.skullface.plugins.store.StorePlugin
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         
     // Register the unified StorePlugin into the local device runtime ecosystem
     mobilePlugins["clipboard"] =  ClipboardPlugin(this)
+    mobilePlugins["external"]  =   ExternalPlugin(this)
     mobilePlugins["fs"]        = FileSystemPlugin(this)
     mobilePlugins["sqlite"]    =     SQLitePlugin(this)
     mobilePlugins["store"]     =      StorePlugin(this)
@@ -56,6 +58,10 @@ class MainActivity : AppCompatActivity() {
 
         // Handle routing execution target loops
         if (pluginName == "clipboard" && plugin is ClipboardPlugin) {
+          val result = plugin.execute(method, args)
+          sendSuccessToFrontend(id, result)
+        }
+        if (pluginName == "external" && plugin is ExternalPlugin) {
           val result = plugin.execute(method, args)
           sendSuccessToFrontend(id, result)
         }
