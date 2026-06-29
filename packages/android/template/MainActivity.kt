@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.skullface.plugins.clipboard.ClipboardPlugin
 import dev.skullface.plugins.external.ExternalPlugin
 import dev.skullface.plugins.fs.FileSystemPlugin
+import dev.skullface.plugins.notifications.NotificationsPlugin
 import dev.skullface.plugins.sqlite.SQLitePlugin
 import dev.skullface.plugins.store.StorePlugin
 import org.json.JSONObject
@@ -35,11 +36,12 @@ class MainActivity : AppCompatActivity() {
     webView.settings.domStorageEnabled = true
         
     // Register the unified StorePlugin into the local device runtime ecosystem
-    mobilePlugins["clipboard"] =  ClipboardPlugin(this)
-    mobilePlugins["external"]  =   ExternalPlugin(this)
-    mobilePlugins["fs"]        = FileSystemPlugin(this)
-    mobilePlugins["sqlite"]    =     SQLitePlugin(this)
-    mobilePlugins["store"]     =      StorePlugin(this)
+    mobilePlugins["clipboard"]     =     ClipboardPlugin(this)
+    mobilePlugins["external"]      =      ExternalPlugin(this)
+    mobilePlugins["notifications"] = NotificationsPlugin(this)
+    mobilePlugins["fs"]            =    FileSystemPlugin(this)
+    mobilePlugins["sqlite"]        =        SQLitePlugin(this)
+    mobilePlugins["store"]         =         StorePlugin(this)
         
     webView.addJavascriptInterface(WebAppInterface(), "_skullface_android_transmit")
     webView.loadUrl("file:///android_asset/www/index.html")
