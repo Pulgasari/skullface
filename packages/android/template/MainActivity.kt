@@ -6,6 +6,7 @@ import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import dev.skullface.plugins.clipboard.ClipboardPlugin
 import dev.skullface.plugins.fs.FileSystemPlugin
+import dev.skullface.plugins.sqlite.SQLitePlugin
 import dev.skullface.plugins.store.StorePlugin
 import org.json.JSONObject
 
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     // Register the unified StorePlugin into the local device runtime ecosystem
     mobilePlugins["clipboard"] =  ClipboardPlugin(this)
     mobilePlugins["fs"]        = FileSystemPlugin(this)
+    mobilePlugins["sqlite"]    =     SQLitePlugin(this)
     mobilePlugins["store"]     =      StorePlugin(this)
         
     webView.addJavascriptInterface(WebAppInterface(), "_skullface_android_transmit")
@@ -58,6 +60,10 @@ class MainActivity : AppCompatActivity() {
           sendSuccessToFrontend(id, result)
         }
         if (pluginName == "fs" && plugin is FileSystemPlugin) {
+          val result = plugin.execute(method, args)
+          sendSuccessToFrontend(id, result)
+        }
+        if (pluginName == "sqlite" && plugin is SQLitePlugin) {
           val result = plugin.execute(method, args)
           sendSuccessToFrontend(id, result)
         }
