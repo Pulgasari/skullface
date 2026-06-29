@@ -1,4 +1,4 @@
-# @skullface::hotkeys
+# @skullface => hotkeys
 
 The `hotkeys` plugin provides a keyboard shortcut registration and scope management engine. 
 
