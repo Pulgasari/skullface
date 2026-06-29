@@ -5,7 +5,7 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import dev.skullface.plugins.clipboard.ClipboardPlugin
-import com.skullface.plugins.dialogs.DialogsPlugin
+import dev.skullface.plugins.dialogs.DialogsPlugin
 import dev.skullface.plugins.external.ExternalPlugin
 import dev.skullface.plugins.fs.FileSystemPlugin
 import dev.skullface.plugins.notifications.NotificationsPlugin
