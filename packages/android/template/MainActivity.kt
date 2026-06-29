@@ -8,6 +8,7 @@ import dev.skullface.plugins.clipboard.ClipboardPlugin
 import dev.skullface.plugins.dialogs.DialogsPlugin
 import dev.skullface.plugins.external.ExternalPlugin
 import dev.skullface.plugins.fs.FileSystemPlugin
+import dev.skullface.plugins.hotkeys.HotkeysPlugin
 import dev.skullface.plugins.notifications.NotificationsPlugin
 import dev.skullface.plugins.router.RouterPlugin
 import dev.skullface.plugins.sqlite.SQLitePlugin
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     mobilePlugins["dialogs"]       =       DialogsPlugin(this)
     mobilePlugins["external"]      =      ExternalPlugin(this)
     mobilePlugins["fs"]            =    FileSystemPlugin(this)
+    mobilePlugins["hotkeys"]       =       HogkeysPlugin()
     mobilePlugins["notifications"] = NotificationsPlugin(this)
     mobilePlugins["router"]        =        RouterPlugin()
     mobilePlugins["sqlite"]        =        SQLitePlugin(this)
