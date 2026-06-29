@@ -53,10 +53,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Handle routing execution target loops
+        if (pluginName == "clipboard" && plugin is ClipboardPlugin) {
+          val result = plugin.execute(method, args)
+          sendSuccessToFrontend(id, result)
+        }
+        if (pluginName == "fs" && plugin is FileSystemPlugin) {
+          val result = plugin.execute(method, args)
+          sendSuccessToFrontend(id, result)
+        }
         if (plugin is StorePlugin && pluginName == "store") {
           val result = plugin.execute(method, args)
           sendSuccessToFrontend(id, result)
         }
+        
       } catch (e: Exception) {
         println("IPC Execution Fault: ${e.message}")
       }
