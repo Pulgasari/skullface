@@ -1,11 +1,10 @@
-// @skullface/cli/packer/android.ts
+// @skullface/cli/packer/android.js
 
-import { Packer } from '@/packer';
-import wizard     from '@/wizard';
+import wizard from '@/wizard';
 
-export default class implements Packer {
+export default class {
   
-  async packPlugin (projectRoot: string, pluginName: string) {
+  async packPlugin (projectRoot, pluginName) {
     // Target path inside the native Android boilerplate template
     const targetPath = `${projectRoot}/android-template/app/src/main/java/com/skullface/plugins/${pluginName}.kt`;
     
