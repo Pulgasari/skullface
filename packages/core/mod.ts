@@ -2,11 +2,9 @@
 
 import { SkullfaceConfig } from '@/types';
 import { SkullfaceWindow } from './window.ts';
-import { skullface } from './ipc.ts';
-import { getPaths } from './paths.ts';
-
-// Constants: Default Values
-const DEFAULT_APP_NAME = 'SkullfaceApp';
+import skullface from './ipc.ts';
+import getPaths  from './paths.ts';
+import DEFAULTS  from './defaults.js';
 
 // Constants: Console-Messages
 const LOG_BOOT_START          = '[Core] Skullface Runtime environment initializing...';
@@ -30,10 +28,10 @@ export async function bootApp () {
   skullface.paths = getPaths(appName);
 
   const appWindow = new SkullfaceWindow ({
-    title   : config.window?.title  || 'Skullface App',
-    url     : config.window?.url    || 'http://localhost:3000',
-    width   : config.window?.width  || 1200,
-    height  : config.window?.height ||  800,
+    title   : config.window?.title  || DEFAULT_APP_NAME,
+    url     : config.window?.url    || DEFAULT_WINDOW_URL,
+    width   : config.window?.width  || DEFAULT_WINDOW_WIDTH,
+    height  : config.window?.height || DEFAULT_WINDOW_HEIGHT,
     appName : appName
   });
 
