@@ -1,6 +1,6 @@
 // @skullface/cli/packer/android.js
 
-import wizard from '@/wizard';
+import Wizard from '@/wizard';
 
 export default class {
   
