@@ -17,7 +17,7 @@ function getTargetTriple (platform) {
 
 // Führt 'deno compile' aus und erzeugt die nackte ausführbare Binärdatei.
 // Gibt den absoluten Pfad zur erzeugten Binärdatei zurück.
-export async function compileBackend (platform, projectRoot) {
+export default async function (platform, projectRoot) {
   wizard.print(`Starte 'deno compile' für Target: ${platform}...`);
 
   const targetTriple = getTargetTriple(platform);
