@@ -1,10 +1,10 @@
 // @skullface/cli/packer/mod.js
 
-import AndroidPacker from './android.ts';
-import FreeBSDPacker from './freebsd.ts';
-import   LinuxPacker from   './linux.ts';
-import     MacPacker from     './mac.ts';
-import WindowsPacker from './windows.ts';
+import AndroidPacker from './android.js';
+import FreeBSDPacker from './freebsd.js';
+import   LinuxPacker from   './linux.js';
+import     MacPacker from     './mac.js';
+import WindowsPacker from './windows.js';
 
 export default function (platform) {
   switch (platform) {
