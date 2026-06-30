@@ -4,7 +4,7 @@ import { SkullfaceConfig } from '@/types';
 import { SkullfaceWindow } from './window.ts';
 import skullface from './ipc.ts';
 import getPaths  from './paths.ts';
-import DEFAULTS  from './defaults.js';
+import defaults  from './defaults.js';
 
 // Constants: Console-Messages
 const LOG_BOOT_START          = '[Core] Skullface Runtime environment initializing...';
@@ -22,16 +22,16 @@ export async function bootApp () {
     console.warn(WARN_MISSING_CONFIGFILE);
   }
 
-  const appName = config.app?.name || DEFAULT_APP_NAME;
+  const appName = config.app?.name || defaults.app.name;
   
   // Bind paths to global skullface instance in the backend right before window creation
   skullface.paths = getPaths(appName);
 
   const appWindow = new SkullfaceWindow ({
-    title   : config.window?.title  || DEFAULT_APP_NAME,
-    url     : config.window?.url    || DEFAULT_WINDOW_URL,
-    width   : config.window?.width  || DEFAULT_WINDOW_WIDTH,
-    height  : config.window?.height || DEFAULT_WINDOW_HEIGHT,
+    title   : config.window?.title  || defaults.window.name,
+    url     : config.window?.url    || defaults.window.url,
+    width   : config.window?.width  || defaults.window.width,
+    height  : config.window?.height || defaults.window.height,
     appName : appName
   });
 
