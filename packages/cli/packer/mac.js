@@ -1,7 +1,7 @@
 // @skullface/cli/packer/mac.js
 
-import wizard from '@/wizard';
-//wizard.prefix = '[Packer:Mac]';
+import Wizard from '@/wizard';
+const wizard = new Wizard ({ prefix: '[Packer:MacOS]' });
 
 export default class {
   async pack ({ binaryPath, projectRoot, appName, appSlug, options }) {
