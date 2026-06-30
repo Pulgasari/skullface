@@ -81,14 +81,24 @@ export async function multiselect (question, options) {
     .map    (i => options[i]);
 }
 
-export default class {
+// :::::: DEFAULT CLASS EXPORT
 
-  construct ({ prefix }) {
-    this.ask = ask;
+export default class Wizard {
+  constructor({ prefix = '' } = {}) {
+    this.prefix = prefix;
+
+    // Methoden binden
+    this.ask         = ask;
+    this.select      = select;
     this.multiselect = multiselect;
+
+    this.error     = (message, options) => error (this.prefix + ' ' + message, options);
+    this.print     = (...args) => print     (this.prefix, ...args);
+    this.success   = (...args) => success   (this.prefix, ...args);
+    this.warn      = (...args) => warn      (this.prefix, ...args);
+    this.list      = (...args) => list      (...args);
+    this.separator = (...args) => separator (...args);
+
+    this.color = color;
   }
-  ask, multiselect, select,
-  error, print, success, warn,
-  list, separator,
-  color
-};
+}
