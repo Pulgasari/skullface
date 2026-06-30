@@ -1,7 +1,7 @@
 // @skullface/cli/packer/windows.js
 
-import wizard from '@/wizard';
-wizard.prefix = '[Packer:Windows]';
+import Wizard from '@/wizard';
+const wizard = new Wizard ({ prefix: '[Packer:Windows]' });
 
 //import { wizardInstance } from '@/wizard';
 //const wizard = wizardInstance('[Packer:Windows]');
