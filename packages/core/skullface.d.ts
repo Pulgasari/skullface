@@ -46,6 +46,26 @@ export interface HotkeysAPI {
   createScope (name: string)  : HotkeyScope;
 }
 
+// notifications
+
+export interface NotificationAction {
+  action  : string;
+  title   : string;
+  icon   ?: string;
+}
+
+export interface NotificationOptions {
+  title    : string;
+  body    ?: string;
+  icon    ?: string;
+  actions ?: NotificationAction[];
+}
+
+export interface NotificationsAPI {
+  notify            (options: NotificationOptions) : Promise<void>;
+  requestPermission ()                             : Promise<boolean>;
+}
+
 // router
 
 export interface Route {
@@ -62,13 +82,43 @@ export interface RouterAPI {
   currentPath(): string;
 }
 
+// sqlite
+
+export interface SQLiteAPI {
+  execute (statement: string, values?: any[]): Promise<void>;
+  query   (statement: string, values?: any[]): Promise<any[]>;
+}
+
+// store
+
+export interface StoreAPI {
+  all     ()                        : Promise<Record<string, any>>;
+  clear   ()                        : Promise<void>;
+  entries ()                        : Promise<[string, any][]>;
+  keys    ()                        : Promise<string[]>;
+  load    ()                        : Promise<Record<string, any>>;
+  save    ()                        : Promise<void>;
+  size    ()                        : Promise<number>;
+  values  ()                        : Promise<any[]>;
+  
+  delete  (key: string)             : Promise<void>;
+  get     (key: string)             : Promise<any>;
+  has     (key: string)             : Promise<boolean>;
+  
+  set    (key: string, value: any)   : Promise<void>;
+  update (data: Record<string, any>) : Promise<void>;
+}
+
 // ::::::: 
 
 export interface SkullfaceAPI {
-  clipboard ?: ClipboardAPI;
-  fs        ?: FileSystemAPI;
-  hotkeys   ?: HotkeysAPI;
-  router    ?: RouterAPI;
+  clipboard     ?: ClipboardAPI;
+  fs            ?: FileSystemAPI;
+  hotkeys       ?: HotkeysAPI;
+  notifications ?: NotificationsAPI;
+  router        ?: RouterAPI;
+  sqlite        ?: SQLiteAPI;
+  store         ?: StoreAPI;
 }
 
 declare global {
