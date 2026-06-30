@@ -1,8 +1,8 @@
 // @skullface/cli/bundler/index.js
 
 import { compileBackend } from './backend.ts';
-import { buildFrontend }  from './frontend.ts';
-import getPacker          from '@/packer';
+import buildFrontend  from './frontend.ts';
+import getPacker      from '@/packer';
 
 import Wizard from '@/wizard';
 const wizard = new Wizard ({ prefix: '[Bundler]' });
