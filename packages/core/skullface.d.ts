@@ -1,5 +1,24 @@
 // @skullface/core/skullface.d.ts
 
+// :::::: CONFIG
+
+export interface SkullfaceConfig {
+  plugins ?: string[];
+  window  ?: {
+    title  ?: string;
+    url    ?: string;
+    width  ?: number;
+    height ?: number;
+  };
+}
+
+interface SkullfaceWindowConfig {
+  title   : string;
+  url     : string;
+  width?  : number;
+  height? : number;
+}
+
 // :::::: PLUGINS
 
 // clipboard
