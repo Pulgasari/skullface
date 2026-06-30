@@ -1,7 +1,7 @@
 // @skullface/cli/packer/linux.js
 
-import wizard from '@/wizard';
-//wizard.prefix = '[Packer:Linux]';
+import Wizard from '@/wizard';
+const wizard = new Wizard ({ prefix: '[Packer:Linux]' });
 
 export default class {
   async pack ({ binaryPath, projectRoot, appName, appSlug, options }) {
