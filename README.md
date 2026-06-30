@@ -85,18 +85,18 @@ skullface plugin remove clipboard
 
 ## Create Custom Commands
 
-You can define commands in the backend to be called from the frontend by the `skullface.createBridge` interface.
+You can define commands in the backend to be called from the frontend by the `skullface.addCommand` interface.
 
 ```javascript
 // src-backend/main.js
 
-import skullface from '@skullface/core';
+import { addCommand } from '@skullface/core';
 
-skullface.addCommand ('sayHello', async (name) => {
+addCommand('sayHello', async (name) => {
   return `Hello from backend, ${name}!`;
 };
 
-skullface.addCommand ('readSystemLogs', async () => {
+addCommand('readSystemLogs', async () => {
   const logPath = skullface.paths.join(skullface.paths.app.logs, 'app.log');
   return await Deno.readTextFile(logPath);
 };
