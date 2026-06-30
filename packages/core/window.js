@@ -2,8 +2,8 @@
 
 import { Webview } from 'https://deno.land/x/webview/mod.ts';
 import defaults  from './defaults.js';
-import skullface from './ipc.ts';
-import getPaths  from './paths.ts';
+import skullface from './ipc.js';
+import getPaths  from './paths.js';
 
 export class SkullfaceWindow {
   private webview;
