@@ -2,39 +2,32 @@
 
 import { compileBackend } from './backend.ts';
 import { buildFrontend }  from './frontend.ts';
-import { getPacker }      from '@/packer';
+import getPacker          from '@/packer';
+
+import Wizard from '@/wizard';
+const wizard = new Wizard ({ prefix: '[Bundler]' });
 
 export class SkullfaceBundler {
-  constructor (private config: BundlerConfig) {}
+  constructor (config) {
+    this.config = config;
+  }
 
-  /**
-   * Der Hauptprozess der Build-Pipeline
-   */
-  async build (): Promise<void> {
+  // Main Process of the Build-Pipeline
+  async build () {
     const { platform, appName, appSlug, projectRoot, targetOptions } = this.config;
-
-    // Schritt 1: Frontend aufräumen und neu bauen (erzeugt z.B. den /dist Ordner)
+    
     await buildFrontend(projectRoot);
 
-    // Schritt 2: Deno Compile antriggern. 
     // Wichtig: Da compileBackend mit SKULLFACE_ENV=production läuft, liest
     // der Core-Prozess die frisch gebauten Frontend-Dateien aus /dist ein und bettet sie ein!
-    const rawBinaryPath = await compileBackend(platform, projectRoot);
+    const binaryPath = await compileBackend(platform, projectRoot);
+    const packer     = getPacker(platform);
+    await packer.pack({ binaryPath, projectRoot, appName, appSlug, options: targetOptions });
 
-    // Schritt 3: Den passenden Packer (Windows, Mac oder Linux) anfordern
-    const packer = getPacker(platform);
-
-    // Schritt 4: Die nackte Binärdatei in das plattformspezifische Format gießen
-    await packer.pack(rawBinaryPath, projectRoot, {
-      name: appName,
-      slug: appSlug,
-      options: targetOptions
-    });
-
-    // Schritt 5: Temporären Ordner aufräumen
+    //  clean up temp directories
     try { await Deno.remove(`${projectRoot}/.skullface-tmp`, { recursive: true }); }
     catch (_e) {} // Ignorieren, falls schon weg
 
-    console.log(`[Bundler] Build-Vorgang für ${platform.toUpperCase()} vollständig abgeschlossen!`);
+    wizard.success(`Build-Vorgang für ${platform.toUpperCase()} vollständig abgeschlossen!`);
   }
-  }
+}
