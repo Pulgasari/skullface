@@ -1,13 +1,15 @@
 {
   "imports": {
-    "@/"              : "./",
-    "@/bundler"       : "./bundler/mod.ts",
+    "@/"        : "./",
+    "@/bundler" : "./bundler/index.js",
+    "@/packer"  : "./packer/index.js",
+    "@/utils"   : "./utils/index.js",
+    "@/wizard"  : "./wizard.js",
+    
     "@/core"          : "jsr:@skullface/core@^1",
-    "@/packer"        : "./packer/index.js",
     "@/types"         : "jsr:@skullface/core@^1/types.ts",
-    "@/utils"         : "./utils/mod.ts",
-    "@/wizard"        : "./wizard.ts",
     "@skullface/core" : "jsr:@skullface/core@^1",
+    
     "@std/path"       : "https://deno.land/std@0.224.0/path/mod.ts"
   },
   "permissions": {
