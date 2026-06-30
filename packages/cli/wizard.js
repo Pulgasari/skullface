@@ -25,13 +25,14 @@ export const color = {
 
 // :::::: PRINTING
 
-export function print   (...args) { console.log(...args); }
+export function info    (...args) { console.info(...args); }
+export function print   (...args) { console.log (...args); }
 export function success (...args) { return print(color.green (...args)); }
 export function warn    (...args) { return print(color.yellow(...args)); }
 
 export function list (items, title) {
-  if (title) console.log('\n' + title);
-  items.forEach(item => console.log(`  - ${item}`));
+  if (title) print(title);
+  items.forEach(item => print(`  - ${item}`));
 }
 
 export function separator ({ color: c }) {
@@ -58,7 +59,7 @@ export async function ask (question) {
 
 export async function select (question, options) {
   print(question);
-  options.forEach((o, i) => console.log(`  ${i + 1}) ${o}`));
+  options.forEach((o, i) => print(`  ${i + 1}) ${o}`));
 
   while (true) {
     const answer = await ask("Choose number:");
@@ -69,7 +70,7 @@ export async function select (question, options) {
 
 export async function multiselect (question, options) {
   print(question);
-  options.forEach((o,i) => console.log(`  ${i + 1}) ${o}`));
+  options.forEach((o,i) => print(`  ${i + 1}) ${o}`));
   print("Enter numbers separated by comma (e.g. 1,3,5)");
 
   const answer  = await ask("Your selection:");
@@ -80,7 +81,12 @@ export async function multiselect (question, options) {
     .map    (i => options[i]);
 }
 
-export default {
+export default class {
+
+  construct ({ prefix }) {
+    this.ask = ask;
+    this.multiselect = multiselect;
+  }
   ask, multiselect, select,
   error, print, success, warn,
   list, separator,
