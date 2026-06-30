@@ -3,9 +3,6 @@
 import Wizard from '@/wizard';
 const wizard = new Wizard ({ prefix: '[Packer:Windows]' });
 
-//import { wizardInstance } from '@/wizard';
-//const wizard = wizardInstance('[Packer:Windows]');
-
 export default class {
   async pack ({ binaryPath, projectRoot, appName, appSlug, options }) {
     wizard.print('Bereite Windows Release-Ordner vor ...');
