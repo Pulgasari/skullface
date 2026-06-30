@@ -1,4 +1,4 @@
-// @skullface/cli/packer/mod.js
+// @skullface/cli/packer/index.js
 
 import AndroidPacker from './android.js';
 import FreeBSDPacker from './freebsd.js';
