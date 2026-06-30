@@ -1,6 +1,6 @@
 // @skullface/cli/bundler/index.js
 
-import { compileBackend } from './backend.ts';
+import compileBackend from './backend.ts';
 import buildFrontend  from './frontend.ts';
 import getPacker      from '@/packer';
 
