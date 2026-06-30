@@ -2,9 +2,10 @@
 
 import { SkullfaceConfig } from '@/types';
 import { SkullfaceWindow } from './window.ts';
+import defaults  from './defaults.js';
 import skullface from './ipc.ts';
 import getPaths  from './paths.ts';
-import defaults  from './defaults.js';
+
 
 // Constants: Console-Messages
 const LOG_BOOT_START          = '[Core] Skullface Runtime environment initializing...';
@@ -44,7 +45,7 @@ export async function bootApp () {
         const plugin          = pluginModule.default;
 
         if (plugin && plugin.name && plugin.api) {
-          skullface.registerPlugin(plugin.name, plugin.api);
+          skullface.addPlugin(plugin.name, plugin.api);
           if (plugin.hooks && typeof plugin.hooks.onInit === 'function') {
             plugin.hooks.onInit();
           }
