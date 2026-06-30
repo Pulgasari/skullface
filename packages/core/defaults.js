@@ -8,7 +8,10 @@ export const DEFAULT_APP_DIR_ASSETS   = 'src-assets';
 export const DEFAULT_APP_DIR_BACKEND  = 'src-backend',
 export const DEFAULT_APP_DIR_FRONTEND = 'src-frontend',
 
-export const DEFAULT_TEMPLATE      = 'vanilla';
+export const DEFAULT_BUILD_RUNTIME = 'deno';
+export const DEFAULT_BUILD_TARGETS = ['linux'];
+ 
+export const DEFAULT_TEMPLATE = 'vanilla';
 
 export const DEFAULT_WINDOW_TITLE  = DEFAULT_APP_NAME;
 export const DEFAULT_WINDOW_URL    = 'http://localhost:3000';
