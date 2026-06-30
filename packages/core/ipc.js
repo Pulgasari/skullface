@@ -1,6 +1,6 @@
 // @skullface/core/ipc.js
 
-const isFn = sth => typeof sth === 'function';
+import { isFn } from './utils.js';
 
 const bridgeAPI      = {};
 const pluginRegistry = new Map (); // registry for skullface-plugins
