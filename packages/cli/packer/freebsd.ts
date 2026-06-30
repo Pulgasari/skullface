@@ -5,11 +5,11 @@ import wizard     from '@/wizard';
 
 export default class implements Packer {
   async pack (binaryPath: string, projectRoot: string, appMeta: { name: string; slug: string; options: any }): Promise<void> {
-    console.log('[Packer:FreeBSD] Preparing FreeBSD release package...');
+    wizard.print('[Packer:FreeBSD] Preparing FreeBSD release package...');
 
-    const appName = appMeta.name;
+    const appName   = appMeta.name;
     const outputDir = `${projectRoot}/dist-native/freebsd`;
-    const stageDir = `${outputDir}/stage`;
+    const stageDir  = `${outputDir}/stage`;
 
     // 1. Create clean output and temporary staging directories
     await Deno.mkdir(stageDir, { recursive: true });
