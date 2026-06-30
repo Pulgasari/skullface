@@ -88,28 +88,18 @@ skullface plugin remove clipboard
 You can define commands in the backend to be called from the frontend by the `skullface.createBridge` interface.
 
 ```javascript
-// src-backend/main.ts (User Application Backend)
+// src-backend/main.js
 
 import skullface from '@skullface/core';
 
-skullface.createBridge({
-  async sayHello(name: string): Promise<string> {
-    return `Hello from Deno backend, ${name}!`;
-  },
+skullface.addCommand ('sayHello', async (name) => {
+  return `Hello from backend, ${name}!`;
+};
 
-  async readSystemLogs(): Promise<string> {
-    const logPath = skullface.paths.join(skullface.paths.app.logs, 'app.log');
-    return await Deno.readTextFile(logPath);
-  },
-
-  async calculateHash(input: string): Promise<string> {
-    const data = new TextEncoder().encode(input);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hashBuffer))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
-  }
-});
+skullface.addCommand ('readSystemLogs', async () => {
+  const logPath = skullface.paths.join(skullface.paths.app.logs, 'app.log');
+  return await Deno.readTextFile(logPath);
+};
 ```
 
 To make use of autocomplete:
