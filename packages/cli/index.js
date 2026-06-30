@@ -1,5 +1,5 @@
 #!/usr/bin/env -S deno run -A
-// @skullface/cli/mod.js
+// @skullface/cli/index.js
 
 import { parseArgs } from '@std/cli/parse-args';
 import  buildCommand from './commands/build.ts';
