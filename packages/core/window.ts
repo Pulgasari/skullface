@@ -2,27 +2,28 @@
 
 import { Webview } from 'https://deno.land/x/webview/mod.ts';
 import { SkullfaceWindowConfig } from '@/types';
+import defaults  from './defaults.js';
 import skullface from './ipc.ts';
 import getPaths  from './paths.ts';
-
-const DEFAULT_WINDOW_HEIGHT =  768;
-const DEFAULT_WINDOW_WIDTH  = 1024;
 
 export class SkullfaceWindow {
   private webview: Webview;
 
   constructor (config: SkullfaceWindowConfig) {
-    const height = config.height || DEFAULT_WINDOW_HEIGHT;
-    const width  = config.width  || DEFAULT_WINDOW_WIDTH;
+    const appName = config.appName || defaults.app.name;
+    const height  = config.height  || defaults.window.height;
+    const width   = config.width   || defaults.window.width;
+    const title   = config.title   || defaults.window.title;
+    const url     = config.url     || defaults.window.url;
     
     this.webview = new Webview(true);
-    this.webview.title = config.title;
+    this.webview.title = title;
     this.webview.size(width, height);
 
     // Load, populate path states and initialize bridge scripts
-    this.injectPreloadScript(config.appName);
+    this.injectPreloadScript(appName);
     this.setupIPC();
-    this.webview.navigate(config.url);
+    this.webview.navigate(url);
   }
   
   private injectPreloadScript (appName?: string) {
