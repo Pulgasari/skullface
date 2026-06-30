@@ -21,7 +21,7 @@ export const api = {
     await Deno.writeTextFile(path, text);
   },
 
-  async exists (path: string) {
+  async exists (path) {
     try        { await Deno.stat(path); return true; }
     catch (_e) { return false; }
   },
