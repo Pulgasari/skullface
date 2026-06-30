@@ -1,9 +1,18 @@
 // @skullface/core/skullface.d.ts
 
+import { COMMANDS, PLATFORMS, PLUGINS, TEMPLATES } from './defaults';
+
+// :::::: TYPES
+
+export type Command  = typeof COMMANDS[number];
+export type Platform = typeof PLATFORMS[number];
+export type Plugin   = typeof PLUGINS[number];
+export type Template = typeof TEMPLATES[number];
+
 // :::::: CONFIG
 
 export interface SkullfaceConfig {
-  plugins ?: string[];
+  plugins ?: Plugin[];
   window  ?: {
     title  ?: string;
     url    ?: string;
@@ -12,7 +21,7 @@ export interface SkullfaceConfig {
   };
 }
 
-interface SkullfaceWindowConfig {
+export interface SkullfaceWindowConfig {
   title   : string;
   url     : string;
   width?  : number;
