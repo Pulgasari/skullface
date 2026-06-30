@@ -3,7 +3,7 @@
 const DEFAULT_APP_NAME = 'SkullfaceApp';
 const platform = Deno.build.os;
 
-export function getPaths (appName = DEFAULT_APP_NAME) {
+export default function getPaths (appName = DEFAULT_APP_NAME) {
   const home = Deno.env.get('HOME') 
             || Deno.env.get('USERPROFILE')
             || Deno.env.get('HOMEPATH')
