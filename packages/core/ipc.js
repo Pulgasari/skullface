@@ -1,21 +1,24 @@
 // @skullface/core/ipc.js
 
-import paths from './paths.ts';
-
 const isFn = sth => typeof sth === 'function';
 
-const bridgeApi      = {};
+const bridgeAPI      = {};
 const pluginRegistry = new Map (); // registry for skullface-plugins
 
 export const skullface = {
 
-  paths,
-
-  createBridge (commands) {
-    Object.assign(bridgeApi, commands);
+  addCommand (name, body) {
+    if (isFn(body)) bridgeAPI[name] = body;
+  },
+  removeCommand (name) {
+    if (bridgeAPI[name]) delete bridgeAPI[name];
   },
   
-  registerPlugin (name, pluginModule) {
+  createBridge (commands) {
+    Object.assign(bridgeAPI, commands);
+  },
+  
+  addPlugin (name, pluginModule) {
     pluginRegistry.set(name, pluginModule);
     this[name] = pluginModule; // enable in backend as skullface.[plugin]
   },
@@ -39,7 +42,7 @@ export const skullface = {
 export default skullface;
 
 // bridge for custom commands
-skullface.registerPlugin('bridge', bridgeApi);
+skullface.addPlugin('bridge', bridgeAPI);
 
 // enable skullface globally in the backend
-(globalThis as any).skullface = skullface;
+this.skullface = skullface;
