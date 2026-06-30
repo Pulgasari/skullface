@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     mobilePlugins["dialogs"]       =       DialogsPlugin(this)
     mobilePlugins["external"]      =      ExternalPlugin(this)
     mobilePlugins["fs"]            =    FileSystemPlugin(this)
-    mobilePlugins["hotkeys"]       =       HogkeysPlugin()
+    mobilePlugins["hotkeys"]       =       HotkeysPlugin()
     mobilePlugins["notifications"] = NotificationsPlugin(this)
     mobilePlugins["router"]        =        RouterPlugin()
     mobilePlugins["sqlite"]        =        SQLitePlugin(this)
