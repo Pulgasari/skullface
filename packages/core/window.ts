@@ -2,8 +2,8 @@
 
 import { Webview } from 'https://deno.land/x/webview/mod.ts';
 import { SkullfaceWindowConfig } from '@/types';
-import { skullface } from './ipc.ts';
-import { getPaths } from './paths.ts';
+import skullface from './ipc.ts';
+import getPaths  from './paths.ts';
 
 const DEFAULT_WINDOW_HEIGHT =  768;
 const DEFAULT_WINDOW_WIDTH  = 1024;
@@ -44,7 +44,7 @@ export class SkullfaceWindow {
     // Bind central communication wire hook natively into the window frame
     this.webview.bind('_skullface_ipc_transmit', async (messageStr: string) => {
       // Delegate complete request processing directly to the unified IPC router module
-      await skullface.handleIncomingIPC(messageStr, (payload) => { this.sendToFrontend(payload) });
+      await skullface.handleIncomingIPC(messageStr, payload => this.sendToFrontend(payload) );
     });
   }
   
