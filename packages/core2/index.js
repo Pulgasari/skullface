@@ -32,6 +32,7 @@ export async function bootApp () {
     appName : appName
   });
 
+  skullface.window = appWindow;
   appWindow.run();
 }
 
