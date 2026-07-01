@@ -26,10 +26,6 @@ The backend is provided by the Deno runtime or Blue.
 
 Read the fucking [docs](docs)! >.<
 
-- Plugins
-  - [hotkeys](docs/plugins/hotkeys.md)
-  - [router](docs/plugins/router.md)
-
 ---
 
 ## Get started
@@ -78,7 +74,7 @@ const { clipboard, fs } = skullface;
 
 ## Custom Commands
 
-You can define commands in the backend to be called from the frontend by the `skullface.addCommand` interface.
+Commands in the backend to be called from the frontend are created by the `skullface.addCommand` interface.
 
 ```javascript
 // src-backend/main.js
