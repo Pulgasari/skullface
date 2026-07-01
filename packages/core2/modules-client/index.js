@@ -1,4 +1,7 @@
-// @skullface/core/client.js
+// @skullface/core/modules-client/index.js
+
+export { default as hotkeys } from './hotkeys.js';
+export { default as router  } from './router.js';
 
 // Factory function to instantiate a custom isolated SQLite database file bridge
 export function createDatabase (name) {
@@ -36,7 +39,13 @@ export function createStore (name) {
 }
 
 /*
+if (typeof window !== 'undefined') {
+  if (window.skullface) window.skullface = {};
+  window.skullface.hotkeys = hotkeys;
+}
+*/
 
+/*
 export async function copy (text) {
   await navigator.clipboard.writeText(text);
 }
