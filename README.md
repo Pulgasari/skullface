@@ -58,17 +58,17 @@ skullface create
 
 **Skullface** provides a bunch of modules out of the box:
 
-namespace     | alias | note
---------------|-------|-----
-clipboard     |       |
-dialogs       |       |
-external      |       |
-filesystem    | fs    |
-hotkeys       |       | (frontend only)
-notifications |       |
-router        |       | (frontend only)
-sqlite        |       |
-store         |       |
+namespace     | alias | note |
+--------------|-------|------|---
+clipboard     | | | [docs](docs/modules/clipboard.md)
+dialogs       | | | [docs](docs/modules/dialogs.md)
+external      | | | [docs](docs/modules/external.md)
+filesystem    | fs  | | [docs](docs/modules/filesystem.md)
+hotkeys | | (frontend only) | [docs](docs/modules/hotkeys.md)
+notifications | | | [docs](docs/modules/notifications.md)
+router| | (frontend only) | [docs](docs/modules/router.md)
+sqlite | | | [docs](docs/modules/sqlite.md)
+store  | | | [docs](docs/modules/store.md)
 
 They don't need to be installed but are available in frontend and backend under the `skullface` singleton.
 
