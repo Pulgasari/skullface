@@ -59,10 +59,14 @@ export class SkullfaceWindow {
     });
   }
   
+  public eval (code) {
+    this.webview.eval(code);
+  }
+  
   private sendToFrontend (payload) {
     const json = JSON.stringify(payload);
     const code = `window.dispatchEvent(new CustomEvent('skullface-ipc-response', { detail: ${json} }));`;
-    this.webview.eval(code);
+    this.eval(code);
   }
 
   public run() {
