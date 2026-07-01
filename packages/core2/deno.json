@@ -1,1 +1,13 @@
-
+{
+  "imports": {
+    "@/"         : "./",
+    "@std/path"  : "https://deno.land/std@0.224.0/path/mod.ts",
+    "@x/webview" : "https://deno.land/x/webview@0.7.6/mod.ts"
+  },
+  "permissions": {
+    "read-and-write": {
+      "read"  : true,
+      "write" : true
+    }
+  }
+}
