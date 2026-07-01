@@ -1,4 +1,7 @@
-// @skullface/core/module/external.js
+// @skullface/core/modules/external.js
+
+import { getPlatform } from './../utils.js';
+const platform = getPlatform();
 
 // :::::: HELPERS
 
@@ -11,38 +14,33 @@ function runCommand (cmd, argsList) {
 
 // :::::: API
 
-export default {
-  
-  async file (path) {
-    switch (Deno.build.os) {
-      case 'darwin'  : return runCommand('open', [path]);
-      case 'windows' : return runCommand('explorer.exe', [path]);
-      default        : return runCommand('xdg-open', [path]);
-    }
-  },
+export async function openFile (path) {
+  switch (platform) {
+    case 'mac'     : return runCommand('open', [path]);
+    case 'windows' : return runCommand('explorer.exe', [path]);
+    default        : return runCommand('xdg-open', [path]);
+  }
+}
 
-  async url (url) {
-    switch (Deno.build.os) {
-      case 'darwin'  : return runCommand('open', [url]);
-      case 'windows' : return runCommand('explorer.exe', [url]);
-      default        : return runCommand('xdg-open', [url]);
-    }
-  },
+export async function openURL (url) {
+  switch (platform) {
+    case 'mac'     : return runCommand('open', [url]);
+    case 'windows' : return runCommand('explorer.exe', [url]);
+    default        : return runCommand('xdg-open', [url]);
+  }
+}
 
-  async reveal (path) {
-    const os = Deno.build.os;
-    if (os === 'windows') {
-      runCommand('explorer.exe', ['/select,', path]);
-    } else if (os === 'darwin') {
-      runCommand('open', ['-R', path]);
-    } else {
+export async function revealFile (path) {
+  switch (platform) {
+    case 'mac'     : return runCommand('open', ['-R', path]);
+    case 'windows' : return runCommand('explorer.exe', ['/select,', path]);
+    default        : {
       // Linux & FreeBSD safe fallback: expand path and open enclosing folder
       const folder = path.replace(/\\/g, '/').split('/').slice(0, -1).join('/');
-      runCommand('xdg-open', [folder || '/']);
+      return runCommand('xdg-open', [folder || '/']);
     }
   }
-  
-};
+}
 
 export default {
   openFile,
