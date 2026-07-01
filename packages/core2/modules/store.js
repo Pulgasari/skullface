@@ -1,8 +1,15 @@
-// @skullface/plugins/store/deno.js
+// @skullface/core/modules/store.js
 
 // :::::: CACHE
 
 const cache = new Map ();
+const watchers = new Map ();
+
+// for watch mechanism
+function notify (store, key, value) {
+  const set = watchers.get(store);
+  if (set) for (const fn of set) fn(key, value);
+}
 
 // :::::: HELPERS
 
@@ -30,9 +37,9 @@ function ensureCache (store) {
   if (!cache.has(store)) cache.set(store, readFromDisk(store));
 }
 
-// :::::: API (for IPC)
+// :::::: API
 
-const api = {
+export default {
   
   async load (store) {
     const data = readFromDisk(store);
@@ -111,31 +118,12 @@ const api = {
     }
   },
 
+  // watch
+
+  watch (store, callback) {
+    if (!watchers.has(store)) watchers.set(store, new Set());
+    watchers.get(store).add(callback);
+    return () => watchers.get(store).delete(callback); // optional: unsubscribe function
+  }
+
 }
-
-// :::::: WATCH
-
-const watchers = new Map ();
-
-function notify (store, key, value) {
-  const set = watchers.get(store);
-  if (set) for (const fn of set) fn(key, value);
-}
-
-api.watch = (store, callback) => {
-  if (!watchers.has(store)) watchers.set(store, new Set());
-  watchers.get(store).add(callback);
-  return () => watchers.get(store).delete(callback); // optional: unsubscribe function
-}
-
-// :::::: EXPORT
-
-export default {
-  api,
-  name  : 'store',
-  hooks : {
-    onInit() {
-      console.log('[store] plugin successfully loaded.');
-    }
-  },
-};
