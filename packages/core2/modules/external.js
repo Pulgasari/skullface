@@ -1,19 +1,19 @@
-// @skullface/plugins/external/deno.ts
+// @skullface/core/module/external.js
 
 // :::::: HELPERS
 
 /**
  * Spawns a native OS background process detach-mode shell command
  */
-function runCommand (cmd: string, args: string[]) {
-  new Deno.Command(cmd, { args }).spawn();
+function runCommand (cmd, argsList) {
+  new Deno.Command(cmd, { argsList }).spawn();
 }
 
 // :::::: API
 
-export const api = {
+export default {
   
-  async file (path: string): Promise<void> {
+  async file (path) {
     switch (Deno.build.os) {
       case 'darwin'  : return runCommand('open', [path]);
       case 'windows' : return runCommand('explorer.exe', [path]);
@@ -21,7 +21,7 @@ export const api = {
     }
   },
 
-  async url (url: string): Promise<void> {
+  async url (url) {
     switch (Deno.build.os) {
       case 'darwin'  : return runCommand('open', [url]);
       case 'windows' : return runCommand('explorer.exe', [url]);
@@ -29,7 +29,7 @@ export const api = {
     }
   },
 
-  async reveal (path: string): Promise<void> {
+  async reveal (path) {
     const os = Deno.build.os;
     if (os === 'windows') {
       runCommand('explorer.exe', ['/select,', path]);
@@ -42,16 +42,4 @@ export const api = {
     }
   }
   
-};
-
-// :::::: EXPORT
-
-export default {
-  api,
-  name: 'external',
-  hooks: {
-    onInit() {
-      console.log('[External] Native desktop operating system command layer initialized.');
-    }
-  }
 };
