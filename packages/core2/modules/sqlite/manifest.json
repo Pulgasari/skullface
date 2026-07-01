@@ -1,7 +1,0 @@
-{
-  "name": "sqlite",
-  "version": "0.1.0",
-  "description": "SQLite database access for Skullface apps",
-  "hooks": ["onInit", "onBuildBackend"],
-  "runtime": true
-}
