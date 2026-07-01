@@ -58,15 +58,15 @@ skullface create
 
 **Skullface** provides a bunch of modules out of the box:
 
-namespace     | alias | note |
---------------|-------|------|---
+namespace     | alias | note | docs
+--------------|-------|------|-----
 clipboard     | | | [docs](docs/modules/clipboard.md)
 dialogs       | | | [docs](docs/modules/dialogs.md)
 external      | | | [docs](docs/modules/external.md)
 filesystem    | fs  | | [docs](docs/modules/filesystem.md)
 hotkeys | | (frontend only) | [docs](docs/modules/hotkeys.md)
 notifications | | | [docs](docs/modules/notifications.md)
-router| | (frontend only) | [docs](docs/modules/router.md)
+router | | (frontend only) | [docs](docs/modules/router.md)
 sqlite | | | [docs](docs/modules/sqlite.md)
 store  | | | [docs](docs/modules/store.md)
 
