@@ -1,4 +1,4 @@
-// @skullface/plugins/dialogs/deno.js
+// @skullface/core/modules/dialogs.js
 
 // :::::: CONSTANTS
 
