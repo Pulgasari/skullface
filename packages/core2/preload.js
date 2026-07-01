@@ -16,9 +16,9 @@
   });
 
   // 2. Dynamic RPC call interceptor proxy factory
-  const createPluginProxy = plugin => {
+  const createModuleProxy = plugin => {
     return new Proxy({}, {
-      get(target, method) {
+      get (target, method) {
         return (...args) => {
           return new Promise((resolve, reject) => {
             const id = requestIdCounter++;
@@ -46,10 +46,10 @@
 
   // 3. Establish the global skullface API gateway mapping
   window.skullface = new Proxy({}, {
-    get (target, plugin) {
-      return (plugin === 'paths')
+    get (target, module) {
+      return (module === 'paths')
         ? (window.__skullface_paths__ || {}) // Synchronous local layer access interception for system paths schema metadata
-        : createPluginProxy(plugin);
+        : createModuleProxy(module);
     }
   });
   
