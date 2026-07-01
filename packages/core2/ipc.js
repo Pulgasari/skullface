@@ -23,6 +23,7 @@ const skullface = {
   notifications,
   sqlite,
   store,
+  window: null,
 };
 
 // Mechanism to create Custom Commands
@@ -46,6 +47,9 @@ skullface.handleIncomingIPC = async (messageStr, sendResponseToFrontend) => {
     sendResponseToFrontend({ id, success: false, error: err.message });
   }
 }
+
+//
+skullface.eval = code => skullface?.window?.eval?.(code) ?? console.error('[Core] Link to window missing. eval() failed.');
 
 // enable skullface globally in the backend
 //this.skullface = skullface;
