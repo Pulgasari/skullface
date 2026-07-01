@@ -76,7 +76,7 @@ They don't need to be installed but are available in frontend and backend under 
 const { clipboard, fs } = skullface;
 ```
 
-## Create Custom Commands
+## Custom Commands
 
 You can define commands in the backend to be called from the frontend by the `skullface.addCommand` interface.
 
