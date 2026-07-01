@@ -5,36 +5,36 @@ export { default as router  } from './router.js';
 
 // Factory function to instantiate a custom isolated SQLite database file bridge
 export function createDatabase (name) {
+  const sqliteIPC = window.skullface.sqlite; // dynamic IPC-proxy
   return {
     execute: async (statement, values = []) => {
-      await window.skullface.sqlite.execute(name, statement, values);
+      await sqliteIPC.execute(name, statement, values);
     },
     query: async (statement, values = []) => {
-      return await window.skullface.sqlite.query(name, statement, values);
+      return await sqliteIPC.query(name, statement, values);
     }
   };
 }
 
 // Factory function to instantiate a reactive key-value storage bridge
 export function createStore (name) {
-  const ipc = window.skullface.store; // dynamic IPC-proxy
-
+  const storeIPC = window.skullface.store; // dynamic IPC-proxy
   return {
-    all     : async () => await ipc.all     (name),
-    clear   : async () => await ipc.clear   (name),
-    entries : async () => await ipc.entries (name),
-    keys    : async () => await ipc.keys    (name),
-    load    : async () => await ipc.load    (name),
-    save    : async () => await ipc.save    (name),
-    size    : async () => await ipc.size    (name),
-    values  : async () => await ipc.values  (name),
+    all     : async () => await storeIPC.all     (name),
+    clear   : async () => await storeIPC.clear   (name),
+    entries : async () => await storeIPC.entries (name),
+    keys    : async () => await storeIPC.keys    (name),
+    load    : async () => await storeIPC.load    (name),
+    save    : async () => await storeIPC.save    (name),
+    size    : async () => await storeIPC.size    (name),
+    values  : async () => await storeIPC.values  (name),
     
-    delete  : async (key) => await ipc.remove (name, key),
-    get     : async (key) => await ipc.get    (name, key),
-    has     : async (key) => await ipc.has    (name, key),
+    delete  : async (key) => await storeIPC.remove (name, key),
+    get     : async (key) => await storeIPC.get    (name, key),
+    has     : async (key) => await storeIPC.has    (name, key),
     
-    set     : async (key, value) => await ipc.set    (name, key, value),
-    update  : async (data)       => await ipc.update (name, data),
+    set     : async (key, value) => await storeIPC.set    (name, key, value),
+    update  : async (data)       => await storeIPC.update (name, data),
   };
 }
 
