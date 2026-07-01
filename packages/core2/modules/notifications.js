@@ -1,5 +1,8 @@
 // @skullface/core/modules/notifications.js
 
+import { getPlatform } from './../utils.js';
+const platform = getPlatform();
+
 // :::::: HELPERS
 
 /**
@@ -13,18 +16,16 @@ async function runCommand (cmd, argsList) {
 
 // :::::: API
 
-export const api = {
-  async requestPermission () {
-    // Desktop systems handle notifications directly via system shells implicitly
-    return true;
-  },
+export async function requestPermission () {
+  // Desktop systems handle notifications directly via system shells implicitly
+  return true;
+}
 
-  async notify (options) {
-    const os    = Deno.build.os;
+  export async function notify (options) {
     const body  = options.body || '';
     const title = options.title;
     
-    if (os === 'windows') {
+    if (platform === 'windows') {
       // Inline PowerShell command payload creating a native Win32 balloon notification
       const psScript = `
         [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms");
@@ -37,7 +38,7 @@ export const api = {
       `.replace(/\n/g, ' ');
       
       await runCommand('powershell', ['-Command', psScript]);
-    } else if (os === 'darwin') {
+    } else if (platform === 'mac') {
       // Trigger macOS notification system center using AppleScript layout definitions
       await runCommand('osascript', ['-e', `display notification "${body}" with title "${title}"`]);
     } else {
@@ -45,6 +46,10 @@ export const api = {
       await runCommand('notify-send', [title, body]);
     }
   }
-};
 
-export default api;
+// :::::: DEFAULT
+
+export default {
+  notify,
+  requestPermission,
+}
