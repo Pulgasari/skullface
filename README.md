@@ -36,7 +36,7 @@ Read the fucking [docs](docs)! >.<
 
 ### Installation
 
-You need to install the CLI-Tool to create and manage Skullface projects.
+Install the CLI-Tool to create and manage **Skullface** projects.
 
 ```sh
 deno install jsr:@skullface/cli
