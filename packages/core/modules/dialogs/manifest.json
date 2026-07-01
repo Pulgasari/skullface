@@ -1,0 +1,7 @@
+{
+  "name": "dialogs",
+  "version": "0.1.0",
+  "description": "Native file and message dialogs for Skullface apps",
+  "hooks": ["onInit", "onBuildBackend"],
+  "runtime": true
+}

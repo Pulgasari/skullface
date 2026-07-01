@@ -1,0 +1,6 @@
+{
+  "name": "fs",
+  "version": "0.1.0",
+  "description": "Filesystem utilities for Skullface apps",
+  "hooks": ["onInit"]
+}

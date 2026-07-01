@@ -1,0 +1,24 @@
+// @skullface/plugins/store/frontend.js
+
+// Factory function to instantiate a reactive key-value storage bridge
+export function createStore (name) {
+  const ipc = window.skullface.store; // dynamic IPC-proxy
+
+  return {
+    all     : async () => await ipc.all     (name),
+    clear   : async () => await ipc.clear   (name),
+    entries : async () => await ipc.entries (name),
+    keys    : async () => await ipc.keys    (name),
+    load    : async () => await ipc.load    (name),
+    save    : async () => await ipc.save    (name),
+    size    : async () => await ipc.size    (name),
+    values  : async () => await ipc.values  (name),
+    
+    delete  : async (key) => await ipc.remove (name, key),
+    get     : async (key) => await ipc.get    (name, key),
+    has     : async (key) => await ipc.has    (name, key),
+    
+    set     : async (key, value) => await ipc.set    (name, key, value),
+    update  : async (data)       => await ipc.update (name, data),
+  };
+}

@@ -1,0 +1,52 @@
+// @skullface/plugins/store/frontend.ts
+
+export interface StoreAPI {
+  all     ()                        : Promise<Record<string, any>>;
+  clear   ()                        : Promise<void>;
+  entries ()                        : Promise<[string, any][]>;
+  keys    ()                        : Promise<string[]>;
+  load    ()                        : Promise<Record<string, any>>;
+  save    ()                        : Promise<void>;
+  size    ()                        : Promise<number>;
+  values  ()                        : Promise<any[]>;
+  
+  delete  (key: string)             : Promise<void>;
+  get     (key: string)             : Promise<any>;
+  has     (key: string)             : Promise<boolean>;
+  
+  set    (key: string, value: any)   : Promise<void>;
+  update (data: Record<string, any>) : Promise<void>;
+}
+
+declare global {
+  interface Window {
+    skullface: {
+      store: any;
+    };
+  }
+}
+
+/**
+ * Factory function to instantiate a reactive key-value storage bridge
+ */
+export function createStore (name: string): StoreAPI {
+  const ipc = (window as any).skullface.store; // dynamic IPC-proxy
+
+  return {
+    all     : async () => await ipc.all     (name),
+    clear   : async () => await ipc.clear   (name),
+    entries : async () => await ipc.entries (name),
+    keys    : async () => await ipc.keys    (name),
+    load    : async () => await ipc.load    (name),
+    save    : async () => await ipc.save    (name),
+    size    : async () => await ipc.size    (name),
+    values  : async () => await ipc.values  (name),
+    
+    delete  : async (key: string) => await ipc.remove (name, key),
+    get     : async (key: string) => await ipc.get    (name, key),
+    has     : async (key: string) => await ipc.has    (name, key),
+    
+    set     : async (key: string, value: any)   => await ipc.set    (name, key, value),
+    update  : async (data: Record<string, any>) => await ipc.update (name, data),
+  };
+}
