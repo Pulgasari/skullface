@@ -1,54 +1,42 @@
-// @skullface/core/modules/ipc2.js
+// @skullface/core/ipc.js
 
 import { isFn } from './utils.js';
 
-import clipboard from './modules/clipboard/deno.js';
-import dialogs   from './modules/dialogs/deno.js';
-import fs        from './modules/fs/deno.js';
+import clipboard     from './modules/clipboard.js';
+import dialogs       from './modules/dialogs.js';
+import external      from './modules/external.js';
+import filesystem    from './modules/filesystem.js';
+import notifications from './modules/notifications.js';
+import sqlite        from './modules/sqlite.js';
+import store         from './modules/store.js';
 
-import hotkeys from './modules/hotkeys/frontend.js';
-import router  from './modules/router/frontend.js';
+//import hotkeys from './modules-client/hotkeys.js';
+//import router  from './modules-client/router.js';
 
-const bridgeAPI      = {};
-const pluginRegistry = new Map (); // registry for skullface-plugins
+// Global Singleton
+const skullface = {};
 
-export const skullface = {
+// Mechanism to create Custom Commands
+const bridge = {};
+skullface.addCommand    = (name, body) => { if (isFn(body)) bridge[name] = body; };
+skullface.removeCommand = (name)       => { if (bridge[name]) delete bridge[name]; };
 
-  addCommand (name, body) {
-    if (isFn(body)) bridgeAPI[name] = body;
-  },
-  removeCommand (name) {
-    if (bridgeAPI[name]) delete bridgeAPI[name];
-  },
-  
-  addModule (name, pluginModule) {
-    pluginRegistry.set(name, pluginModule);
-    this[name] = pluginModule; // enable in backend as skullface.[plugin]
-  },
-  
-  async handleIncomingIPC (messageStr, sendResponseToFrontend) {
-    try {
-      const { args, id, method, plugin: slug } = JSON.parse(messageStr);
-      const plugin = pluginRegistry.get(slug);
-      //
-      if (!plugin)               throw new Error(`Plugin '${slug}' is not installed.`);
-      if (!isFn(plugin[method])) throw new Error(`Method '${method}' doesn't exist in Plugin '${slug}'.`);
-      // Führe die echte Deno-Funktion aus
-      const data = await plugin[method](...args);
-      // Schicke Erfolg zurück
-      sendResponseToFrontend({ id, success: true, data });
-    } catch (err) {
-      sendResponseToFrontend({ id, success: false, error: err.message });
-    }
+// IPC
+skullface.handleIncomingIPC = async (messageStr, sendResponseToFrontend) => {
+  try {
+    const { args, id, method, plugin: slug } = JSON.parse(messageStr);
+    const plugin = pluginRegistry.get(slug);
+    //
+    if (!plugin)               throw new Error(`Plugin '${slug}' is not installed.`);
+    if (!isFn(plugin[method])) throw new Error(`Method '${method}' doesn't exist in Plugin '${slug}'.`);
+    // Führe die echte Deno-Funktion aus
+    const data = await plugin[method](...args);
+    // Schicke Erfolg zurück
+    sendResponseToFrontend({ id, success: true, data });
+  } catch (err) {
+    sendResponseToFrontend({ id, success: false, error: err.message });
   }
-};
-export default skullface;
-
-// bridge for custom commands
-skullface.addModule('bridge', bridgeAPI);
-skullface.addModule('clipboard', clipboard);
-skullface.addModule('dialogs', dialogs);
-skullface.addModule('fs', fs);
+}
 
 // enable skullface globally in the backend
-this.skullface = skullface;
+//this.skullface = skullface;
