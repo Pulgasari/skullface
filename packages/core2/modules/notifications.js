@@ -1,27 +1,12 @@
-// @skullface/plugins/notifications/deno.ts
-
-// :::::: TYPES
-
-interface NotificationAction {
-  action: string;
-  title: string;
-  icon?: string;
-}
-
-interface NotificationOptions {
-  title: string;
-  body?: string;
-  icon?: string;
-  actions?: NotificationAction[];
-}
+// @skullface/core/modules/notifications.js
 
 // :::::: HELPERS
 
 /**
  * Executes a native operating system terminal application to display a notification
  */
-async function runCommand (cmd: string, args: string[]) {
-  const command = new Deno.Command(cmd, { args });
+async function runCommand (cmd, argsList) {
+  const command = new Deno.Command(cmd, { argsList });
   const process = command.spawn();
   await process.status;
 }
@@ -29,12 +14,12 @@ async function runCommand (cmd: string, args: string[]) {
 // :::::: API
 
 export const api = {
-  async requestPermission (): Promise<boolean> {
+  async requestPermission () {
     // Desktop systems handle notifications directly via system shells implicitly
     return true;
   },
 
-  async notify (options: NotificationOptions): Promise<void> {
+  async notify (options) {
     const os    = Deno.build.os;
     const body  = options.body || '';
     const title = options.title;
@@ -62,14 +47,4 @@ export const api = {
   }
 };
 
-// :::::: EXPORT
-
-export default {
-  api,
-  name: 'notifications',
-  hooks: {
-    onInit() {
-      console.log('[Notifications] Native desktop system alert adapters initialized.');
-    }
-  }
-};
+export default api;
