@@ -6,7 +6,7 @@ export const isFn = sth => typeof sth === 'function';
 
 // :::::: RUNTIME
 
-function getPlatform () {
+export function getPlatform () {
   const name = Deno.build.os;
   return {
     android : 'android',
