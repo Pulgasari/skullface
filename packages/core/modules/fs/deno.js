@@ -1,4 +1,4 @@
-// @skullface/plugins/fs/deno.js
+// @skullface/core/modules/fs/deno.js
 
 // :::::: API
 
@@ -53,14 +53,4 @@ export const api = {
   
 };
 
-// :::::: EXPORT
-
-export default {
-  api,
-  name: 'fs',
-  hooks: {
-    onInit() {
-      console.log('[FS] Native Deno file system plugin environment initialized.');
-    }
-  }
-};
+export default api;
