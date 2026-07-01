@@ -1,8 +1,7 @@
 // @skullface/core/modules/dialogs.js
 
-// :::::: CONSTANTS
-
-const platform = Deno.build.os;
+import { getPlatform } from './../utils.js';
+const platform = getPlatform();
 
 // :::::: HELPERS
 
@@ -48,7 +47,7 @@ export const api = {
         `Add-Type -AssemblyName System.Windows.Forms; $f = New-Object System.Windows.Forms.OpenFileDialog; ${filter ? `$f.Filter = '${filter}';` : ''} $f.ShowDialog() | Out-Null; $f.FileName`
       ]);
     }
-    if (platform === 'darwin') {
+    if (platform === 'mac') {
       const types = buildMacFilter(options.filters);
       const filterScript = types.length > 0 ? `of type {${types.map(t => `"${t}"`).join(',')}}` : '';
       return await runCommand('osascript', ['-e', `POSIX path of (choose file ${filterScript})`]);
@@ -67,7 +66,7 @@ export const api = {
       ]);
       return res ? res.split(',') : [];
     }
-    if (platform === 'darwin') {
+    if (platform === 'mac') {
       const types = buildMacFilter(options.filters);
       const filterScript = types.length > 0 ? `of type {${types.map(t => `"${t}"`).join(',')}}` : '';
       const res = await runCommand('osascript', ['-e', `set out to {}\nrepeat with f in (choose file ${filterScript} with multiple selections allowed)\ncopy POSIX path of f to end of out\nend repeat\nout -join ","`]);
@@ -116,7 +115,7 @@ export const api = {
       const res = await runCommand('powershell', ['-Command', `Add-Type -AssemblyName PresentationFramework; [System.Windows.MessageBox]::Show('${options.body}', '${title}', 'YesNo')`]);
       return res === 'Yes';
     }
-    if (platform === 'darwin') {
+    if (platform === 'mac') {
       try {
         const res = await runCommand('osascript', ['-e', `display dialog "${options.body}" with title "${title}" buttons {"Cancel", "OK"} default button "OK"`]);
         return res.includes('button returned:OK');
