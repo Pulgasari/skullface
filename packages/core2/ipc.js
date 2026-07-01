@@ -19,6 +19,7 @@ const skullface = {
   dialogs,
   external,
   filesystem,
+  fs: filesystem, // alias
   notifications,
   sqlite,
   store,
