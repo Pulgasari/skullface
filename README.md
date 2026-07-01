@@ -70,18 +70,6 @@ router        |       | (frontend only)
 sqlite        |       |
 store         |       |
 
-```
-clipboard
-dialogs
-external
-filesystem
-hotkeys (frontend only)
-notifications
-router (frontend only)
-sqlite
-store
-```
-
 They don't need to be installed but are available in frontend and backend under the `skullface` singleton.
 
 ```javascript
