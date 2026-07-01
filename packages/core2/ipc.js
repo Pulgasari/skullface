@@ -7,7 +7,6 @@ import dialogs       from './modules/dialogs.js';
 import external      from './modules/external.js';
 import filesystem    from './modules/filesystem.js';
 import notifications from './modules/notifications.js';
-import paths         from './modules/paths.js';
 import sqlite        from './modules/sqlite.js';
 import store         from './modules/store.js';
 
@@ -22,7 +21,6 @@ const skullface = {
   filesystem,
   fs: filesystem, // alias
   notifications,
-  paths,
   sqlite,
   store,
 };
