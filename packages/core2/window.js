@@ -24,21 +24,31 @@ export class SkullfaceWindow {
     this.setupIPC();
     this.webview.navigate(url);
   }
-  
+
   private injectPreloadScript (appName) {
-    try {
-      const preloadCode = Deno.readTextFileSync('./preload.js');
-      
-      // Compute paths once and serialize them directly into the window context
-      const pathsObj    = getPaths(appName);
-      const pathsString = JSON.stringify(pathsObj);
-      const pathsCode   = `window.__skullface_paths__ = ${pathsString};`;
-      
-      // Inject static path data right before evaluation of the proxy handler
-      this.webview.init(`${pathsCode}\n${preloadCode}`);
-    } catch (err) {
-      console.error('[Core] Failed to load or execute preload layer:', err);
-    }
+    const code = [];
+
+    // Compute paths once and serialize them directly into the window context
+    const pathsObj    = getPaths(appName);
+    const pathsString = JSON.stringify(pathsObj);
+    const pathsCode   = `window.__skullface_paths__ = ${pathsString};`;
+    code.push(pathsCode);
+    
+    // load: client/preload.js
+    try       { const content = Deno.readTextFileSync('./client/preload.js'); code.push(content); }
+    catch (e) { console.error("[Core] 'client/preload.js' could not be loaded:", e.message); }
+
+    // load: client/hotkeys.js
+    try       { const content = Deno.readTextFileSync('./client/hotkeys.js'); code.push(content); }
+    catch (e) { console.error("[Core] 'client/hotkeys.js' could not be loaded:", e.message); }
+    
+    // load: client/router.js
+    try       { const content = Deno.readTextFileSync('./client/router.js'); code.push(content); }
+    catch (e) { console.error("[Core] 'client/router.js' could not be loaded:", e.message); }
+
+    // inject final code
+    const finalcode = code.join('\n');
+    this.webview.init(finalcode);
   }
 
   private setupIPC () {
