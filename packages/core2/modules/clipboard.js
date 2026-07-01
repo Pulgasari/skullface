@@ -1,6 +1,6 @@
 // @skullface/core/modules/clipboard.js
 
-const getPlatform = () => Deno.build.os;
+import { getPlatform } from './../utils.js';
 const platform = getPlatform();
 
 // :::::: HELPERS
