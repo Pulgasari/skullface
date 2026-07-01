@@ -1,4 +1,4 @@
-// @skullface/plugins/sqlite/deno.js
+// @skullface/core/modules/sqlite.js
 
 import { DB } from 'https://deno.land/x/sqlite/mod.ts';
 
@@ -28,7 +28,7 @@ function getDB (name) {
 
 // :::::: API
 
-export const api = {
+export default {
   
   async execute (name, statement, values = []) {
     const db       = getDB(name);
@@ -51,16 +51,4 @@ export const api = {
     return result;
   }
   
-};
-
-// :::::: EXPORT
-
-export default {
-  api,
-  name: 'sqlite',
-  hooks: {
-    onInit() {
-      console.log('[SQLite] Multi-instance desktop Deno storage adapter initialized.');
-    }
-  }
 };
