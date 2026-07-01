@@ -1,4 +1,4 @@
-// @skullface/core/modules/clipboard/deno.js
+// @skullface/core/modules/clipboard.js
 
 const getPlatform = () => Deno.build.os;
 const platform = getPlatform();
