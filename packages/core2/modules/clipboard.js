@@ -35,35 +35,36 @@ async function cmd (commandName, argsList, stdinText) {
 }
 
 // :::::: API
-
-export const api = {
   
-  async copy (text) {
-    switch (platform) {
-      case 'darwin'  : return await cmd("pbcopy", [], text);
-      case 'windows' : return await cmd("powershell", ["-Command", "Set-Clipboard", "-Value", `"${text}"`]);
-      default        : return await cmd("xclip", ["-selection", "clipboard"], text);
-    }
+export async function copy (text) {
+  switch (platform) {
+    case 'mac'     : return await cmd('pbcopy', [], text);
+    case 'windows' : return await cmd('powershell', ["-Command", "Set-Clipboard", "-Value", `"${text}"`]);
+    default        : return await cmd('xclip', ['-selection', 'clipboard'], text);
   }
+}
 
-  async paste () {
-    switch (platform) {
-      case 'darwin'  : return await cmd('pbpaste', []);
-      case 'windows' : return await cmd('powershell', ["-Command", "Get-Clipboard"]);
-      default        : return await cmd('xclip', ["-selection", "clipboard", "-o"]);
-    }
+export async function paste () {
+  switch (platform) {
+    case 'mac'     : return await cmd('pbpaste', []);
+    case 'windows' : return await cmd('powershell', ["-Command", "Get-Clipboard"]);
+    default        : return await cmd('xclip', ['-selection', 'clipboard', '-o']);
   }
+}
 
-  async copyHTML (html) {
-    // Fallback wrapper for plain system buffers
-    await this.copy(html);
-  },
+export async function copyHTML (html) {
+  // Fallback wrapper for plain system buffers
+  await this.copy(html);
+}
 
-  async copyJSON (obj) {
-    const jsonStr = JSON.stringify(obj, null, 2);
-    await this.copy(jsonStr);
-  }
-  
-};
+export async function copyJSON (obj) {
+  const jsonStr = JSON.stringify(obj, null, 2);
+  await this.copy(jsonStr);
+}
 
-export default api;
+export default {
+  copy,
+  copyHTML,
+  copyJSON,
+  paste,
+}
