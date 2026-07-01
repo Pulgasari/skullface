@@ -54,33 +54,26 @@ Navigate into the directory of your projects and use the `create` command to sta
 skullface create
 ```
 
-## Plugins (official)
+## Modules
 
-**Skullface** provides a bunch of plugins out of the box:
+**Skullface** provides a bunch of modules out of the box:
 
 ```
 clipboard
 dialogs
 external
-fs
-hotkeys
-logger
+filesystem
+hotkeys (frontend only)
 notifications
-router
+router (frontend only)
 sqlite
 store
 ```
 
-To install a skullface-plugin run for example:
+They don't need to be installed but are available in frontend and backend under the `skullface` singleton.
 
-```sh
-skullface plugin add clipboard
-```
-
-And to remove it:
-
-```sh
-skullface plugin remove clipboard
+```javascript
+const { clipboard, fs } = skullface;
 ```
 
 ## Create Custom Commands
@@ -90,15 +83,15 @@ You can define commands in the backend to be called from the frontend by the `sk
 ```javascript
 // src-backend/main.js
 
-import { addCommand } from '@skullface/core';
+const { addCommand, fs, paths } = 'skullface';
 
 addCommand('sayHello', async (name) => {
   return `Hello from backend, ${name}!`;
 };
 
 addCommand('readSystemLogs', async () => {
-  const logPath = skullface.paths.join(skullface.paths.app.logs, 'app.log');
-  return await Deno.readTextFile(logPath);
+  const logPath = paths.join(paths.app.logs, 'app.log');
+  return await fs.readTextFile(logPath);
 };
 ```
 
