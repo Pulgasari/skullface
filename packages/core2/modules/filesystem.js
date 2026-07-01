@@ -1,4 +1,4 @@
-// @skullface/core/modules/fs/deno.js
+// @skullface/core/modules/filesystem.js
 
 // :::::: API
 
