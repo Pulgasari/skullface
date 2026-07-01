@@ -5,8 +5,8 @@
 export const DEFAULT_APP_ICON         = 'src-assets/icon.svg';
 export const DEFAULT_APP_NAME         = 'SkullfaceApp';
 export const DEFAULT_APP_DIR_ASSETS   = 'src-assets';
-export const DEFAULT_APP_DIR_BACKEND  = 'src-backend',
-export const DEFAULT_APP_DIR_FRONTEND = 'src-frontend',
+export const DEFAULT_APP_DIR_BACKEND  = 'src-backend';
+export const DEFAULT_APP_DIR_FRONTEND = 'src-frontend';
 
 export const DEFAULT_BUILD_RUNTIME = 'deno';
 export const DEFAULT_BUILD_TARGETS = ['linux'];
@@ -31,7 +31,7 @@ export const COMMANDS = {
   'doctor',
   'plugin',
   'template',
-} as const;
+};
 
 export const PLATFORMS = {
   'android',
@@ -39,20 +39,19 @@ export const PLATFORMS = {
   'linux',
   'mac',
   'windows',
-} as const;
+};
 
-export const PLUGINS = [
+export const MODULES = [
   "clipboard",
   "dialogs",
   "external",
   "fs",
   "hotkeys",
-  "logger",
   "notifications",
   "router",
   "sqlite",
   "store",
-] as const;
+];
 
 export const TEMPLATES = [
   'datastar',
@@ -62,7 +61,7 @@ export const TEMPLATES = [
   'svelte',
   'vanilla',
   'vanilla-ts',
-] as const;
+];
 
 // ::::::
 
@@ -89,6 +88,6 @@ export default {
     'url_repo'     : SKULLFACE_URL_REPO,
     'url_repo_zip' : SKULLFACE_URL_REPO_ZIP,
     'url_docs'     : SKULLFACE_URL_DOCS,
-  }
+  },
 
-    }
+}
