@@ -43,3 +43,9 @@ export default {
   }
   
 };
+
+export default {
+  openFile,
+  openURL,
+  revealFile,
+}
