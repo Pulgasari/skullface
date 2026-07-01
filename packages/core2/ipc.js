@@ -13,24 +13,32 @@ import store         from './modules/store.js';
 //import hotkeys from './modules-client/hotkeys.js';
 //import router  from './modules-client/router.js';
 
-// Global Singleton
-const skullface = {};
+// Global Singleton + Bind Modules
+const skullface = {
+  clipboard,
+  dialogs,
+  external,
+  filesystem,
+  notifications,
+  sqlite,
+  store,
+};
 
 // Mechanism to create Custom Commands
-const bridge = {};
-skullface.addCommand    = (name, body) => { if (isFn(body)) bridge[name] = body; };
-skullface.removeCommand = (name)       => { if (bridge[name]) delete bridge[name]; };
+skullface.bridge = {};
+skullface.addCommand    = (name, body) => { if (isFn(body)) skullface.bridge[name] = body; };
+skullface.removeCommand = (name)       => { if (skullface.bridge[name]) delete skullface.bridge[name]; };
 
 // IPC
 skullface.handleIncomingIPC = async (messageStr, sendResponseToFrontend) => {
   try {
     const { args, id, method, plugin: slug } = JSON.parse(messageStr);
-    const plugin = pluginRegistry.get(slug);
+    const module = skullface[slug];
     //
-    if (!plugin)               throw new Error(`Plugin '${slug}' is not installed.`);
-    if (!isFn(plugin[method])) throw new Error(`Method '${method}' doesn't exist in Plugin '${slug}'.`);
+    if (!module)               throw new Error(`Module '${slug}' is not installed.`);
+    if (!isFn(module[method])) throw new Error(`Method '${method}' doesn't exist in Module '${slug}'.`);
     // Führe die echte Deno-Funktion aus
-    const data = await plugin[method](...args);
+    const data = await module[method](...args);
     // Schicke Erfolg zurück
     sendResponseToFrontend({ id, success: true, data });
   } catch (err) {
