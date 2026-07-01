@@ -1,6 +1,0 @@
-{
-  "name": "clipboard",
-  "version": "0.1.0",
-  "description": "Clipboard access for Skullface apps",
-  "hooks": ["onInit"]
-}
