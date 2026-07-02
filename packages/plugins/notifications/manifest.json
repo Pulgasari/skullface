@@ -1,7 +1,0 @@
-{
-  "name": "notifications",
-  "version": "0.1.0",
-  "description": "Desktop notifications for Skullface apps",
-  "hooks": ["onInit", "onBuildBackend"],
-  "runtime": true
-}
