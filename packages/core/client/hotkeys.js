@@ -1,78 +1,73 @@
-// @skullface/core/modules-client/hotkeys.js
+// @skullface/core/client/hotkeys.js
 
-const normalize = (combo) => {
-  return combo
-    .toLowerCase()
-    .replace(/\s+/g, '')
-    .split('+')
-    .sort((a, b) => {
-      const order = ['ctrl', 'alt', 'shift', 'meta'];
-      return order.indexOf(a) - order.indexOf(b);
-    })
-    .join('+');
-};
+(function () {
+  if (!window.skullface) window.skullface = {};
 
-let bindings    = new Map ();
-let scopes      = new Map ();
-let activeScope = null;
+  const normalize = (combo) => {
+    return combo
+      .toLowerCase()
+      .replace(/\s+/g, '')
+      .split('+')
+      .sort((a, b) => {
+        const order = ['ctrl', 'alt', 'shift', 'meta'];
+        return order.indexOf(a) - order.indexOf(b);
+      })
+      .join('+');
+  };
 
-// Core DOM event listener evaluating runtime keystroke mappings
-if (typeof window !== 'undefined') {
-  window.addEventListener('keydown', event => {
-    const parts: string[] = [];
-    if (event.ctrlKey)  parts.push('ctrl');
-    if (event.altKey)   parts.push('alt');
-    if (event.shiftKey) parts.push('shift');
-    if (event.metaKey)  parts.push('meta');
-    parts.push(event.key.toLowerCase());
+  let bindings    = new Map ();
+  let scopes      = new Map ();
+  let activeScope = null;
 
-    const combo = normalize(parts.join('+'));
-    const binding = bindings.get(combo);
-    if (!binding) return;
-
-    const { callback, options } = binding;
-
-    // Scope boundary validation
-    if (activeScope) {
-      if (!activeScope.enabled) return;
-      if (activeScope.condition && !activeScope.condition()) return;
-    }
-
-    // Custom runtime condition rule guard validation
-    if (options.when && !options.when()) return;
-
-    event.preventDefault();
-    callback(event);
-  });
-}
-
-// :::::: API
-
-export const hotkeys = {
-  register (combo, callback, options = {}) {
-    const key = normalize(combo);
-    bindings.set(key, { callback, options });
-  },
-
-  unregister (combo) {
-    bindings.delete(normalize(combo));
-  },
-
-  createScope (name) {
-    const scope = {
-      name,
-      enabled: false,
-      enable  ()   { this.enabled = true; activeScope = this; },
-      disable ()   { this.enabled = false; if (activeScope === this) activeScope = null; },
-      when    (fn) { this.condition = fn; return this; }
-    };
-    scopes.set(name, scope);
-    return scope;
+  // Core DOM event listener evaluating runtime keystroke mappings
+  if (typeof window !== 'undefined') {
+    window.addEventListener('keydown', event => {
+      const parts: string[] = [];
+      if (event.ctrlKey)  parts.push('ctrl');
+      if (event.altKey)   parts.push('alt');
+      if (event.shiftKey) parts.push('shift');
+      if (event.metaKey)  parts.push('meta');
+      parts.push(event.key.toLowerCase());
+  
+      const combo = normalize(parts.join('+'));
+      const binding = bindings.get(combo);
+      if (!binding) return;
+  
+      const { callback, options } = binding;
+  
+      // Scope boundary validation
+      if (activeScope) {
+        if (!activeScope.enabled) return;
+        if (activeScope.condition && !activeScope.condition()) return;
+      }
+  
+      // Custom runtime condition rule guard validation
+      if (options.when && !options.when()) return;
+  
+      event.preventDefault();
+      callback(event);
+    });
   }
-};
-
-// Expose inside the window global namespace container automatically if browser layer is ready
-if (typeof window !== 'undefined') {
-  if (window.skullface) window.skullface = {};
-  window.skullface.hotkeys = hotkeys;
-}
+  
+  window.skullface.hotkeys = {
+    register (combo, callback, options = {}) {
+      const key = normalize(combo);
+      bindings.set(key, { callback, options });
+    },
+    unregister (combo) {
+      bindings.delete(normalize(combo));
+    },
+    createScope (name) {
+      const scope = {
+        name,
+        enabled: false,
+        enable  ()   { this.enabled = true; activeScope = this; },
+        disable ()   { this.enabled = false; if (activeScope === this) activeScope = null; },
+        when    (fn) { this.condition = fn; return this; }
+      };
+      scopes.set(name, scope);
+      return scope;
+    }
+  };
+  
+})();
